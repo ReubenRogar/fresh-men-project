@@ -7,7 +7,7 @@ public class Account {
     private String hostName;    //账户用户名
     private String password;    //账户登陆密码
     private String idNumber;    //账户人身份证号
-    private List<Card> card;    //此账户下拥有的卡对象
+    private List<Card> cards;    //此账户下拥有的卡对象
     
     
     /**
@@ -31,7 +31,7 @@ public class Account {
     
     /**
      * 重写toString方法
-     * @return 返回用户名，身份证号和所有卡号（格式:小明, 123456789123456789, [642554554241, 524525522, 525525, ...]）
+     * @return 返回用户名，身份证号和所有卡号及金额（格式:小明, 123456789123456789, [642554554241(52.2), 524525522(535.0), 525525(0.0), ...]）
      */
     @Override
     public String toString() {

@@ -26,7 +26,7 @@ public class Card {
     
     /**
      * 重写toString方法
-     * @return 返回该卡相应信息（格式:id, money）
+     * @return 返回该卡相应信息（格式:id(money)）
      */
     @Override
     public String toString() {
