@@ -14,9 +14,9 @@ public class Account {
      * 构造器1：用户名，密码，身份证号
      * @param hostName 用户名
      * @param password 密码
-     * @param IdNumber 身份证号
+     * @param idNumber 身份证号
      */
-    public Account(String hostName, String password, String IdNumber) {
+    public Account(String hostName, String password, String idNumber) {
     
     }
     
