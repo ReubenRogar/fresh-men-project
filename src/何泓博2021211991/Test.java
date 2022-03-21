@@ -22,6 +22,8 @@ public class Test {
         private double money余额
         Methods:
         public Card(long,long,double)建立卡
-        public changeMoney(double)改变余额
+        public void changeMoney(double)改变余额
+        public double getMoney()获取余额
+        public long getCardId()获取卡号
      */
 }
