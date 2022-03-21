@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="修改信息">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/_2022_3_20_23_11____.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2022_3_20_23_11_取消提交了变更_[变更]/shelved.patch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/陈也琦.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/陈也琦2021211988/FirstTarget.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_3_20_23_11____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_3_20_23_11____.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_10_46____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_10_46____.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +36,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
@@ -72,6 +72,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1647673883441</updated>
+      <workItem from="1647845419137" duration="833000" />
     </task>
     <task id="LOCAL-00001" summary="第一题">
       <created>1647673986751</created>
@@ -97,12 +98,27 @@
     <option name="localTasksCounter" value="4" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
