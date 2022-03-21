@@ -1,29 +1,29 @@
 package 何泓博2021211991;
 
-public class Test {
-    /**
-        Account类记录账户
-        Fields:
-        private String hostName持卡人姓名
-        private String password账户密码
-        private long telephone电话号码
-        private Card card卡对象
-        Methods:
-        public Account(String,String,long,long,long,double)构造器1：自定义卡号，余额
-        public Account(String,String,long,long,double)构造器2：随机卡号，自定义余额
-        public Account(String,String,long,Card)构造器3：已有卡添加到账户
-        public void changeMoney(double)改变余额
-        public void showAccount()输出姓名，电话号码和卡号；
-
-        Card类记录卡
-        Fields:
-        private long cardId卡号
-        private long password卡密码
-        private double money余额
-        Methods:
-        public Card(long,long,double)建立卡
-        public void changeMoney(double)改变余额
-        public double getMoney()获取余额
-        public long getCardId()获取卡号
+/**
+     Account类记录账户
+     Fields:
+     private String hostName   账户用户名
+     private String password   账户登陆密码
+     private String IdNumber   账户人身份证号
+     private List<Card> card   此账户下拥有的卡对象
+     Constructors:
+     public Account(String,String,String)      构造器1：用户名，密码，身份证号
+     public Account(String,String)             构造器2：用户名，身份证号（密码默认为身份证号后六位）
+     Methods:
+     public void showAccount()              输出用户名，身份证号和所有卡号（格式:小明, 123456789123456789, [642554554241, 524525522, 525525, ...]）
+    
+     Card类记录卡
+     Fields:
+     private long cardId卡号
+     private long password卡密码
+     private double money余额
+     Methods:
+     public Card(long,long,double)建立卡
+     public void changeMoney(double)改变余额
+     public double getMoney()获取余额
+     public long getCardId()获取卡号
      */
+public class Test {
+
 }
