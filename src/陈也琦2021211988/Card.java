@@ -1,4 +1,4 @@
-//package：陈也琦
+package 陈也琦2021211988;
     public class Card {
         private String id;          //卡号
         private String password;    //卡密码
@@ -46,4 +46,3 @@
             return money;
         }
     }
-}
