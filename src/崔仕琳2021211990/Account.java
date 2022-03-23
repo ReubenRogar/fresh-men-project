@@ -1,15 +1,14 @@
 package 崔仕琳2021211990;
 
-import 何泓博2021211991.Card;
-
 import java.util.List;
 
 public class Account {
+
     private String hostName;    //账户用户名
     private String password;    //账户登陆密码
     private String idNumber;    //账户人身份证号
     private List<Card> cards;   //此账户下拥有的卡对象
-}
+
     /**
      * 构造器1：用户名，密码，身份证号
      * @param hostName 用户名
@@ -17,7 +16,9 @@ public class Account {
      * @param idNumber 身份证号
      */
     public Account(String hostName, String password, String idNumber) {
-
+        this.hostName = hostName;
+        this.password = password;
+        this.idNumber = idNumber;
     }
 
     /**
@@ -26,7 +27,8 @@ public class Account {
      * @param idNumber 身份证号
      */
     public Account(String hostName, String idNumber) {
-
+        this.hostName = hostName;
+        this.idNumber = idNumber.substring(12,18);
     }
 
     /**
@@ -35,7 +37,13 @@ public class Account {
      */
     @Override
     public String toString() {
-        return null;
+        String a = null;
+        for(int i=0 ; i< cards.size();i++)
+        {
+            Card b = cards.get(i);
+            a = a + ',' + b.toString();
+        }
+        return hostName + idNumber + '[' + a + ']';
     }
 
     /**
@@ -45,6 +53,11 @@ public class Account {
      * @return 修改成功返回ture，失败返回false
      */
     public boolean changePassword(String oldPassword, String newPassword) {
+        if(oldPassword.equals(newPassword))
+        {
+            this.password = newPassword;
+            return true;
+        }
         return false;
     }
 
@@ -53,5 +66,6 @@ public class Account {
      * @param card 需要添加的卡对象
      */
     public void addCard(Card card) {
-
+        cards.add(card);
     }
+}
