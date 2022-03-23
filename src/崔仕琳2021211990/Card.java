@@ -1,6 +1,5 @@
 package 崔仕琳2021211990;
-
-public class Card {
+    public class Card {
     private String id;          //卡号
     private String password;    //卡密码
     private double money;       //余额
@@ -11,7 +10,9 @@ public class Card {
      * @param password 设置密码
      */
     public Card(String id, String password) {
-
+        this.id = id;
+        this.password = password;
+        this.money = 0;
     }
 
     /**
@@ -21,7 +22,9 @@ public class Card {
      * @param money 存入初始余额
      */
     public Card(String id, String password, double money) {
-
+        this.id = id;
+        this.password = password;
+        this.money = money;
     }
 
     /**
@@ -30,7 +33,8 @@ public class Card {
      */
     @Override
     public String toString() {
-        return null;
+
+        return id + '(' + money + ')';
     }
 
     /**
@@ -39,6 +43,7 @@ public class Card {
      * @return 修改后的卡中余额
      */
     public double changeMoney(double money) {
-        return 0;
+        this.money = money;
+        return money;
     }
 }
