@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="第一次测试">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_14_47____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_14_47____.xml" afterDir="false" />
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="修改Test">
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="第一题">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_3_20_23_11____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_3_20_23_11____.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_10_46____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_10_46____.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_14_47____.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/_2022_3_21_14_47____.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +22,7 @@
       <list>
         <option value="package-info" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -36,6 +40,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="26auBN5YJLmirbDfx3JATaNBgfW" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -45,17 +52,36 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../315.465" />
+    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\11544\IdeaProjects\freshman-year-project\src\崔嘉航2021211989" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\大一年度计划\java_study_now\src\陈也琦2021211988" />
     </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="崔嘉航2021211989" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="应用程序.Card">
+    <configuration name="Card" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="崔嘉航2021211989.Card" />
+      <module name="First-Java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FirstTarget" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="崔仕琳2021211990.FirstTarget" />
-      <module name="gita" />
+      <option name="MAIN_CLASS_NAME" value="崔嘉航2021211989.FirstTarget" />
+      <module name="First-Java" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="崔仕琳2021211990.*" />
@@ -66,6 +92,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="应用程序.Card" />
+      <item itemvalue="应用程序.FirstTarget" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="应用程序.FirstTarget" />
