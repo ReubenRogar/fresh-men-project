@@ -1,5 +1,7 @@
 package 孔茗立2021211993;
 
+import java.util.ArrayList;
+import java.util.List;
 public class A1 {
 
     private String hostName;    //账户用户名

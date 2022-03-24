@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="修改Test">
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="第一题">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/崔仕琳2021211990/FirstTarget.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/崔仕琳2021211990/FirstTarget.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/黄致远2021211992/FirstTarget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/孔茗立2021211993/A1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/孔茗立2021211993/A1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/孔茗立2021211993/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/孔茗立2021211993/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/崔仕琳2021211990/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔仕琳2021211990/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/崔仕琳2021211990/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔仕琳2021211990/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/崔仕琳2021211990/FirstTarget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔仕琳2021211990/FirstTarget.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,8 +59,19 @@
       <recent name="E:\大一年度计划\java_study_now\src\陈也琦2021211988" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="应用程序.FirstTarget">
+    <configuration name="未命名" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="崔仕琳2021211990.FirstTarget" />
+      <module name="gita" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FirstTarget" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="BUNDLED" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="崔仕琳2021211990.FirstTarget" />
       <module name="gita" />
       <extension name="coverage">
@@ -65,8 +84,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FirstTarget" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="崔仕琳2021211990.FirstTarget" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="崔仕琳2021211990.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="应用程序.未命名" />
+      <item itemvalue="应用程序.FirstTarget" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="应用程序.FirstTarget" />
         <item itemvalue="应用程序.FirstTarget" />
       </list>
     </recent_temporary>
@@ -155,5 +194,10 @@
     <MESSAGE value="添加一个方法" />
     <MESSAGE value="修改Test" />
     <option name="LAST_COMMIT_MESSAGE" value="修改Test" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/freshman_year_project$FirstTarget.ic" NAME="FirstTarget 覆盖结果" MODIFIED="1648126094993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>崔仕琳2021211990.*</FILTER>
+    </SUITE>
   </component>
 </project>

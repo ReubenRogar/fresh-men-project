@@ -34,7 +34,7 @@ package 崔仕琳2021211990;
     @Override
     public String toString() {
 
-        return id + '(' + money + ')';
+        return this.id + '(' + this.money + ')';
     }
 
     /**

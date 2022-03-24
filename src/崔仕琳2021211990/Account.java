@@ -1,13 +1,19 @@
 package 崔仕琳2021211990;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
 
     private String hostName;    //账户用户名
+
+    public String getPassword() {
+        return password;
+    }
+
     private String password;    //账户登陆密码
     private String idNumber;    //账户人身份证号
-    private List<Card> cards;   //此账户下拥有的卡对象
+    private List<Card> cards = new ArrayList<>();   //此账户下拥有的卡对象
 
     /**
      * 构造器1：用户名，密码，身份证号
@@ -28,7 +34,8 @@ public class Account {
      */
     public Account(String hostName, String idNumber) {
         this.hostName = hostName;
-        this.idNumber = idNumber.substring(12,18);
+        this.password = idNumber.substring(12,18);
+        this.idNumber = idNumber;
     }
 
     /**
@@ -40,19 +47,18 @@ public class Account {
         StringBuilder a = new StringBuilder();
         for(int i=0 ; i< cards.size();i++)
         {
-            Card b = cards.get(i);
+            Card part = cards.get(i);
             if(i==0)
             {
-                a.append(b);
-                a.append(',');
+                a.append(part);
             }
             else
             {
-                a.append(',');
-                a.append(b);
+                a.append(",");
+                a.append(part);
             }
         }
-        return hostName + idNumber + '[' + a + ']';
+        return hostName + ", " + idNumber + ", " + '[' + a + ']';
     }
 
     /**
@@ -62,7 +68,7 @@ public class Account {
      * @return 修改成功返回ture，失败返回false
      */
     public boolean changePassword(String oldPassword, String newPassword) {
-        if(!oldPassword.equals(newPassword))
+        if(!oldPassword.equals(newPassword)&&this.password.equals(oldPassword))
         {
             this.password = newPassword;
             return true;
