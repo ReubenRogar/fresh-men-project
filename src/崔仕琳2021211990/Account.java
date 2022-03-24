@@ -37,11 +37,20 @@ public class Account {
      */
     @Override
     public String toString() {
-        String a = null;
+        StringBuilder a = new StringBuilder();
         for(int i=0 ; i< cards.size();i++)
         {
             Card b = cards.get(i);
-            a = a + ',' + b.toString();
+            if(i==0)
+            {
+                a.append(b);
+                a.append(',');
+            }
+            else
+            {
+                a.append(',');
+                a.append(b);
+            }
         }
         return hostName + idNumber + '[' + a + ']';
     }
@@ -53,7 +62,7 @@ public class Account {
      * @return 修改成功返回ture，失败返回false
      */
     public boolean changePassword(String oldPassword, String newPassword) {
-        if(oldPassword.equals(newPassword))
+        if(!oldPassword.equals(newPassword))
         {
             this.password = newPassword;
             return true;
@@ -66,6 +75,7 @@ public class Account {
      * @param card 需要添加的卡对象
      */
     public void addCard(Card card) {
+
         cards.add(card);
     }
 }

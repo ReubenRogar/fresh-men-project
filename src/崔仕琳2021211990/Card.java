@@ -4,7 +4,7 @@ package 崔仕琳2021211990;
     private String password;    //卡密码
     private double money;       //余额
 
-    /**
+        /**
      * 构造器1：卡号，密码，初始余额为0
      * @param id 设置卡号
      * @param password 设置密码
@@ -12,10 +12,10 @@ package 崔仕琳2021211990;
     public Card(String id, String password) {
         this.id = id;
         this.password = password;
-        this.money = 0;
+        this.money = 0.0;
     }
 
-    /**
+        /**
      * 构造器2：卡号，密码，初始余额
      * @param id 设置卡号
      * @param password 设置密码
