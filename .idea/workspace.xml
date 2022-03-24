@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="第一题">
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="修改Test">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/崔仕琳2021211990/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔仕琳2021211990/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/崔仕琳2021211990/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔仕琳2021211990/Card.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +15,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="package-info" />
         <option value="Class" />
       </list>
     </option>
@@ -44,22 +43,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="应用程序.FirstTarget (1)">
-    <configuration name="FirstTarget (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="崔嘉航2021211989.FirstTarget" />
-      <module name="First-Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="崔嘉航2021211989.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\大一年度计划\java_study_now\src\陈也琦2021211988" />
+    </key>
+  </component>
+  <component name="RunManager">
     <configuration name="FirstTarget" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="崔仕琳2021211990.FirstTarget" />
       <module name="gita" />
@@ -75,7 +67,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.FirstTarget (1)" />
         <item itemvalue="应用程序.FirstTarget" />
       </list>
     </recent_temporary>
@@ -88,6 +79,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1647673883441</updated>
+      <workItem from="1647860244249" duration="472000" />
+      <workItem from="1647876821157" duration="1116000" />
     </task>
     <task id="LOCAL-00001" summary="第一题">
       <created>1647673986751</created>
@@ -103,22 +96,46 @@
       <option name="project" value="LOCAL" />
       <updated>1647674056174</updated>
     </task>
-    <task id="LOCAL-00003" summary="第一题">
-      <created>1647765332658</created>
+    <task id="LOCAL-00003" summary="修改信息">
+      <created>1647789282682</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1647765332658</updated>
+      <updated>1647789282682</updated>
     </task>
-    <task id="LOCAL-00004" summary="第一题">
-      <created>1648087149682</created>
+    <task id="LOCAL-00004" summary="修改信息Long-&gt;long">
+      <created>1647845380124</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1648087149682</updated>
+      <updated>1647845380124</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="添加一个方法">
+      <created>1647845686063</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1647845686063</updated>
+    </task>
+    <task id="LOCAL-00006" summary="修改Test">
+      <created>1647859122019</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1647859122019</updated>
+    </task>
+    <task id="LOCAL-00007" summary="修改Test">
+      <created>1647859241900</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1647859241900</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -133,6 +150,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="第一题" />
-    <option name="LAST_COMMIT_MESSAGE" value="第一题" />
+    <MESSAGE value="修改信息" />
+    <MESSAGE value="修改信息Long-&gt;long" />
+    <MESSAGE value="添加一个方法" />
+    <MESSAGE value="修改Test" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改Test" />
   </component>
 </project>

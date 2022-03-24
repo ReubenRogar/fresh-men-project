@@ -11,7 +11,7 @@ public class Account {
     
     
     /**
-     * 构造器1：用户名，密码，身份证号
+     * 构造器1：用户名，密码，身份证号，初始化cards
      * @param hostName 用户名
      * @param password 密码
      * @param idNumber 身份证号
@@ -21,7 +21,7 @@ public class Account {
     }
     
     /**
-     * 构造器2：用户名，身份证号（密码默认为身份证号后六位）
+     * 构造器2：用户名，身份证号（密码默认为身份证号后六位），初始化cards
      * @param hostName 用户名
      * @param idNumber 身份证号
      */
