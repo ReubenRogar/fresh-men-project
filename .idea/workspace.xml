@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment=".">
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/黄致远2021211992/FirstTarget.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/崔仕琳2021211990/FirstTarget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔仕琳2021211990/FirstTarget.java" afterDir="false" />
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/崔嘉航2021211989/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔嘉航2021211989/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/崔嘉航2021211989/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/崔嘉航2021211989/Card.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
