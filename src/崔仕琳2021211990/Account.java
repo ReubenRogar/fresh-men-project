@@ -6,11 +6,6 @@ import java.util.List;
 public class Account {
 
     private String hostName;    //账户用户名
-
-    public String getPassword() {
-        return password;
-    }
-
     private String password;    //账户登陆密码
     private String idNumber;    //账户人身份证号
     private List<Card> cards = new ArrayList<>();   //此账户下拥有的卡对象
