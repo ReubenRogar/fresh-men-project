@@ -44,6 +44,6 @@ package 崔仕琳2021211990;
      */
     public double changeMoney(double money) {
         this.money = money;
-        return money;
+        return this.money;
     }
 }
