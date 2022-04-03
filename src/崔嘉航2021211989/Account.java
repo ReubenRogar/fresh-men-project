@@ -1,5 +1,6 @@
 package 崔嘉航2021211989;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
@@ -7,7 +8,7 @@ public class Account {
     private String hostName;    //账户用户名
     private String password;    //账户登陆密码
     private String idNumber;    //账户人身份证号
-    private List<Card> cards;    //此账户下拥有的卡对象
+    private List<Card> cards = new ArrayList<>();    //此账户下拥有的卡对象
     
     
     /**
@@ -39,21 +40,18 @@ public class Account {
      */
     @Override
     public String toString() {
-        String allcard = null;
-        String temp = null;
-        Card test = null;
+        String allcard = new String();
         if(this.password == null && this.idNumber == null && this.hostName == null && this.cards == null){
             return null;
         }
         else{
             for(int i = 0 ; i < cards.size() ; i++){
                 Card card = cards.get(i);
-                temp = card.toString() + test.getMoney();
                 if(i==0){
-                    allcard = temp;
+                    allcard = allcard + card;
                 }
                 else{
-                    allcard = allcard + ',' + temp;
+                    allcard = allcard + ',' + card;
                 }
             }
             return hostName + ',' + idNumber + ','+'[' + allcard +']';
