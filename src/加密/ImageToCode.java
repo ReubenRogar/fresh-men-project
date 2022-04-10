@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class ImageToCode {
-    private static final String TARGET = "实验_1";
+    private static final String TARGET = "实验红图";
     private static final String SRC_FILE = "E:\\大一年度计划\\实验图像\\"+TARGET+".jpg";
     private static final String DEST_FILE = "E:\\大一年度计划\\5.txt";
     
@@ -26,7 +26,7 @@ public class ImageToCode {
                 //dataToFile(byteToString(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\"+TARGET+".txt");
             //dataToFile(byteToString(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".txt");
             //dataToFile(byteToString(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE)))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".txt");
-
+            System.out.println(DealWithImage.getImageCode(imageToByte(SRC_FILE)));
 
         } catch (Exception e) {
             e.printStackTrace();
