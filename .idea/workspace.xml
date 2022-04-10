@@ -4,8 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="简单加密代码">
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="现学现卖">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/AC_chrominance.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/AC_luminance.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/DC_chrominance.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/DC_luminance.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/jpeg_encoder-master.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/HuffmanEncoding.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/JPEGEncoding.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/PicRead.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/PreEncoding.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/lib/commons-math3-3.6.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/崔仕琳2021211990/FirstTarget.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/崔仕琳2021211990/FirstTarget.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/黄致远2021211992/FirstTarget.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/TextDemo.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,10 +58,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../jpeg_encoder-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\programming_demo\freshman-year-project" />
       <recent name="E:\programming_demo\freshman-year-project\src" />
     </key>
   </component>
@@ -120,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649218729222</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="现学现卖">
+      <created>1649251208131</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1649251208131</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,6 +161,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="第一题" />
     <MESSAGE value="简单加密代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="简单加密代码" />
+    <MESSAGE value="现学现卖" />
+    <option name="LAST_COMMIT_MESSAGE" value="现学现卖" />
   </component>
 </project>
