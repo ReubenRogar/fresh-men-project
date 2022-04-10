@@ -14,8 +14,8 @@ public class ImageToCode {
         try {
             //if (args[0].equals("1")) {
                 //System.out.println(dataToFile(byteToString(imageToByte(SRC_FILE))));
-                outImage(DealWithImage.xorCode(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".jpg","jpg");
-                outImage(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".jpg","jpg");
+                //outImage(DealWithImage.xorCode(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".jpg","jpg");
+                //outImage(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".jpg","jpg");
 
                 /*System.out.println(byteToString(imageToByte(SRC_FILE)));
                 System.out.println("加密后:");
@@ -23,9 +23,11 @@ public class ImageToCode {
                 System.out.println("解密后:");
                 System.out.println(byteToString(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE)))));
                 */
-                dataToFile(byteToString(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\"+TARGET+".txt");
-            dataToFile(byteToString(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".txt");
-            dataToFile(byteToString(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE)))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".txt");
+                //dataToFile(byteToString(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\"+TARGET+".txt");
+            //dataToFile(byteToString(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".txt");
+            //dataToFile(byteToString(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE)))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".txt");
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

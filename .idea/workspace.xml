@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="现学现卖">
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="提取dct的数据">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/AC_chrominance.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/AC_luminance.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/DC_chrominance.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/HuffmanTable/DC_luminance.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/jpeg_encoder-master.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/HuffmanEncoding.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/JPEGEncoding.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/PicRead.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/jpeg/PreEncoding.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jpeg_encoder-master/src/lib/commons-math3-3.6.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/崔仕琳2021211990/FirstTarget.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/崔仕琳2021211990/FirstTarget.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/崔嘉航2021211989/Account.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/黄致远2021211992/FirstTarget.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/TextDemo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/ImageToCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ImageToCode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649251208131</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="提取dct的数据">
+      <created>1649590543505</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1649590543505</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -162,6 +155,7 @@
     <MESSAGE value="第一题" />
     <MESSAGE value="简单加密代码" />
     <MESSAGE value="现学现卖" />
-    <option name="LAST_COMMIT_MESSAGE" value="现学现卖" />
+    <MESSAGE value="提取dct的数据" />
+    <option name="LAST_COMMIT_MESSAGE" value="提取dct的数据" />
   </component>
 </project>
