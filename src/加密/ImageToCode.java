@@ -26,7 +26,7 @@ public class ImageToCode {
                 //dataToFile(byteToString(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\"+TARGET+".txt");
             //dataToFile(byteToString(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".txt");
             //dataToFile(byteToString(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE)))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".txt");
-            System.out.println(DealWithImage.getImageCode(imageToByte(SRC_FILE)));
+            System.out.println(getImageCode(imageToByte(SRC_FILE)));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,5 +103,34 @@ public class ImageToCode {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //获取压缩数据段并把二进制数组转二进制字符串
+    public static String getImageCode(byte[] code){
+        int i;String[] binaryArray =
+                {
+                        "0000","0001","0010","0011",
+                        "0100","0101","0110","0111",
+                        "1000","1001","1010","1011",
+                        "1100","1101","1110","1111"
+                };
+        for (i =0;i <code.length;i++){
+            if(code[i] == -1&&code[i+1] == -38) {
+                i += 2;
+                break;
+            }
+        }
+        i += code[i] * 16 * 16 +code[i+1];
+        byte[] target = new byte[code.length-2-i];
+        System.arraycopy(code, 0 + i, target, 0, target.length);
+        String outStr = "";
+        i =0;
+        for (byte b : target) {
+            i = (b&0xF0) >> 4;
+            outStr+=binaryArray[i];
+            i=b&0x0F;
+            outStr+=binaryArray[i];
+        }
+        return outStr;
     }
 }

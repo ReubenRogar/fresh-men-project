@@ -1,22 +1,31 @@
 package 加密;
 
-import java.awt.*;
 import java.io.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class ACTable {
     /**
      * 交流Huffman表
      */
-        public final Vector<Point> runSize;
-        public final Vector<String> codeWord;
+
+        public final ArrayList<Integer> size;
+        public final ArrayList<String> codeWord;
         public final String fileName;
 
         public ACTable(String fileName) {
-            runSize = new Vector<Point>();
-            codeWord = new Vector<String>();
+            size = new ArrayList<>();
+            codeWord = new ArrayList<>();
             this.fileName = fileName;
             init();
+        }
+
+        private int handleS(String s){
+            String[] ss = s.split("/");
+            int x;char a;
+            a = ss[1].charAt(0);
+            if(a == 'A')x = 10;
+            else x = Integer.valueOf(a);
+            return x;
         }
 
         private void init() {
@@ -28,8 +37,8 @@ public class ACTable {
                     String lineContent = null;
                     while ((lineContent = br.readLine()) != null) {
                         String[] ss = lineContent.split("\\s\\s");
-                        runSize.addElement(handleRS(ss[0]));
-                        codeWord.addElement(ss[1]);
+                        size.add(handleS(ss[0]));
+                        codeWord.add(ss[1]);
                     }
                     br.close();
                     fileReader.close();
@@ -41,5 +50,15 @@ public class ACTable {
                     e.printStackTrace();
                 }
             }
+        }
+
+        public int getSize(String code){
+            int i = 0;
+            for(;i<codeWord.size();i++){
+                if(code.startsWith(codeWord.get(i))){
+                    break;
+                }
+            }
+            return size.get(i);
         }
 }

@@ -6,9 +6,9 @@ public class DCTable {
     /**
      * 直流Huffman表
      */
-        public final int[] category;
-        public final String[] codeWord;
-        public final String fileName;
+        private final int[] category;
+        private final String[] codeWord;
+        private final String fileName;
 
         public DCTable(String fileName) {
             category = new int[12];
@@ -16,7 +16,7 @@ public class DCTable {
             this.fileName = fileName;
             init();
         }
-
+        //取表数据
         private void init() {
             File file = new File(fileName);
             if (file.exists()) {
@@ -40,6 +40,16 @@ public class DCTable {
                     e.printStackTrace();
                 }
             }
+        }
+        //得到DC类别（长度）
+        public int getCategory(String code){
+            int i = 0;
+            for(;i < 12;i++){
+                if(code.startsWith(codeWord[i])){
+                    break;
+                }
+            }
+            return category[i];
         }
 
     }

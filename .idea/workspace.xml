@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="不用干活了">
-      <change afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/加密/DCTable.java" afterDir="false" />
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="添加两个表的类">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DCTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/ImageToCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ImageToCode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +54,20 @@
       <recent name="E:\programming_demo\freshman-year-project\src" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.ImageToCode">
+  <component name="RunManager" selected="应用程序.ACTable">
+    <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="加密.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FirstTarget (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="崔嘉航2021211989.FirstTarget" />
       <module name="First-Java" />
@@ -94,6 +109,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="应用程序.ACTable" />
         <item itemvalue="应用程序.ImageToCode" />
         <item itemvalue="应用程序.FirstTarget (1)" />
         <item itemvalue="应用程序.FirstTarget" />
@@ -172,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649593873473</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="添加两个表的类">
+      <created>1649595132579</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1649595132579</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -194,6 +217,7 @@
     <MESSAGE value="提取dct的数据并转出二进制字符串" />
     <MESSAGE value="准备干活" />
     <MESSAGE value="不用干活了" />
-    <option name="LAST_COMMIT_MESSAGE" value="不用干活了" />
+    <MESSAGE value="添加两个表的类" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加两个表的类" />
   </component>
 </project>
