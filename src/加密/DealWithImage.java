@@ -16,7 +16,14 @@ public class DealWithImage {
         // 交流色度表
          ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
-
+    public static String getDCL(String code){
+        int dclLength = DCL.getCategory(code);
+        return code.substring(dclLength,2*dclLength+1);
+    }
+    public static String getDCC(String code){
+        int dccLength = DCC.getCategory(code);
+        return code.substring(dccLength,2*dccLength+1);
+    }
     public static void main(String[] args) {
         ACL.outPut();
     }
