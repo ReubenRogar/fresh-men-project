@@ -1,6 +1,8 @@
 package 加密;
 
 
+import java.nio.charset.StandardCharsets;
+
 public class DealWithImage {
     public static final DCTable DCL;
     public static  final DCTable DCC;
@@ -16,16 +18,9 @@ public class DealWithImage {
         // 交流色度表
          ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
-    public static String getDCL(String code){
-        int dclLength = DCL.getCategory(code);
+    public static String getDCL(String code,DCTable dcs){
+        int dclLength = dcs.getCategory(code);
         return code.substring(dclLength,2*dclLength+1);
-    }
-    public static String getDCC(String code){
-        int dccLength = DCC.getCategory(code);
-        return code.substring(dccLength,2*dccLength+1);
-    }
-    public static void main(String[] args) {
-        ACL.outPut();
     }
     /**
      * 异或处理二进制数组
@@ -43,5 +38,11 @@ public class DealWithImage {
         return code;
     }
 
-
+    public static String changeDC(String DCbefore){
+        long DC = 0;
+        byte DCs[] = DCbefore.getBytes();
+        if(DCs[0] == '0'){
+            for()
+        }
+    }
 }
