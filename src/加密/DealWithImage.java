@@ -52,21 +52,34 @@ public class DealWithImage {
     public static String changeDC(String DCBefore) {
         int DC = 0, delta = 1;
         byte DCs[] = DCBefore.getBytes();
+        String result ="";
         if (DCs[0] == '0') {//DC差分为负数
             for (int i = DCs.length - 1; i >= 0; i--) {
                 if (DCs[i] == '0') DC += delta;
                 delta *= 2;
             }
             LinkedList<Character> DCAfter = new LinkedList<>();
-            delta = 1;
             while (DC > 0) {
-                DCAfter.addFirst(00);
+                DCAfter.addFirst((char)(DC%2==0?'1':'0'));
+                DC /= 2;
+            }
+            for (Character character : DCAfter) {
+                result += character;
             }
         } else {//DC差分为正数
             for (int i = DCs.length - 1; i >= 0; i--) {
                 if (DCs[i] == '1') DC += delta;
                 delta *= 2;
             }
+            LinkedList<Character> DCAfter = new LinkedList<>();
+            while (DC > 0) {
+                DCAfter.addFirst((char)(DC%2+'0'));
+                DC /= 2;
+            }
+            for (Character character : DCAfter) {
+                result += character;
+            }
         }
+        return result;
     }
 }
