@@ -8,9 +8,9 @@ public class ACTable {
      * 交流Huffman表
      */
 
-        public final ArrayList<Integer> size;
-        public final ArrayList<String> codeWord;
-        public final String fileName;
+        private final ArrayList<Integer> size;
+        private final ArrayList<String> codeWord;
+        private final String fileName;
 
         public ACTable(String fileName) {
             size = new ArrayList<>();
