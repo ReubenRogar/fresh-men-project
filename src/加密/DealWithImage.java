@@ -32,7 +32,6 @@ public class DealWithImage {
      * @param code 字节码
      * @return 异或后字节码
      */
-
     public static int xorCode(int code,int length) {
         int xorTarget = (int)((Math.pow(2,length)-Math.pow(2,length-1))*x +Math.pow(2,length-1));
         code = code ^ xorTarget;
@@ -40,6 +39,11 @@ public class DealWithImage {
         return code;
     }
 
+    /**
+     * 对DC的字符串信息进行异或处理
+     * @param DCBefore
+     * @return
+     */
     public static String changeDC(String DCBefore) {
         int DC = 0, delta = 1;
         byte DCs[] = DCBefore.getBytes();
@@ -66,5 +70,6 @@ public class DealWithImage {
         String text ="0100101";
         String text1 ="1011010";
         System.out.println(changeDC(text));
+        System.out.println(changeDC(changeDC(text)));
     }
 }
