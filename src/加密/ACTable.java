@@ -24,7 +24,7 @@ public class ACTable {
             int x;char a;
             a = ss[1].charAt(0);
             if(a == 'A')x = 10;
-            else x = Integer.valueOf(a);
+            else x = Integer.parseInt(a+"");
             return x;
         }
 
@@ -60,5 +60,11 @@ public class ACTable {
                 }
             }
             return size.get(i);
+        }
+
+        public void outPut(){
+            for (Integer integer : size) {
+                System.out.println(integer);
+            }
         }
 }

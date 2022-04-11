@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="完善两个表的类，添加检测开头量化系数的两个方法" />
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="私有化三个变量">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,9 +52,22 @@
       <recent name="E:\programming_demo\freshman-year-project\src" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.ACTable">
+  <component name="RunManager" selected="应用程序.DealWithImage">
     <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="加密.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DealWithImage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.DealWithImage" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
@@ -103,6 +120,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="应用程序.DealWithImage" />
         <item itemvalue="应用程序.ACTable" />
         <item itemvalue="应用程序.ImageToCode" />
         <item itemvalue="应用程序.FirstTarget (1)" />
@@ -196,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649660560533</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="私有化三个变量">
+      <created>1649661080725</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1649661080725</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -220,6 +245,7 @@
     <MESSAGE value="不用干活了" />
     <MESSAGE value="添加两个表的类" />
     <MESSAGE value="完善两个表的类，添加检测开头量化系数的两个方法" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善两个表的类，添加检测开头量化系数的两个方法" />
+    <MESSAGE value="私有化三个变量" />
+    <option name="LAST_COMMIT_MESSAGE" value="私有化三个变量" />
   </component>
 </project>
