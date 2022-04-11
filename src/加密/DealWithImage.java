@@ -19,8 +19,8 @@ public class DealWithImage {
          ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
     public static String getDCL(String code,DCTable dcs){
-        int dcsLength = dcs.getCategory(code);
-        return code.substring(dcsLength,2*dcsLength+1);
+        int[] dcsLength = dcs.getCategory(code);
+        return code.substring(dcsLength[1]-1,dcsLength[0]+dcsLength[1]);
     }
     /**
      * 异或处理二进制数组

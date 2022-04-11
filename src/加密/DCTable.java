@@ -6,6 +6,8 @@ public class DCTable {
     /**
      * 直流Huffman表
      */
+        private final int[] categoryAndCodeWordLength;
+        private final int[] codeWordLength;
         private final int[] category;
         private final String[] codeWord;
         private final String fileName;
@@ -29,6 +31,7 @@ public class DCTable {
                         String[] ss = lineContent.split("\\s\\s");
                         category[index] = Integer.parseInt(ss[0]);
                         codeWord[index++] = ss[1];
+                        codeWordLength[index++] = ss[2];
                     }
                     br.close();
                     fileReader.close();
@@ -42,14 +45,16 @@ public class DCTable {
             }
         }
         //得到DC类别（长度）
-        public int getCategory(String code){
+        public int[] getCategory(String code){
             int i = 0;
             for(;i < 12;i++){
                 if(code.startsWith(codeWord[i])){
                     break;
                 }
             }
-            return category[i];
+            categoryAndCodeWordLength[0] = category[i];
+            categoryAndCodeWordLength[1] = codeWordLength[i];
+            return categoryAndCodeWordLength;
         }
 
     }
