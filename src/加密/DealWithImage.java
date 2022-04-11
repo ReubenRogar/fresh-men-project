@@ -58,6 +58,7 @@ public class DealWithImage {
                 if (DCs[i] == '0') DC += delta;
                 delta *= 2;
             }
+            DC = xorCode(DC);
             LinkedList<Character> DCAfter = new LinkedList<>();
             while (DC > 0) {
                 DCAfter.addFirst((char)(DC%2==0?'1':'0'));
@@ -71,6 +72,7 @@ public class DealWithImage {
                 if (DCs[i] == '1') DC += delta;
                 delta *= 2;
             }
+            DC = xorCode(DC);
             LinkedList<Character> DCAfter = new LinkedList<>();
             while (DC > 0) {
                 DCAfter.addFirst((char)(DC%2+'0'));
