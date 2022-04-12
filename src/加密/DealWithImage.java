@@ -50,7 +50,7 @@ public class DealWithImage {
             i += pd.x + pd.y;
             if(flag == 0) {
                 pa = ACL.getRunSize(code.substring(codeTail,l));
-                for( ;pa[0] != 0||pa[1] != 0; ){      //非0/0时
+                while(pa[0] != 0||pa[1] != 0){      //非0/0时
                     i += pa[1] + pa[2];
                     for (int j = 0; j < pa[0]; j++) {       //R
                         arr[k] = 0;
@@ -124,13 +124,20 @@ public class DealWithImage {
      * @return DCT码
      */
     public static String setDCT(ArrayList<int[]> DCT){
-        int i = 0,j = 1;
         String code = "";
         String temp;
+        for(int i = DCT.size();i >= 1;i--){
+            int[] a = DCT.get(i);
+            int[] b = DCT.get(i - 1);
+            a[0] -= b[0];
+            DCT.set(i,a);
+        }
+        int i = 0,j = 1;
         for (int[] ints : DCT) {
             if (i % 3 == 0) {//亮度
                 temp = int2str0b(ints[0]);
                 code += DCL.getHuffmanCode(temp.length()) + temp;
+                while(code.length()%8 !=0 )code += '0';
                 int lastNum = 0;
                 for (j = 1; j < 64; j++) {
                     if (ints[i] != 0) {
@@ -142,9 +149,11 @@ public class DealWithImage {
                         code += ACL.get00();
                     }
                 }
+                while(code.length()%8 !=0 )code += '0';
             } else {
                 temp = int2str0b(ints[0]);
                 code += DCC.getHuffmanCode(temp.length()) + temp;
+                while(code.length()%8 !=0 )code += '0';
                 int lastNum = 0;
                 for (j = 1; j < 64; j++) {
                     if (ints[i] != 0) {
@@ -156,9 +165,10 @@ public class DealWithImage {
                         code += ACC.get00();
                     }
                 }
+                while(code.length()%8 !=0 )code += '0';
             }
         }
-    return code;
+        return code;
     }
     /**
      * 二进制字符串转int
@@ -300,7 +310,7 @@ public class DealWithImage {
     public static void main(String[] args) {
         int[] ints = new int[64];
         ArrayList<int[]> arr = new ArrayList<>();
-        String code = "11100010 11101000 10100010 10001010 11111001 10010011 11110111 00010011";
+        String code = "1110001011101000101000101000101011111001100100111111011100010011";
         arr = getDCT(code);
         ints = arr.get(1);
         for (int i = 0; i < 64; i++) {
