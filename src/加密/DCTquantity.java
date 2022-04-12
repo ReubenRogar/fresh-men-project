@@ -11,7 +11,7 @@ import java.nio.channels.FileChannel;
 import javax.imageio.ImageIO;
 
 
-public class 获取DCT块数 {
+public class DCTquantity {
 
 
     public static void main(String[] args) {
