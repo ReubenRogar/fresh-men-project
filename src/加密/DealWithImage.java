@@ -4,7 +4,6 @@ package 加密;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.ForkJoinPool;
 
 public class DealWithImage {
     public static final DCTable DCL;
@@ -25,13 +24,13 @@ public class DealWithImage {
     }
     /**
      * 提取DCT块
-     * @param code
-     * @return
+     * @param code 二进制字符串
+     * @return 1*64数据块
      */
     public static ArrayList<int[]> getDCT(String code) {
         int[] arr = new int[64];
         int l = code.length();
-        ArrayList<int[]> DCT = new ArrayList<int[]>();
+        ArrayList<int[]> DCT = new ArrayList<>();
         int flag = 0;
         for (int i = 0; i < l; i++) {
             int k = 0;
@@ -50,7 +49,7 @@ public class DealWithImage {
             i += pd.x + pd.y;
             if(flag == 0) {
                 pa = ACL.getRunSize(code.substring(codeTail,l));
-                for( ;pa[0] != 0||pa[1] != 0; ){      //非0/0时
+                while(pa[0] != 0||pa[1] != 0){      //非0/0时
                     i += pa[1] + pa[2];
                     for (int j = 0; j < pa[0]; j++) {       //R
                         arr[k] = 0;
@@ -119,8 +118,14 @@ public class DealWithImage {
         return DCT;
     }
 
+
+    /**
+     * DCT数据熵编码
+     * @param DCT 1*64数据块
+     * @return 二进制字符串
+     */
     public static String setDCT(ArrayList<int[]> DCT){
-        int i = 0,j = 1;
+        int i = 0,j;
         String code = "";
         String temp;
         for (int[] ints : DCT) {
@@ -133,8 +138,9 @@ public class DealWithImage {
             }else{
 
             }
+            i++;
         }
-    return "";
+    return code;
     }
     /**
      * 二进制字符串转int
@@ -157,8 +163,8 @@ public class DealWithImage {
 
     /**
      * int转二进制字符串
-     * @param s
-     * @return
+     * @param s int
+     * @return 二进制字符串
      */
     public static String int2str0b(int s){
         String s1 = "";
@@ -196,7 +202,7 @@ public class DealWithImage {
      */
     public static String changeDC(String DCBefore) {
         int DC = 0, delta = 1;
-        byte DCs[] = DCBefore.getBytes();
+        byte[] DCs = DCBefore.getBytes();
         System.out.println(DCBefore);
         String result ="";
             for (int i = DCs.length - 1; i >= 0; i--) {
@@ -270,13 +276,13 @@ public class DealWithImage {
         }
         i += code[i] * 16 * 16 +code[i+1];
         byte[] target = new byte[code.length-2-i];
-        System.arraycopy(code, 0 + i, target, 0, target.length);
+        System.arraycopy(code, i, target, 0, target.length);
         System.arraycopy(target,0,code,i,target.length);
         return code;
     }
 
     public static void main(String[] args) {
         int[] ints = new int[64];
-        ArrayList<int[]> arr = new ArrayList<int[]>;
+        ArrayList<int[]> arr = new ArrayList<>();
     }
 }
