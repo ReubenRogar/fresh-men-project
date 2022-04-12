@@ -2,8 +2,6 @@ package 加密;
 
 
 import java.awt.*;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -25,12 +23,17 @@ public class DealWithImage {
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
     //二进制字符串提取DCAC
-    public static int[][] getDCAC(){
-        String ss = "1110001011101000101000101000101011111001100100111111011100010011";
+    public static ArrayList<int[]> getDCAC(){
+        StringBuilder ss = new StringBuilder("1110001011101000101000101000101011111001100100111111011100010011");
         ArrayList<int[]> DCTS = new ArrayList<>();
         int[] temp = new int[64];
-        Point cutIndex = DCL.getCategory(ss);
+        while(true){
+            Point index = DCL.getCategory(ss.toString());
+            temp[0] = str0b2int( ss.substring(index.x,index.x+index.y));
+            ss.delete(0,index.x+index.y);
 
+
+        }
     }
     /**
      * 二进制字符串转int
@@ -145,11 +148,5 @@ public class DealWithImage {
     }
 
     public static void main(String[] args) {
-        try {
-            ImageToCode.outImage(imageEncrypt(ImageToCode.imageToByte("E:\\大一年度计划\\实验图像\\实验红图.jpg")),"E:\\大一年度计划\\实验图像\\实验红图加密后.jpg","jpg");
-            ImageToCode.outImage(imageEncrypt(ImageToCode.imageToByte("E:\\大一年度计划\\实验图像\\实验红图加密后.jpg")),"E:\\大一年度计划\\实验图像\\实验红图解密后.jpg","jpg");
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

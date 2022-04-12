@@ -58,14 +58,14 @@ public class ACTable {
             }
         }
 
-        public Point getRunSize(String code){
+        public int[] getRunSize(String code){
             int i = 0;
             for(;i<codeWord.size();i++){
                 if(code.startsWith(codeWord.get(i))){
                     break;
                 }
             }
-            return runSize.get(i);
+            return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
         }
 
 }
