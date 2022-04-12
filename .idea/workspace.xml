@@ -50,9 +50,22 @@
       <recent name="E:\programming_demo\freshman-year-project\src" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.DealWithImage">
+  <component name="RunManager" selected="应用程序.获取DCT块数">
     <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="加密.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="获取DCT块数" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.获取DCT块数" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
@@ -90,19 +103,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FirstTarget" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="崔仕琳2021211990.FirstTarget" />
-      <module name="gita" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="崔仕琳2021211990.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ImageToCode" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ImageToCode" />
       <module name="First-Java" />
@@ -118,11 +118,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="应用程序.获取DCT块数" />
         <item itemvalue="应用程序.DealWithImage" />
         <item itemvalue="应用程序.ACTable" />
         <item itemvalue="应用程序.ImageToCode" />
         <item itemvalue="应用程序.FirstTarget (1)" />
-        <item itemvalue="应用程序.FirstTarget" />
       </list>
     </recent_temporary>
   </component>
