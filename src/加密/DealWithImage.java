@@ -186,7 +186,6 @@ public class DealWithImage {
                 DCT.add(arr);
                 flag++;
             }
-
         }
         return DCT;
     }
