@@ -4,6 +4,7 @@ package 加密;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.ForkJoinPool;
 
 public class DealWithImage {
     public static final DCTable DCL;
@@ -33,6 +34,34 @@ public class DealWithImage {
             ss.delete(0,index.x+index.y);
 
 
+        }
+    }
+    public static ArrayList<int[]> getAndReturnDC(String code) {
+        int[] arr = new int[64];
+        int l = code.length();
+        ArrayList<int[]> rDCT = new ArrayList<int[]>();
+        for (int i = 0; i < l; i++) {
+            int k = 0,flag = 1;
+            Point pd = new Point();//（读取值长度，读取码长度）
+            int[] pa = new int[3];//
+            if(flag == 0) {
+                pd = DCL.getCategory(code);
+            }
+            else {
+                pd = DCC.getCategory(code);
+            }
+            arr[k] = method(code.substring(pd.x,pd.x+pd.y));//byte转int
+            k++;
+            if(flag == 0) {
+                pa = ACL.getRunSize(code.substring(pd.x+pd.y,l));
+            }
+            else {
+                pa = ACC.getRunSize(code.substring(pd.x+pd.y,l));//R,S,L
+            }
+            int mark = k;
+            for (; k < mark + pa[0] +; k++) {
+                arr[k] = 0;
+            }
         }
     }
     /**
