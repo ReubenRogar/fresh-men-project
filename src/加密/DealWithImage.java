@@ -50,32 +50,76 @@ public class DealWithImage {
             i += pd.x + pd.y;
             if(flag == 0) {
                 pa = ACL.getRunSize(code.substring(codeTail,l));
-                for( ;pa[0] != 0||pa[1] != 0; ){      //非0/0时
+                while( pa[0] != 0||pa[1] != 0 ){      //非0/0时
                     i += pa[1] + pa[2];
                     for (int j = 0; j < pa[0]; j++) {       //R
                         arr[k] = 0;
                         k++;
                     }
                     codeHead = codeTail + pa[2];
-                    codeTail += codeHead + pa[1];
+                    //System.out.println(codeHead);
+                    codeTail = codeHead + pa[1];
+                    //System.out.println(codeTail);
                     arr[k] = str0b2int(code.substring(codeHead,codeTail));
                     k++;
+                    if(i == l-1){
+                        for (int j = k; j < 64; j++) {
+                            arr[k] = 0;
+                        }
+                        DCT.add(arr);
+                        return DCT;
+                    }
                     pa = ACL.getRunSize(code.substring(codeTail,l));
                 }
                 i++;// 0/0,识别码为0，后移一位
+                if(i == l-1){
+                    for (int j = k; j < 64; j++) {
+                        arr[k] = 0;
+                    }
+                    DCT.add(arr);
+                    return DCT;
+                }
                 codeTail++;
+                if(i == l-1){
+                    for (int j = k; j < 64; j++) {
+                        arr[k] = 0;
+                    }
+                    DCT.add(arr);
+                    return DCT;
+                }
                 if((i+1) % 8 != 0) {
                     codeHead = codeTail + 1;
                     while ((i + 1) % 8 != 0) {//移到字节尾
                         i++;
                         codeHead++;
+                        if(i == l-1){
+                            for (int j = k; j < 64; j++) {
+                                arr[k] = 0;
+                            }
+                            DCT.add(arr);
+                            return DCT;
+                        }
                     }
                     i++;//跳到下一字节
+                    if(i == l-1){
+                        for (int j = k; j < 64; j++) {
+                            arr[k] = 0;
+                        }
+                        DCT.add(arr);
+                        return DCT;
+                    }
                     codeHead++;
                 }
                 else{
                     codeHead = codeTail + 1;
                     i++;
+                    if(i == l-1){
+                        for (int j = k; j < 64; j++) {
+                            arr[k] = 0;
+                        }
+                        DCT.add(arr);
+                        return DCT;
+                    }
                 }
                 for(;k < 64 ;k++) arr[k] = 0;
                 DCT.add(arr);
@@ -96,19 +140,47 @@ public class DealWithImage {
                     pa = ACL.getRunSize(code.substring(codeTail,l));
                 }
                 i++;// 0/0,识别码为0，后移一位
+                if(i == l-1){
+                    for (int j = k; j < 64; j++) {
+                        arr[k] = 0;
+                    }
+                    DCT.add(arr);
+                    return DCT;
+                }
                 codeTail++;
                 if((i+1) % 8 != 0) {
                     codeHead = codeTail + 1;
                     while ((i + 1) % 8 != 0) {//移到字节尾
                         i++;
+                        if(i == l-1){
+                            for (int j = k; j < 64; j++) {
+                                arr[k] = 0;
+                            }
+                            DCT.add(arr);
+                            return DCT;
+                        }
                         codeHead++;
                     }
                     i++;//跳到下一字节
+                    if(i == l-1){
+                        for (int j = k; j < 64; j++) {
+                            arr[k] = 0;
+                        }
+                        DCT.add(arr);
+                        return DCT;
+                    }
                     codeHead++;
                 }
                 else{
                     codeHead = codeTail + 1;
                     i++;
+                    if(i == l-1){
+                        for (int j = k; j < 64; j++) {
+                            arr[k] = 0;
+                        }
+                        DCT.add(arr);
+                        return DCT;
+                    }
                 }
                 for(;k < 64 ;k++) arr[k] = 0;
                 DCT.add(arr);
