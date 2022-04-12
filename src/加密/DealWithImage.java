@@ -57,10 +57,10 @@ public class DealWithImage {
                         k++;
                     }
                     codeHead = codeTail + pa[2];
-                    codeTail += codeHead + pa[1];
+                    codeTail = codeHead + pa[1];
                     arr[k] = str0b2int(code.substring(codeHead,codeTail));
                     k++;
-                    pa = ACL.getRunSize(code.substring(codeTail,l));
+                    pa = ACL.getRunSize(code.substring(codeTail));
                 }
                 i++;// 0/0,识别码为0，后移一位
                 codeTail++;
@@ -124,17 +124,37 @@ public class DealWithImage {
         String code = "";
         String temp;
         for (int[] ints : DCT) {
-            if(i%3 == 0){//亮度
+            if (i % 3 == 0) {//亮度
                 temp = int2str0b(ints[0]);
                 code += DCL.getHuffmanCode(temp.length()) + temp;
-                for(j = 0;j <64;j++){
-
+                int lastNum = 0;
+                for (j = 1; j < 64; j++) {
+                    if (ints[i] != 0) {
+                        temp = int2str0b(ints[i]);
+                        code += ACL.getHuffmanCode(j - lastNum - 1, temp.length());
+                        code += temp;
+                        lastNum = j;
+                    } else if (lastNum < 63 && j == 63) {
+                        code += ACL.get00();
+                    }
                 }
-            }else{
-
+            } else {
+                temp = int2str0b(ints[0]);
+                code += DCC.getHuffmanCode(temp.length()) + temp;
+                int lastNum = 0;
+                for (j = 1; j < 64; j++) {
+                    if (ints[i] != 0) {
+                        temp = int2str0b(ints[i]);
+                        code += ACC.getHuffmanCode(j - lastNum - 1, temp.length());
+                        code += temp;
+                        lastNum = j;
+                    } else if (lastNum < 63 && j == 63) {
+                        code += ACC.get00();
+                    }
+                }
             }
         }
-    return "";
+    return code;
     }
     /**
      * 二进制字符串转int

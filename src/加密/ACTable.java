@@ -65,14 +65,27 @@ public class ACTable {
                     break;
                 }
             }
-            return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
+            if(i != 162)return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
+            else return new int[]{0,0,0};
         }
 
         public String getHuffmanCode(int run,int size){
             int i = 0;
-            for(;i < runSize.size();i++){
+            String result = "";
+            if(run > 16){
+                for(;i<run / 16;i++){
+                    result += codeWord.get(152);
+                }
+                run %= 16;
+            }
+            for(i = 0;i < runSize.size();i++){
                 if(run == runSize.get(i).x&&size == runSize.get(i).y)break;
             }
-            return codeWord.get(i);
+            result += codeWord.get(i);
+            return result;
+        }
+
+        public String get00(){
+            return codeWord.get(0);
         }
 }
