@@ -23,40 +23,35 @@ public class DealWithImage {
         // 交流色度表
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
-    //二进制字符串提取DCAC
-    public static ArrayList<int[]> getDCAC(){
-        StringBuilder ss = new StringBuilder("1110001011101000101000101000101011111001100100111111011100010011");
-        ArrayList<int[]> DCTS = new ArrayList<>();
-        int[] temp = new int[64];
-        while(true){
-            Point index = DCL.getCategory(ss.toString());
-            temp[0] = str0b2int( ss.substring(index.x,index.x+index.y));
-            ss.delete(0,index.x+index.y);
 
-
-        }
-    }
-    public static ArrayList<int[]> getAndReturnDC(String code) {
+    /**
+     * 提取DCT块
+     * @param code
+     * @return
+     */
+    public static ArrayList<int[]> getDCT(String code) {
         int[] arr = new int[64];
         int l = code.length();
-        ArrayList<int[]> rDCT = new ArrayList<int[]>();
-        int k = 0,flag = 0;
+        ArrayList<int[]> DCT = new ArrayList<int[]>();
+        int flag = 0;
         for (int i = 0; i < l; i++) {
-            Point pd = new Point();//（读取值长度，读取码长度）
+            int k = 0;
+            Point pd = new Point();//  读取值长度，读取码长度
             int[] pa = new int[3];//
+            if(flag == 3) flag = 0;
             if(flag == 0) {
                 pd = DCL.getCategory(code);
             }
             else {
                 pd = DCC.getCategory(code);
             }
-            int codeHead = pd.y,codeTail = pd.x + pd.y;
+            int codeHead = pd.y,codeTail = pd.x + pd.y;//codeHead = i + 1
             arr[k] = str0b2int(code.substring(codeHead,codeTail));//byte转int
             k++;
             i += pd.x + pd.y;
             if(flag == 0) {
                 pa = ACL.getRunSize(code.substring(codeTail,l));
-                for(,pa[0] ！= 0||pa[1] != 0,){      //非0/0时
+                for( ;pa[0] != 0||pa[1] != 0; ){      //非0/0时
                     i += pa[1] + pa[2];
                     for (int j = 0; j < pa[0]; j++) {       //R
                         arr[k] = 0;
@@ -68,12 +63,60 @@ public class DealWithImage {
                     k++;
                     pa = ACL.getRunSize(code.substring(codeTail,l));
                 }
+                i++;// 0/0,识别码为0，后移一位
+                codeTail++;
+                if((i+1) % 8 != 0) {
+                    codeHead = codeTail + 1;
+                    while ((i + 1) % 8 != 0) {//移到字节尾
+                        i++;
+                        codeHead++;
+                    }
+                    i++;//跳到下一字节
+                    codeHead++;
+                }
+                else{
+                    codeHead = codeTail + 1;
+                    i++;
+                }
+                for(;k < 64 ;k++) arr[k] = 0;
+                DCT.add(arr);
+                flag++;
             }
             else {
                 pa = ACC.getRunSize(code.substring(pd.x+pd.y,l));//R,(S,L)
+                for( ;pa[0] != 0||pa[1] != 0; ){      //非0/0时
+                    i += pa[1] + pa[2];
+                    for (int j = 0; j < pa[0]; j++) {       //R
+                        arr[k] = 0;
+                        k++;
+                    }
+                    codeHead = codeTail + pa[2];
+                    codeTail += codeHead + pa[1];
+                    arr[k] = str0b2int(code.substring(codeHead,codeTail));
+                    k++;
+                    pa = ACL.getRunSize(code.substring(codeTail,l));
+                }
+                i++;// 0/0,识别码为0，后移一位
+                codeTail++;
+                if((i+1) % 8 != 0) {
+                    codeHead = codeTail + 1;
+                    while ((i + 1) % 8 != 0) {//移到字节尾
+                        i++;
+                        codeHead++;
+                    }
+                    i++;//跳到下一字节
+                    codeHead++;
+                }
+                else{
+                    codeHead = codeTail + 1;
+                    i++;
+                }
+                for(;k < 64 ;k++) arr[k] = 0;
+                DCT.add(arr);
+                flag++;
             }
-
         }
+        return DCT;
     }
     /**
      * 二进制字符串转int
