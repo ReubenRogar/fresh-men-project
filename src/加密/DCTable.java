@@ -58,5 +58,4 @@ public class DCTable {
             categoryAndCodeWordLength[1] = codeWordLength[i];
             return categoryAndCodeWordLength;
         }
-
     }
