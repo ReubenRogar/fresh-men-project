@@ -4,6 +4,7 @@ package 加密;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class DealWithImage {
@@ -23,9 +24,25 @@ public class DealWithImage {
         // 交流色度表
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
-    //返回一段压缩数据的第一段DC码
-    public static String getAndReturnDC(String code){
+    //二进制字符串提取DCAC
+    public static int[][] getDCAC(){
+        String ss = "1110001011101000101000101000101011111001100100111111011100010011";
+        ArrayList<int[]> DCTS = new ArrayList<>();
+        int[] temp = new int[64];
+        Point cutIndex = DCL.getCategory(ss);
 
+    }
+    /**
+     * 二进制字符串转int
+     */
+    public static int str0b2int(String s){
+        int result = 0,temp =1;
+        for(int i = s.length()-1;i >= 0;i--){
+            result += temp *(s.charAt(i) - '0');
+            temp *= 2;
+        }
+        if(s.startsWith("0"))result = -result;
+        return result;
     }
 
     /**
@@ -123,7 +140,6 @@ public class DealWithImage {
         i += code[i] * 16 * 16 +code[i+1];
         byte[] target = new byte[code.length-2-i];
         System.arraycopy(code, 0 + i, target, 0, target.length);
-        target=str0b2Bytes( getAndReturnDC(bytes2Str0b(target),DCL));
         System.arraycopy(target,0,code,i,target.length);
         return code;
     }
