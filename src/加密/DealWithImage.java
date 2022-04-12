@@ -249,11 +249,9 @@ public class DealWithImage {
                 for (int i = 0; i < 8 - remainder; i++)
                     in.append("0");
             byte[] bts = new byte[in.length() / 8];
-
             // Step 8 Apply compression
             for (int i = 0; i < bts.length; i++)
                 bts[i] = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
-
             return bts;
         }
 
