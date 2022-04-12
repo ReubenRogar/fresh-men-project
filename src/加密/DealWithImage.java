@@ -83,7 +83,7 @@ public class DealWithImage {
             }
             else {
                 pa = ACC.getRunSize(code.substring(pd.x+pd.y,l));//R,(S,L)
-                for( ;pa[0] != 0||pa[1] != 0; ){      //非0/0时
+                while(pa[0] != 0||pa[1] != 0){      //非0/0时
                     i += pa[1] + pa[2];
                     for (int j = 0; j < pa[0]; j++) {       //R
                         arr[k] = 0;
@@ -276,5 +276,7 @@ public class DealWithImage {
     }
 
     public static void main(String[] args) {
+        int[] ints = new int[64];
+        ArrayList<int[]> arr = new ArrayList<int[]>;
     }
 }
