@@ -40,8 +40,8 @@ public class DealWithImage {
         int[] arr = new int[64];
         int l = code.length();
         ArrayList<int[]> rDCT = new ArrayList<int[]>();
+        int k = 0,flag = 0;
         for (int i = 0; i < l; i++) {
-            int k = 0,flag = 1;
             Point pd = new Point();//（读取值长度，读取码长度）
             int[] pa = new int[3];//
             if(flag == 0) {
@@ -50,18 +50,29 @@ public class DealWithImage {
             else {
                 pd = DCC.getCategory(code);
             }
-            arr[k] = method(code.substring(pd.x,pd.x+pd.y));//byte转int
+            int codeHead = pd.y,codeTail = pd.x + pd.y;
+            arr[k] = str0b2int(code.substring(codeHead,codeTail));//byte转int
             k++;
+            i += pd.x + pd.y;
             if(flag == 0) {
-                pa = ACL.getRunSize(code.substring(pd.x+pd.y,l));
+                pa = ACL.getRunSize(code.substring(codeTail,l));
+                for(,pa[0] ！= 0||pa[1] != 0,){      //非0/0时
+                    i += pa[1] + pa[2];
+                    for (int j = 0; j < pa[0]; j++) {       //R
+                        arr[k] = 0;
+                        k++;
+                    }
+                    codeHead = codeTail + pa[2];
+                    codeTail += codeHead + pa[1];
+                    arr[k] = str0b2int(code.substring(codeHead,codeTail));
+                    k++;
+                    pa = ACL.getRunSize(code.substring(codeTail,l));
+                }
             }
             else {
-                pa = ACC.getRunSize(code.substring(pd.x+pd.y,l));//R,S,L
+                pa = ACC.getRunSize(code.substring(pd.x+pd.y,l));//R,(S,L)
             }
-            int mark = k;
-            for (; k < mark + pa[0] +; k++) {
-                arr[k] = 0;
-            }
+
         }
     }
     /**
