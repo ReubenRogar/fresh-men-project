@@ -68,4 +68,11 @@ public class ACTable {
             return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
         }
 
+        public String getHuffmanCode(int run,int size){
+            int i = 0;
+            for(;i < runSize.size();i++){
+                if(run == runSize.get(i).x&&size == runSize.get(i).y)break;
+            }
+            return codeWord.get(i);
+        }
 }

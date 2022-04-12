@@ -23,7 +23,6 @@ public class DealWithImage {
         // 交流色度表
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
-
     /**
      * 提取DCT块
      * @param code
@@ -115,20 +114,66 @@ public class DealWithImage {
                 DCT.add(arr);
                 flag++;
             }
+
         }
         return DCT;
+    }
+
+    public static String setDCT(ArrayList<int[]> DCT){
+        int i = 0,j = 1;
+        String code = "";
+        String temp;
+        for (int[] ints : DCT) {
+            if(i%3 == 0){//亮度
+                temp = int2str0b(ints[0]);
+                code += DCL.getHuffmanCode(temp.length()) + temp;
+                for(j = 0;j <64;j++){
+
+                }
+            }else{
+
+            }
+        }
+    return "";
     }
     /**
      * 二进制字符串转int
      */
     public static int str0b2int(String s){
         int result = 0,temp =1;
-        for(int i = s.length()-1;i >= 0;i--){
-            result += temp *(s.charAt(i) - '0');
-            temp *= 2;
+        if(s.startsWith("0")){
+            for (int i = s.length() - 1; i >= 0; i--) {
+                result += temp * (s.charAt(i) == '0'? 1:0);
+                temp *= 2;
+            }
+        }else {
+            for (int i = s.length() - 1; i >= 0; i--) {
+                result += temp * (s.charAt(i) - '0');
+                temp *= 2;
+            }
         }
-        if(s.startsWith("0"))result = -result;
         return result;
+    }
+
+    /**
+     * int转二进制字符串
+     * @param s
+     * @return
+     */
+    public static String int2str0b(int s){
+        String s1 = "";
+        if(s < 0){
+            s= -s;
+            while(s>0){
+                s1 += s%2 == 0? '1':'0';
+                s /= 2;
+            }
+        }else{
+            while(s > 0){
+                s1 += s%2+'0';
+            }
+        }
+        return s1;
     }
 
     /**

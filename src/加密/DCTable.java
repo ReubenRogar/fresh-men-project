@@ -59,4 +59,13 @@ public class DCTable {
             categoryAndCodeWordLength.y = codeWordLength[i];
             return categoryAndCodeWordLength;
         }
+
+        //得到DC哈夫曼码
+            public String getHuffmanCode(int length){
+                int i = 0;
+                for (;i < category.length;i++) {
+                    if(length == category[i])break;
+                }
+                return codeWord[i];
+            }
     }

@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="添加二进制字符串转int">
+    <list default="true" id="a28abe14-2f6a-4b45-90eb-846d1142c927" name="变更" comment="优化识别Ac哈夫曼码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HuffmanTable/AC_chrominance.txt" beforeDir="false" afterPath="$PROJECT_DIR$/HuffmanTable/AC_chrominance.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DCTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -308,7 +307,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649762959086</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="优化识别Ac哈夫曼码">
+      <created>1649764763925</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1649764763925</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -344,6 +350,7 @@
     <MESSAGE value="整合项目方法&#10;加密一个亮度DC系数" />
     <MESSAGE value="添加run" />
     <MESSAGE value="添加二进制字符串转int" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加二进制字符串转int" />
+    <MESSAGE value="优化识别Ac哈夫曼码" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化识别Ac哈夫曼码" />
   </component>
 </project>
