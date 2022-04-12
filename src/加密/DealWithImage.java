@@ -277,6 +277,12 @@ public class DealWithImage {
 
     public static void main(String[] args) {
         int[] ints = new int[64];
-        ArrayList<int[]> arr = new ArrayList<int[]>;
+        ArrayList<int[]> arr = new ArrayList<>();
+        String code = "11100010 11101000 10100010 10001010 11111001 10010011 11110111 00010011";
+        arr = getDCT(code);
+        ints = arr.get(1);
+        for (int i = 0; i < 64; i++) {
+            System.out.println(ints[i]);
+        }
     }
 }
