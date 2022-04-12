@@ -40,14 +40,14 @@ public class DCTquantity {
         int width = bi.getWidth();
         int height = bi.getHeight();
         int number = -1 ;
-        if(width%8>0&&height%8==0)
-            number = (width/8+1)*(height/8);
-        else if(width%8==0&&height%8>0)
-            number = (width/8)*(height/8+1);
-        else if(width%8==0&&height%8==0)
+        if(width%16>0&&height%16==0)
+            number = (width/8+2)*(height/8);
+        else if(width%16==0&&height%16>0)
+            number = (width/8)*(height/8+2);
+        else if(width%16==0&&height%16==0)
             number = (width/8)*(height/8);
-        else if(width%8>0&&height%8>0)
-            number = (width/8+1)*(height/8+1);
+        else if(width%16>0&&height%16>0)
+            number = (width/8+2)*(height/8+2);
         System.out.println("宽：像素-----" + width + "高：像素" + height+" DCT块数"+number);
     }
 }
