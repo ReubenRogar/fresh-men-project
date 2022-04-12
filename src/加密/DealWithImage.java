@@ -24,12 +24,8 @@ public class DealWithImage {
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
     //返回一段压缩数据的第一段DC码
-    public static String getAndReturnDC(String code,DCTable dcs){
-        Point dcsLength = dcs.getCategory(code);
-        String DCcode = code.substring(dcsLength.y,dcsLength.x+dcsLength.y-1);
-        StringBuilder sb = new StringBuilder(code);
-        sb.replace(dcsLength.y,dcsLength.x+dcsLength.y-1,changeDC(DCcode));
-        return sb.toString();
+    public static String getAndReturnDC(String code){
+
     }
 
     /**
@@ -41,7 +37,7 @@ public class DealWithImage {
     public static int xorCode(int code,int length) {
         int xorTarget = (int)((Math.pow(2,length)-Math.pow(2,length-1))*x +Math.pow(2,length-1));
         code = code ^ xorTarget;
-        x = u * x * (1 - x);
+        //x = u * x * (1 - x);
         return code;
     }
 
@@ -53,12 +49,15 @@ public class DealWithImage {
     public static String changeDC(String DCBefore) {
         int DC = 0, delta = 1;
         byte DCs[] = DCBefore.getBytes();
+        System.out.println(DCBefore);
         String result ="";
             for (int i = DCs.length - 1; i >= 0; i--) {
                 if (DCs[i] == '1') DC += delta;
                 delta *= 2;
             }
+        System.out.println(DC);
             DC = xorCode(DC,DCBefore.length());
+        System.out.println(DC);
             LinkedList<Character> DCAfter = new LinkedList<>();
             while (DC > 0) {
                 DCAfter.addFirst((char)(DC%2+'0'));
@@ -68,6 +67,7 @@ public class DealWithImage {
             for (Character character : DCAfter) {
                 result += character;
             }
+        System.out.println(result);
         return result;
     }
 
@@ -110,11 +110,10 @@ public class DealWithImage {
         }
 
     /**
-     * 加密方法集中
+     * 加密方法集中，对byte数组提取、转换、加密再返回修改过得数组
      */
     public static byte[] imageEncrypt(byte[] code){
         int i;
-        System.out.println(code.length);
         for (i =code.length-1;i >=0 ;i--){
             if(code[i] == -1&&code[i+1] == -38) {
                 i += 2;
@@ -126,16 +125,15 @@ public class DealWithImage {
         System.arraycopy(code, 0 + i, target, 0, target.length);
         target=str0b2Bytes( getAndReturnDC(bytes2Str0b(target),DCL));
         System.arraycopy(target,0,code,i,target.length);
-        System.out.println(code.length);
         return code;
     }
 
     public static void main(String[] args) {
         try {
             ImageToCode.outImage(imageEncrypt(ImageToCode.imageToByte("E:\\大一年度计划\\实验图像\\实验红图.jpg")),"E:\\大一年度计划\\实验图像\\实验红图加密后.jpg","jpg");
+            ImageToCode.outImage(imageEncrypt(ImageToCode.imageToByte("E:\\大一年度计划\\实验图像\\实验红图加密后.jpg")),"E:\\大一年度计划\\实验图像\\实验红图解密后.jpg","jpg");
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }

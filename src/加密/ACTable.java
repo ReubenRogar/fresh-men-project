@@ -1,5 +1,6 @@
 package 加密;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -8,25 +9,30 @@ public class ACTable {
      * 交流Huffman表
      */
 
-        private final ArrayList<Integer> size;
+        private final ArrayList<Point> runSize;
         private final ArrayList<String> codeWord;
         private final String fileName;
 
         public ACTable(String fileName) {
-            size = new ArrayList<>();
+            runSize = new ArrayList<>();
             codeWord = new ArrayList<>();
             this.fileName = fileName;
             init();
         }
 
-        private int handleS(String s){
-            String[] ss = s.split("/");
-            int x;char a;
-            a = ss[1].charAt(0);
-            if(a == 'A')x = 10;
-            else x = Integer.parseInt(a+"");
-            return x;
-        }
+    private Point handleRS(String s) {
+        int x, y;
+        String[] ss = s.split("/");
+        if (ss[0].charAt(0) >= 'A')
+            x = ss[0].charAt(0) - 'A' + 10;
+        else
+            x = ss[0].charAt(0) - '0';
+        if (ss[1].charAt(0) >= 'A')
+            y = ss[1].charAt(0) - 'A' + 10;
+        else
+            y = ss[1].charAt(0) - '0';
+        return (new Point(x, y));
+    }
 
         private void init() {
             File file = new File(fileName);
@@ -37,7 +43,7 @@ public class ACTable {
                     String lineContent = null;
                     while ((lineContent = br.readLine()) != null) {
                         String[] ss = lineContent.split("\\s\\s");
-                        size.add(handleS(ss[0]));
+                        runSize.add(handleRS(ss[0]));
                         codeWord.add(ss[1]);
                     }
                     br.close();
@@ -52,19 +58,14 @@ public class ACTable {
             }
         }
 
-        public int getSize(String code){
+        public Point getRunSize(String code){
             int i = 0;
             for(;i<codeWord.size();i++){
                 if(code.startsWith(codeWord.get(i))){
                     break;
                 }
             }
-            return size.get(i);
+            return runSize.get(i);
         }
 
-        public void outPut(){
-            for (Integer integer : size) {
-                System.out.println(integer);
-            }
-        }
 }

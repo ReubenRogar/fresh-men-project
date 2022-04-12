@@ -50,7 +50,6 @@ public class ImageToCode {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(data.length);
         return data;
     }
 
