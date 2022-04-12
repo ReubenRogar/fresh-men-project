@@ -9,6 +9,7 @@ public class DealWithImage {
     public static final DCTable DCC;
     public static final ACTable ACL;
     public static final ACTable ACC;
+    private static double u = 3.79, x = 0.88;
 
     static {
         // 直流亮度表
@@ -20,7 +21,7 @@ public class DealWithImage {
         // 交流色度表
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
-    public static String getDCL(String code,DCTable dcs){
+    public static String getDC(String code,DCTable dcs){
         int[] dcsLength = dcs.getCategory(code);
         return code.substring(dcsLength[1]-1,dcsLength[0]+dcsLength[1]);
     }
@@ -31,42 +32,44 @@ public class DealWithImage {
      * @param code 字节码
      * @return 异或后字节码
      */
-    public static byte[] xorCode(byte[] code) {
-        double u = 3.79, x = 0.88;
-        for (int i = 0; i < code.length; i++) {
-            if (code[i] != -1) {
-                code[i] = (byte) ((int) code[i] ^ (int) (x * 1024));
-                x = u * x * (1 - x);
-            }
-        }
-        return code;
-    }
-
-    public static int xorCode(int code) {
-        double u = 3.79, x = 0.88;
-        code = code ^ (int) (x * 1024);
+    public static int xorCode(int code,int length) {
+        int xorTarget = (int)((Math.pow(2,length)-Math.pow(2,length-1))*x +Math.pow(2,length-1));
+        code = code ^ xorTarget;
         x = u * x * (1 - x);
         return code;
     }
 
+    /**
+     * 对DC的字符串信息进行异或处理
+     * @param DCBefore
+     * @return
+     */
     public static String changeDC(String DCBefore) {
         int DC = 0, delta = 1;
         byte DCs[] = DCBefore.getBytes();
-        if (DCs[0] == '0') {//DC差分为负数
-            for (int i = DCs.length - 1; i >= 0; i--) {
-                if (DCs[i] == '0') DC += delta;
-                delta *= 2;
-            }
-            LinkedList<Character> DCAfter = new LinkedList<>();
-            delta = 1;
-            while (DC > 0) {
-                DCAfter.addFirst(00);
-            }
-        } else {//DC差分为正数
+        String result ="";
             for (int i = DCs.length - 1; i >= 0; i--) {
                 if (DCs[i] == '1') DC += delta;
                 delta *= 2;
             }
-        }
+            System.out.println(DC);
+            DC = xorCode(DC,DCBefore.length());
+            LinkedList<Character> DCAfter = new LinkedList<>();
+            while (DC > 0) {
+                DCAfter.addFirst((char)(DC%2+'0'));
+                DC /= 2;
+            }
+            if(DCAfter.size()< DCs.length)DCAfter.addFirst('0');
+            for (Character character : DCAfter) {
+                result += character;
+            }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String text ="0100101";
+        String text1 ="1011010";
+        System.out.println(changeDC(text));
+        System.out.println(changeDC(changeDC(text)));
     }
 }

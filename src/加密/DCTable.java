@@ -15,7 +15,7 @@ public class DCTable {
         public DCTable(String fileName) {
             category = new int[12];
             codeWord = new String[12];
-            codeWordLength = new int[11];
+            codeWordLength = new int[12];
             this.fileName = fileName;
             init();
         }
