@@ -173,9 +173,15 @@ public class DealWithImage {
      * @return DCT码
      */
     public static String setDCT(ArrayList<int[]> DCT){
-        int i = 0,j = 1;
         String code = "";
         String temp;
+        for(int i = DCT.size();i > 0;i++){
+            int[] a = DCT.get(i);
+            int[] b = DCT.get(i - 1);
+            a[0] -= b[0];
+            DCT.set(i,a);
+        }
+        int i = 0,j = 1;
         for (int[] ints : DCT) {
             if (i % 3 == 0) {//亮度
                 temp = int2str0b(ints[0]);
