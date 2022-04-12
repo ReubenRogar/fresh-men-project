@@ -4,7 +4,6 @@ package 加密;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.ForkJoinPool;
 
 public class DealWithImage {
     public static final DCTable DCL;
@@ -25,18 +24,18 @@ public class DealWithImage {
     }
     /**
      * 提取DCT块
-     * @param code
-     * @return
+     * @param code 二进制字符串
+     * @return 1*64数据块
      */
     public static ArrayList<int[]> getDCT(String code) {
         int[] arr = new int[64];
         int l = code.length();
-        ArrayList<int[]> DCT = new ArrayList<int[]>();
+        ArrayList<int[]> DCT = new ArrayList<>();
         int flag = 0;
         for (int i = 0; i < l; i++) {
             int k = 0;
-            Point pd = new Point();//  读取值长度，读取码长度
-            int[] pa = new int[3];//
+            Point pd;//  读取值长度，读取码长度
+            int[] pa;//
             if(flag == 3) flag = 0;
             if(flag == 0) {
                 pd = DCL.getCategory(code);
@@ -67,9 +66,10 @@ public class DealWithImage {
                 if(i == l-1) {
                     for (int j = k; j < 64; j++) {
                         arr[j] = 0;
+                    }
                         DCT.add(arr);
                         return DCT;
-                    }
+
                 }
                 codeTail++;
                 if((i+1) % 8 != 0) {
@@ -79,9 +79,9 @@ public class DealWithImage {
                         if(i == l-1) {
                             for (int j = k; j < 64; j++) {
                                 arr[j] = 0;
+                            } //
                                 DCT.add(arr);
                                 return DCT;
-                            }
                         }
                         codeHead++;
                     }
@@ -91,7 +91,7 @@ public class DealWithImage {
                                 arr[j] = 0;
                                 DCT.add(arr);
                                 return DCT;
-                            }
+                            }//
                     codeHead++;
                 }
                 else {
@@ -102,7 +102,7 @@ public class DealWithImage {
                                     arr[j] = 0;
                                     DCT.add(arr);
                                     return DCT;
-                                }
+                                }//
                             }
                         }
                 for(;k < 64 ;k++) arr[k] = 0;
@@ -134,7 +134,7 @@ public class DealWithImage {
                                 arr[j] = 0;
                                 DCT.add(arr);
                                 return DCT;
-                            }
+                            }//
                         }
                         codeHead++;
                     }
@@ -144,7 +144,7 @@ public class DealWithImage {
                             arr[j] = 0;
                             DCT.add(arr);
                             return DCT;
-                        }
+                        }//
                     }
                     codeHead++;
                 }
@@ -156,7 +156,7 @@ public class DealWithImage {
                             arr[j] = 0;
                             DCT.add(arr);
                             return DCT;
-                        }
+                        }//
                     }
                 }
                 for(;k < 64 ;k++) arr[k] = 0;
