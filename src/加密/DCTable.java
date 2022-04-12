@@ -1,5 +1,6 @@
 package 加密;
 
+import java.awt.*;
 import java.io.*;
 
 public class DCTable {
@@ -46,16 +47,16 @@ public class DCTable {
             }
         }
         //得到DC类别（长度）
-        public int[] getCategory(String code){
-            int[] categoryAndCodeWordLength = new int[2];
+        public Point getCategory(String code){
+            Point categoryAndCodeWordLength = new Point();
             int i = 0;
             for(;i < 12;i++){
                 if(code.startsWith(codeWord[i])){
                     break;
                 }
             }
-            categoryAndCodeWordLength[0] = category[i];
-            categoryAndCodeWordLength[1] = codeWordLength[i];
+            categoryAndCodeWordLength.x = category[i];
+            categoryAndCodeWordLength.y = codeWordLength[i];
             return categoryAndCodeWordLength;
         }
     }
