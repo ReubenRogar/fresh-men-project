@@ -167,6 +167,11 @@ public class DealWithImage {
         return DCT;
     }
 
+    /**
+     * 1*64数组转二进制字符串
+     * @param DCT 1*64数组
+     * @return DCT码
+     */
     public static String setDCT(ArrayList<int[]> DCT){
         int i = 0,j = 1;
         String code = "";
