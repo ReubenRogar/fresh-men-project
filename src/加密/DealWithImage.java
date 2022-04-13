@@ -181,21 +181,21 @@ public class DealWithImage {
             DCT.get(i)[0] -= DCT.get(i - 1)[0];
         }
         int DCTs = 0,index = 1;
-        for (int[] ints : DCT) {
+        for (int[] ints : DCT) {//遍历1*64数据块
             DCTable dcTable;
             ACTable acTable;
             if (DCTs % 3 == 0) {//亮度
                 dcTable = DCL;
                 acTable = ACL;
                 System.out.println("亮度");
-            }else {
+            }else {//色度*2
                 dcTable = DCC;
                 acTable = ACC;
                 System.out.println("色度");
             }
                 if(ints[0]!= 0){
                     temp = int2str0b(ints[0]);
-                    code += DCL.getHuffmanCode(temp.length()) + temp;
+                    code += dcTable.getHuffmanCode(temp.length()) + temp;
                 }else{
                     code += "00";
                 }
@@ -203,17 +203,19 @@ public class DealWithImage {
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
                         temp = int2str0b(ints[index]);
-                        code += ACL.getHuffmanCode(index - lastNum - 1, temp.length());
+                        System.out.println(ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
+                        code += acTable.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
                         lastNum = index;
                     } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
-                        code += ACL.getEOB();
+                        code += acTable.getEOB();
                     }
                 }
                 while (code.length()%8!=0)code += "0";
             System.out.println(code);
             DCTs++;
         }
+        System.out.println(code.length());
     return code;
     }
     /**
