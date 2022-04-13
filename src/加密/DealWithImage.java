@@ -34,23 +34,22 @@ public class DealWithImage {
         int[] arr = new int[64];
         final int length = code.length();
         ArrayList<int[]> DCT = new ArrayList<>();
-        int flag = 0 , prev = 0;//存上一个AC值
+        int flag = 0, prev = 0;//存上一个AC值
         for (int i = 0; i < length; i++) {
             int k = 0;
             Point pDC;//  读取值长度，读取码长度
             int[] pAC;//
-            if(flag % 3 == 0) {
+            if (flag % 3 == 0) {
                 pDC = DCL.getCategory(code);
-            }
-            else {
+            } else {
                 pDC = DCC.getCategory(code);
             }
-            int codeHead = pDC.y,codeTail = pDC.x + pDC.y;//codeHead = i + 1
-            if(pDC.x == 0) arr[k] = 0;
-            else arr[k] = str0b2int(code.substring(codeHead,codeTail));//byte转int(DC)
+            int codeHead = pDC.y, codeTail = pDC.x + pDC.y;//codeHead = i + 1
+            if (pDC.x == 0) arr[k] = 0;
+            else arr[k] = str0b2int(code.substring(codeHead, codeTail));//byte转int(DC)
             k++;
             i += pDC.x + pDC.y;
-            if(flag % 3 == 0) {
+            if (flag % 3 == 0) {
                 pAC = ACL.getRunSize(code.substring(codeTail, length));
                 while (pAC[0] != 0 || pAC[1] != 0) {      //非0/0时
                     i += pAC[1] + pAC[2];
@@ -62,7 +61,7 @@ public class DealWithImage {
                     codeTail = codeHead + pAC[1];
                     prev = str0b2int(code.substring(codeHead, codeTail));//AC
                     arr[k] =
-                    k++;
+                            k++;
                     pAC = ACL.getRunSize(code.substring(codeTail));
                 }
                 i++;// 0/0,识别码为0，后移一位
@@ -95,24 +94,24 @@ public class DealWithImage {
                             return DCT;
                         }//?
                         codeHead++;
-                    } else {
-                        codeHead = codeTail + 1;
-                        i++;
-                        if (i == length - 1) {
-                            for (int j = k; j < 64; j++) {
-                                arr[j] = 0;
-                                DCT.add(arr);
-                                return DCT;
-                            }//?
-                        }
                     }
-                    for (; k < 64; k++) arr[k] = 0;
-                    DCT.add(arr);
-                    flag++;
+                } else {
+                    codeHead = codeTail + 1;
+                    i++;
+                    if (i == length - 1) {
+                        for (int j = k; j < 64; j++) {
+                            arr[j] = 0;
+                            DCT.add(arr);
+                            return DCT;
+                        }//?
+                    }
                 }
-            }else {
-                pAC = ACC.getRunSize(code.substring(pDC.x+pDC.y,length));//R,(S,L)
-                while(pAC[0] != 0||pAC[1] != 0){      //非0/0时
+                for (; k < 64; k++) arr[k] = 0;
+                DCT.add(arr);
+                flag++;
+            } else {
+                pAC = ACC.getRunSize(code.substring(pDC.x + pDC.y, length));//R,(S,L)
+                while (pAC[0] != 0 || pAC[1] != 0) {      //非0/0时
                     i += pAC[1] + pAC[2];
                     for (int j = 0; j < pAC[0]; j++) {       //R
                         arr[k] = 0;
@@ -120,13 +119,13 @@ public class DealWithImage {
                     }
                     codeHead = codeTail + pAC[2];
                     codeTail += codeHead + pAC[1];
-                    arr[k] = str0b2int(code.substring(codeHead,codeTail));
+                    arr[k] = str0b2int(code.substring(codeHead, codeTail));
                     k++;
-                    pAC = ACL.getRunSize(code.substring(codeTail,length));
+                    pAC = ACL.getRunSize(code.substring(codeTail, length));
                 }
                 i++;// 0/0,识别码为0，后移一位
                 codeTail++;
-                if((i+1) % 8 != 0) {
+                if ((i + 1) % 8 != 0) {
                     codeHead = codeTail + 1;
                     while ((i + 1) % 8 != 0) {//移到字节尾
                         i++;
@@ -148,8 +147,7 @@ public class DealWithImage {
                         }//
                     }
                     codeHead++;
-                }
-                else{
+                } else {
                     codeHead = codeTail + 1;
                     i++;
                     if (i == length - 1) {
@@ -160,7 +158,7 @@ public class DealWithImage {
                         }//
                     }
                 }
-                for(;k < 64 ;k++) arr[k] = 0;
+                for (; k < 64; k++) arr[k] = 0;
                 DCT.add(arr);
                 flag++;
             }
