@@ -34,19 +34,21 @@ public class DealWithImage {
         int[] arr = new int[64];
         final int length = code.length();
         ArrayList<int[]> DCT = new ArrayList<>();
-        int flag = 0, prev = 0;//存上一个AC值
-        for (int i = 0; i < length; i++) {
+        int flag = 0;
+        for (int i = 0; i < length; ) {
             int k = 0;
-            Point pDC;//  读取值长度，读取码长度
-            int[] pAC;//
+            Point pDC;//  x读取码长度，y识别码长度
+            int[] pAC = new int[3];
             if (flag % 3 == 0) {
                 pDC = DCL.getCategory(code);
             } else {
                 pDC = DCC.getCategory(code);
             }
             int codeHead = pDC.y, codeTail = pDC.x + pDC.y;//codeHead = i + 1
+            //System.out.println(pDC.x + pDC.y);
             if (pDC.x == 0) arr[k] = 0;
             else arr[k] = str0b2int(code.substring(codeHead, codeTail));//byte转int(DC)
+            //System.out.println(arr[k]);
             k++;
             i += pDC.x + pDC.y;
             if (flag % 3 == 0) {
@@ -59,9 +61,8 @@ public class DealWithImage {
                     }
                     codeHead = codeTail + pAC[2];
                     codeTail = codeHead + pAC[1];
-                    prev = str0b2int(code.substring(codeHead, codeTail));//AC
-                    arr[k] =
-                            k++;
+                    arr[k] = str0b2int(code.substring(codeHead, codeTail));//AC
+                    k++;
                     pAC = ACL.getRunSize(code.substring(codeTail));
                 }
                 i++;// 0/0,识别码为0，后移一位
@@ -118,7 +119,8 @@ public class DealWithImage {
                         k++;
                     }
                     codeHead = codeTail + pAC[2];
-                    codeTail += codeHead + pAC[1];
+
+                    codeTail = codeHead + pAC[1];
                     arr[k] = str0b2int(code.substring(codeHead, codeTail));
                     k++;
                     pAC = ACL.getRunSize(code.substring(codeTail, length));
@@ -161,6 +163,9 @@ public class DealWithImage {
                 for (; k < 64; k++) arr[k] = 0;
                 DCT.add(arr);
                 flag++;
+            }
+            for (int m = 0; m < 64; m++) {
+                System.out.print(DCT.get(0)[m] + " ");
             }
         }
         int size = DCT.size();
@@ -362,9 +367,14 @@ public class DealWithImage {
 
     public static void main(String[] args) {
        ArrayList<int[]> a = new ArrayList<>();
-       a.add(new int[]{-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{-128,-6,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       System.out.println(setDCT(a));
+       String code = "1110001011101000101000101000101011111001100100111111011100010011";
+       a = getDCT(code);
+       int size = a.size();
+        /*for (int i = 0; i < size ; i++) {
+            for(int j = 0;j < 64 ; j++){
+                System.out.print(a.get(2)[j] + " ");
+            }
+            System.out.println();*/
+
     }
 }
