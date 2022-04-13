@@ -194,7 +194,7 @@ public class DealWithImage {
                 int lastNum = 0;
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
-                        temp = int2str0b(lastNum == 0? ints[index]:ints[index] - ints[lastNum]);
+                        temp = int2str0b(ints[index]);
                         code += ACL.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
                         lastNum = index;
@@ -210,7 +210,7 @@ public class DealWithImage {
                 int lastNum = 0;
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
-                        temp = int2str0b(lastNum == 0? ints[index]:ints[index] - ints[lastNum]);
+                        temp = int2str0b(ints[index]);
                         System.out.println(ints[index]);
                         System.out.println(temp);
                         code += ACC.getHuffmanCode(index - lastNum - 1, temp.length());
@@ -367,9 +367,9 @@ public class DealWithImage {
 
     public static void main(String[] args) {
        ArrayList<int[]> a = new ArrayList<>();
-       a.add(new int[]{-52,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{-50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{-53,7,25,26,0,0,23,23,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{0,-6,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
        System.out.println(setDCT(a));
     }
 }

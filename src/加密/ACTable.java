@@ -85,7 +85,7 @@ public class ACTable {
             return result;
         }
 
-        public String get00(){
+        public String getEOB(){
             return codeWord.get(0);
         }
 }
