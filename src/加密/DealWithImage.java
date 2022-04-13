@@ -2,6 +2,7 @@ package 加密;
 
 
 import java.awt.*;
+import java.awt.font.LineMetrics;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -31,136 +32,67 @@ public class DealWithImage {
      * @return 1*64数据块
      */
     public static ArrayList<int[]> getDCT(String code) {
-        int[] arr = new int[64];
-        final int length = code.length();
         ArrayList<int[]> DCT = new ArrayList<>();
-        int flag = 0, prev = 0;//存上一个AC值
-        for (int i = 0; i < length; i++) {
-            int k = 0;
-            Point pDC;//  读取值长度，读取码长度
-            int[] pAC;//
+        int[] arr = new int[64];
+        int length = code.length();
+        DCTable dcTable;ACTable acTable;
+        int flag = -1;
+        while(true) {//读DCT块
+            flag++;
+            int index = 0;
             if (flag % 3 == 0) {
-                pDC = DCL.getCategory(code);
+                dcTable = DCL;
+                acTable = ACL;
             } else {
-                pDC = DCC.getCategory(code);
+                dcTable = DCC;
+                acTable = ACC;
             }
+            Point pDC;//  读取categroy
+            pDC = dcTable.getCategory(code);
             int codeHead = pDC.y, codeTail = pDC.x + pDC.y;//codeHead = i + 1
-            if (pDC.x == 0) arr[k] = 0;
-            else arr[k] = str0b2int(code.substring(codeHead, codeTail));//byte转int(DC)
-            k++;
-            i += pDC.x + pDC.y;
-            if (flag % 3 == 0) {
-                pAC = ACL.getRunSize(code.substring(codeTail, length));
-                while (pAC[0] != 0 || pAC[1] != 0) {      //非0/0时
-                    i += pAC[1] + pAC[2];
-                    for (int j = 0; j < pAC[0]; j++) {       //R
-                        arr[k] = 0;
-                        k++;
-                    }
-                    codeHead = codeTail + pAC[2];
-                    codeTail = codeHead + pAC[1];
-                    prev = str0b2int(code.substring(codeHead, codeTail));//AC
-                    arr[k] =
-                            k++;
-                    pAC = ACL.getRunSize(code.substring(codeTail));
-                }
-                i++;// 0/0,识别码为0，后移一位
-                if (i == length - 1) {
-                    for (int j = k; j < 64; j++) {
-                        arr[j] = 0;
-                        DCT.add(arr);
-                        return DCT;
-                    }
-                }
-                codeTail++;
-                if ((i + 1) % 8 != 0) {
-                    codeHead = codeTail + 1;
-                    while ((i + 1) % 8 != 0) {//移到字节尾
-                        i++;
-                        if (i == length - 1) {
-                            for (int j = k; j < 64; j++) {
-                                arr[j] = 0;
-                                DCT.add(arr);
-                                return DCT;
-                            }//?
+            if (pDC.x == 0) arr[index] = 0;
+            else arr[index++] = str0b2int(code.substring(codeHead, codeTail));//byte转int(DC)
+            code = code.substring(codeTail);
+            int[] pAC;//读取run/size
+            while(true) {//读取AC哈夫曼码
+                pAC = acTable.getRunSize(code);
+                if(pAC[1] == 0){
+                    if(pAC[0] == 0){// 0/0 EOB
+                        for(;index < 64;index++){
+                            arr[index] = 0;
                         }
-                        codeHead++;
-                    }
-                    i++;//跳到下一字节
-                    if (i == length - 1) {
-                        for (int j = k; j < 64; j++) {
-                            arr[j] = 0;
-                            DCT.add(arr);
-                            return DCT;
-                        }//?
-                        codeHead++;
-                    }
-                } else {
-                    codeHead = codeTail + 1;
-                    i++;
-                    if (i == length - 1) {
-                        for (int j = k; j < 64; j++) {
-                            arr[j] = 0;
-                            DCT.add(arr);
-                            return DCT;
-                        }//?
-                    }
-                }
-                for (; k < 64; k++) arr[k] = 0;
-                DCT.add(arr);
-                flag++;
-            } else {
-                pAC = ACC.getRunSize(code.substring(pDC.x + pDC.y, length));//R,(S,L)
-                while (pAC[0] != 0 || pAC[1] != 0) {      //非0/0时
-                    i += pAC[1] + pAC[2];
-                    for (int j = 0; j < pAC[0]; j++) {       //R
-                        arr[k] = 0;
-                        k++;
-                    }
-                    codeHead = codeTail + pAC[2];
-                    codeTail += codeHead + pAC[1];
-                    arr[k] = str0b2int(code.substring(codeHead, codeTail));
-                    k++;
-                    pAC = ACL.getRunSize(code.substring(codeTail, length));
-                }
-                i++;// 0/0,识别码为0，后移一位
-                codeTail++;
-                if ((i + 1) % 8 != 0) {
-                    codeHead = codeTail + 1;
-                    while ((i + 1) % 8 != 0) {//移到字节尾
-                        i++;
-                        if (i == length - 1) {
-                            for (int j = k; j < 64; j++) {
-                                arr[j] = 0;
-                                DCT.add(arr);
-                                return DCT;
-                            }
+                        code = code.substring(pAC[2]);
+                        break;
+                    }else {// F/0 16个零
+                        for (int i = 0; i < 16; i++) {
+                            arr[index++] = 0;
                         }
-                        codeHead++;
-                    }
-                    i++;//跳到下一字节
-                    if (i == length - 1) {
-                        for (int j = k; j < 64; j++) {
-                            arr[j] = 0;
-                            DCT.add(arr);
-                            return DCT;
-                        }//
-                    }
-                    codeHead++;
-                } else {
-                    codeHead = codeTail + 1;
-                    i++;
-                    if (i == length - 1) {
-                        for (int j = k; j < 64; j++) {
-                            arr[j] = 0;
-                            DCT.add(arr);
-                            return DCT;
-                        }//
+                        code = code.substring(pAC[2]);
+                        continue;
                     }
                 }
-                for (; k < 64; k++) arr[k] = 0;
-                DCT.add(arr);
-                flag++;
+                for(int i = 0;i <pAC[0];i++){
+                    arr[index++] = 0;
+                }//Run个零
+                arr[index++] = str0b2int(code.substring(pAC[2],pAC[1]+pAC[2]));
+                code = code.substring(pAC[1]+pAC[2]);
+                if(index == 64){
+                    break;
+                }
+                if(code == ""){
+                    for(;index < 64;index++){
+                        arr[index] = 0;
+                    }
+                    DCT.add(arr);
+                    return DCT;
+                }
+            }
+            DCT.add(arr);
+            if(code.length() < 8)break;
+            else {
+                while (code.length() % 8 != 0) {
+                    code = code.substring(1);
+                }
             }
         }
         return DCT;
@@ -179,7 +111,7 @@ public class DealWithImage {
         String temp;
         for(int i = DCT.size()-1;i > 0;i--){
             DCT.get(i)[0] -= DCT.get(i - 1)[0];
-        }
+        }//去差分
         int DCTs = 0,index = 1;
         for (int[] ints : DCT) {//遍历1*64数据块
             DCTable dcTable;
@@ -187,11 +119,11 @@ public class DealWithImage {
             if (DCTs % 3 == 0) {//亮度
                 dcTable = DCL;
                 acTable = ACL;
-                System.out.println("亮度");
+                //System.out.println("亮度");
             }else {//色度*2
                 dcTable = DCC;
                 acTable = ACC;
-                System.out.println("色度");
+                //System.out.println("色度");
             }
                 if(ints[0]!= 0){
                     temp = int2str0b(ints[0]);
@@ -203,7 +135,7 @@ public class DealWithImage {
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
                         temp = int2str0b(ints[index]);
-                        System.out.println(ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
+                        //System.out.println(ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
                         code += acTable.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
                         lastNum = index;
@@ -212,10 +144,10 @@ public class DealWithImage {
                     }
                 }
                 while (code.length()%8!=0)code += "0";
-            System.out.println(code);
+            //System.out.println(code);
             DCTs++;
         }
-        System.out.println(code.length());
+        //System.out.println(code.length());
     return code;
     }
     /**
@@ -228,6 +160,7 @@ public class DealWithImage {
                 result += temp * (s.charAt(i) == '0'? 1:0);
                 temp *= 2;
             }
+            result = -result;
         }else {
             for (int i = s.length() - 1; i >= 0; i--) {
                 result += temp * (s.charAt(i) - '0');
@@ -357,10 +290,5 @@ public class DealWithImage {
     }
 
     public static void main(String[] args) {
-       ArrayList<int[]> a = new ArrayList<>();
-       a.add(new int[]{-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{-128,-6,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       System.out.println(setDCT(a));
     }
 }
