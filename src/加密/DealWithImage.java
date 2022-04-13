@@ -23,8 +23,10 @@ public class DealWithImage {
         // 交流色度表
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
+
     /**
      * 提取DCT块
+     *
      * @param code
      * @return
      */
@@ -33,38 +35,36 @@ public class DealWithImage {
         int l = code.length();
         ArrayList<int[]> DCT = new ArrayList<int[]>();
         int flag = 0;
-        for (int i = 0; i < l; i++) {
+        for (int i = 0; i < l; ) {
             int k = 0;
             Point pd = new Point();//  读取值长度，读取码长度
             int[] pa = new int[3];//
-            if(flag == 3) flag = 0;
-            if(flag == 0) {
+            if (flag == 3) flag = 0;
+            if (flag == 0) {
                 pd = DCL.getCategory(code);
-            }
-            else {
+            } else {
                 pd = DCC.getCategory(code);
             }
-            int codeHead = pd.y,codeTail = pd.x + pd.y;//codeHead = i + 1
-            arr[k] = str0b2int(code.substring(codeHead,codeTail));//byte转int
+            int codeHead = pd.y, codeTail = pd.x + pd.y;//codeHead = i + 1
+            arr[k] = str0b2int(code.substring(codeHead, codeTail));//byte转int
             k++;
             i += pd.x + pd.y;
-            if(flag == 0) {
-                pa = ACL.getRunSize(code.substring(codeTail,l));
-                while( pa[0] != 0||pa[1] != 0 ) {      //非0/0时
+            if (flag == 0) {
+                pa = ACL.getRunSize(code.substring(codeTail, l));
+                while (pa[0] != 0 || pa[1] != 0) {      //非0/0时
                     i += pa[1] + pa[2];
                     for (int j = 0; j < pa[0]; j++) {       //R
-                        arr[k] = 0;
+                        arr[k] = 0;     //增加R个0
                         k++;
                     }
-                }
                     codeHead = codeTail + pa[2];
                     codeTail = codeHead + pa[1];
-                    arr[k] = str0b2int(code.substring(codeHead,codeTail));
+                    arr[k] = str0b2int(code.substring(codeHead, codeTail));
                     k++;
                     pa = ACL.getRunSize(code.substring(codeTail));
                 }
                 i++;// 0/0,识别码为0，后移一位
-                if(i == l-1) {
+                if (i == l - 1) {
                     for (int j = k; j < 64; j++) {
                         arr[j] = 0;
                         DCT.add(arr);
@@ -72,60 +72,7 @@ public class DealWithImage {
                     }
                 }
                 codeTail++;
-                if((i+1) % 8 != 0) {
-                    codeHead = codeTail + 1;
-                    while ((i + 1) % 8 != 0) {//移到字节尾
-                        i++;
-                        if(i == l-1) {
-                            for (int j = k; j < 64; j++) {
-                                arr[j] = 0;
-                                DCT.add(arr);
-                                return DCT;
-                            }
-                        }
-                        codeHead++;
-                    }
-                    i++;//跳到下一字节
-                        if(i == l-1) {
-                            for (int j = k; j < 64; j++) {
-                                arr[j] = 0;
-                                DCT.add(arr);
-                                return DCT;
-                            }
-                    codeHead++;
-                }
-                else {
-                            codeHead = codeTail + 1;
-                            i++;
-                            if (i == l - 1) {
-                                for (int j = k; j < 64; j++) {
-                                    arr[j] = 0;
-                                    DCT.add(arr);
-                                    return DCT;
-                                }
-                            }
-                        }
-                for(;k < 64 ;k++) arr[k] = 0;
-                DCT.add(arr);
-                flag++;
-            }
-            else {
-                pa = ACC.getRunSize(code.substring(pd.x+pd.y,l));//R,(S,L)
-                while(pa[0] != 0||pa[1] != 0){      //非0/0时
-                    i += pa[1] + pa[2];
-                    for (int j = 0; j < pa[0]; j++) {       //R
-                        arr[k] = 0;
-                        k++;
-                    }
-                    codeHead = codeTail + pa[2];
-                    codeTail += codeHead + pa[1];
-                    arr[k] = str0b2int(code.substring(codeHead,codeTail));
-                    k++;
-                    pa = ACL.getRunSize(code.substring(codeTail,l));
-                }
-                i++;// 0/0,识别码为0，后移一位
-                codeTail++;
-                if((i+1) % 8 != 0) {
+                if ((i + 1) % 8 != 0) {
                     codeHead = codeTail + 1;
                     while ((i + 1) % 8 != 0) {//移到字节尾
                         i++;
@@ -138,17 +85,16 @@ public class DealWithImage {
                         }
                         codeHead++;
                     }
-                    i++;//跳到下一字节
-                    if (i == l - 1) {
-                        for (int j = k; j < 64; j++) {
-                            arr[j] = 0;
-                            DCT.add(arr);
-                            return DCT;
-                        }
+                }
+                i++;//跳到下一字节
+                if (i == l - 1) {
+                    for (int j = k; j < 64; j++) {
+                        arr[j] = 0;
+                        DCT.add(arr);
+                        return DCT;
                     }
                     codeHead++;
-                }
-                else{
+                } else {
                     codeHead = codeTail + 1;
                     i++;
                     if (i == l - 1) {
@@ -159,11 +105,64 @@ public class DealWithImage {
                         }
                     }
                 }
-                for(;k < 64 ;k++) arr[k] = 0;
+                for (; k < 64; k++) arr[k] = 0;
                 DCT.add(arr);
                 flag++;
             }
+            else{
+            pa = ACC.getRunSize(code.substring(pd.x + pd.y, l));//R,(S,L)
+            while (pa[0] != 0 || pa[1] != 0) {      //非0/0时
+                i += pa[1] + pa[2];
+                for (int j = 0; j < pa[0]; j++) {       //R
+                    arr[k] = 0;
+                    k++;
+                }
+                codeHead = codeTail + pa[2];
+                codeTail += codeHead + pa[1];
+                arr[k] = str0b2int(code.substring(codeHead, codeTail));
+                k++;
+                pa = ACL.getRunSize(code.substring(codeTail, l));
+            }
+            i++;// 0/0,识别码为0，后移一位
+            codeTail++;
+            if ((i + 1) % 8 != 0) {
+                codeHead = codeTail + 1;
+                while ((i + 1) % 8 != 0) {//移到字节尾
+                    i++;
+                    if (i == l - 1) {
+                        for (int j = k; j < 64; j++) {
+                            arr[j] = 0;
+                            DCT.add(arr);
+                            return DCT;
+                        }
+                    }
+                    codeHead++;
+                }
+                i++;//跳到下一字节
+                if (i == l - 1) {
+                    for (int j = k; j < 64; j++) {
+                        arr[j] = 0;
+                        DCT.add(arr);
+                        return DCT;
+                    }
+                }
+                codeHead++;
+            } else {
+                codeHead = codeTail + 1;
+                i++;
+                if (i == l - 1) {
+                    for (int j = k; j < 64; j++) {
+                        arr[j] = 0;
+                        DCT.add(arr);
+                        return DCT;
+                    }
+                }
+            }
+            for (; k < 64; k++) arr[k] = 0;
+            DCT.add(arr);
+            flag++;
         }
+    }
         return DCT;
     }
 
