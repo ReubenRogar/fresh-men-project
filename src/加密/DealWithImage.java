@@ -178,17 +178,27 @@ public class DealWithImage {
         String code = "";
         String temp;
         for(int i = DCT.size()-1;i > 0;i--){
-            int[] a = DCT.get(i);
-            int[] b = DCT.get(i - 1);
-            a[0] -= b[0];
-            DCT.set(i,a);
+            DCT.get(i)[0] -= DCT.get(i - 1)[0];
         }
         int DCTs = 0,index = 1;
         for (int[] ints : DCT) {
+            DCTable dcTable;
+            ACTable acTable;
             if (DCTs % 3 == 0) {//亮度
+                dcTable = DCL;
+                acTable = ACL;
                 System.out.println("亮度");
-                temp = int2str0b(ints[0]);
-                code += DCL.getHuffmanCode(temp.length()) + temp;
+            }else {
+                dcTable = DCC;
+                acTable = ACC;
+                System.out.println("色度");
+            }
+                if(ints[0]!= 0){
+                    temp = int2str0b(ints[0]);
+                    code += DCL.getHuffmanCode(temp.length()) + temp;
+                }else{
+                    code += "00";
+                }
                 int lastNum = 0;
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
@@ -196,30 +206,11 @@ public class DealWithImage {
                         code += ACL.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
                         lastNum = index;
-                    } else if (lastNum < 63 && index == 63) {
+                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
                         code += ACL.getEOB();
                     }
                 }
                 while (code.length()%8!=0)code += "0";
-            } else {//色度
-                System.out.println("色度");
-                temp = int2str0b(ints[0]);
-                code += DCC.getHuffmanCode(temp.length()) + temp;
-                int lastNum = 0;
-                for (index = 1; index < 64; index++) {
-                    if (ints[index] != 0) {
-                        temp = int2str0b(ints[index]);
-                        System.out.println(ints[index]);
-                        System.out.println(temp);
-                        code += ACC.getHuffmanCode(index - lastNum - 1, temp.length());
-                        code += temp;
-                        lastNum = index;
-                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
-                        code += ACC.getEOB();
-                    }
-                }
-                while (code.length()%8!=0)code += "0";
-            }
             System.out.println(code);
             DCTs++;
         }
@@ -365,9 +356,9 @@ public class DealWithImage {
 
     public static void main(String[] args) {
        ArrayList<int[]> a = new ArrayList<>();
-       a.add(new int[]{128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{0,-6,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
-       a.add(new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{-128,-6,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{-128,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
        System.out.println(setDCT(a));
     }
 }
