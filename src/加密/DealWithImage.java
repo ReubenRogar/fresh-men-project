@@ -34,7 +34,6 @@ public class DealWithImage {
     public static ArrayList<int[]> getDCT(String code) {
         ArrayList<int[]> DCT = new ArrayList<>();
         int[] arr = new int[64];
-        int length = code.length();
         DCTable dcTable;ACTable acTable;
         int flag = -1;
         while(true) {//读DCT块
@@ -49,10 +48,9 @@ public class DealWithImage {
             }
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
-            int codeHead = pDC.y, codeTail = pDC.x + pDC.y;//codeHead = i + 1
             if (pDC.x == 0) arr[index] = 0;
-            else arr[index++] = str0b2int(code.substring(codeHead, codeTail));//byte转int(DC)
-            code = code.substring(codeTail);
+            else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
+            code = code.substring(pDC.x + pDC.y);
             int[] pAC;//读取run/size
             while(true) {//读取AC哈夫曼码
                 pAC = acTable.getRunSize(code);
