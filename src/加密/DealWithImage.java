@@ -163,6 +163,10 @@ public class DealWithImage {
                 flag++;
             }
         }
+        int size = DCT.size();
+        for (int i = size-1; i > 1; i--) {
+            DCT.get(i)[0] = DCT.get(i)[0] - DCT.get(i-1)[0];
+        }
         return DCT;
     }
 
