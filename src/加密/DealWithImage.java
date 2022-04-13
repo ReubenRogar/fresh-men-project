@@ -290,5 +290,6 @@ public class DealWithImage {
     }
 
     public static void main(String[] args) {
+        System.out.println();
     }
 }
