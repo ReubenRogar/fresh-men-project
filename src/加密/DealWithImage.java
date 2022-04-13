@@ -173,7 +173,7 @@ public class DealWithImage {
     public static String setDCT(ArrayList<int[]> DCT){
         String code = "";
         String temp;
-        for(int i = DCT.size()-1;i > 0;i++){
+        for(int i = DCT.size()-1;i > 0;i--){
             int[] a = DCT.get(i);
             int[] b = DCT.get(i - 1);
             a[0] -= b[0];
@@ -182,34 +182,41 @@ public class DealWithImage {
         int DCTs = 0,index = 1;
         for (int[] ints : DCT) {
             if (DCTs % 3 == 0) {//亮度
+                System.out.println("亮度");
                 temp = int2str0b(ints[0]);
                 code += DCL.getHuffmanCode(temp.length()) + temp;
                 int lastNum = 0;
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
-                        temp = int2str0b(ints[index]);
+                        temp = int2str0b(lastNum == 0? ints[index]:ints[index] - ints[lastNum]);
                         code += ACL.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
                         lastNum = index;
                     } else if (lastNum < 63 && index == 63) {
-                        code += ACL.get00();
+                        code += ACL.getEOB();
                     }
                 }
+                while (code.length()%8!=0)code += "0";
             } else {//色度
+                System.out.println("色度");
                 temp = int2str0b(ints[0]);
                 code += DCC.getHuffmanCode(temp.length()) + temp;
                 int lastNum = 0;
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
-                        temp = int2str0b(ints[index]);
+                        temp = int2str0b(lastNum == 0? ints[index]:ints[index] - ints[lastNum]);
+                        System.out.println(ints[index]);
+                        System.out.println(temp);
                         code += ACC.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
                         lastNum = index;
-                    } else if (lastNum < 63 && index == 63) {
-                        code += ACC.get00();
+                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
+                        code += ACC.getEOB();
                     }
                 }
+                while (code.length()%8!=0)code += "0";
             }
+            System.out.println(code);
             DCTs++;
         }
     return code;
@@ -239,19 +246,20 @@ public class DealWithImage {
      * @return
      */
     public static String int2str0b(int s){
-        String s1 = "";
+        StringBuilder s1 = new StringBuilder("");
         if(s < 0){
             s= -s;
-            while(s>0){
-                s1 += s%2 == 0? '1':'0';
+            do{
+                s1.insert(0,s%2 == 0? '1':'0') ;
                 s /= 2;
-            }
+            }while(s > 0);
         }else{
-            while(s > 0){
-                s1 += s%2+'0';
-            }
+            do{
+                s1.insert(0, s%2 == 0?'0':'1');
+                s /= 2;
+            }while(s > 0);
         }
-        return s1;
+        return s1.toString();
     }
 
     /**
@@ -352,13 +360,10 @@ public class DealWithImage {
     }
 
     public static void main(String[] args) {
-        int[] ints = new int[64];
-        ArrayList<int[]> arr = new ArrayList<>();
-        String code = "1110001011101000101000101000101011111001100100111111011100010011";
-        arr = getDCT(code);
-        ints = arr.get(1);
-        for (int i = 0; i < 64; i++) {
-            System.out.println(ints[i]);
-        }
+       ArrayList<int[]> a = new ArrayList<>();
+       a.add(new int[]{-52,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{-50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{-53,7,25,26,0,0,23,23,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       System.out.println(setDCT(a));
     }
 }

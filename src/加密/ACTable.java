@@ -73,19 +73,20 @@ public class ACTable {
             int i = 0;
             String result = "";
             if(run > 16){
-                for(;i<run / 16;i++){
-                    result += codeWord.get(152);
+                for(;i < run / 16;i++){
+                    result += codeWord.get(151);
                 }
                 run %= 16;
             }
             for(i = 0;i < runSize.size();i++){
                 if(run == runSize.get(i).x&&size == runSize.get(i).y)break;
             }
+            if(i == 162)i = 0;
             result += codeWord.get(i);
             return result;
         }
 
-        public String get00(){
+        public String getEOB(){
             return codeWord.get(0);
         }
 }
