@@ -4,7 +4,6 @@ package 加密;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.ForkJoinPool;
 
 public class DealWithImage {
     public static final DCTable DCL;
@@ -24,47 +23,50 @@ public class DealWithImage {
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
     }
 
+
+
     /**
      * 提取DCT块
-     *
-     * @param code
-     * @return
+     * @param code 二进制字符串
+     * @return 1*64数据块
      */
     public static ArrayList<int[]> getDCT(String code) {
         int[] arr = new int[64];
-        int l = code.length();
-        ArrayList<int[]> DCT = new ArrayList<int[]>();
-        int flag = 0;
-        for (int i = 0; i < l; ) {
+        final int length = code.length();
+        ArrayList<int[]> DCT = new ArrayList<>();
+        int flag = 0 , prev = 0;//存上一个AC值
+        for (int i = 0; i < length; i++) {
             int k = 0;
-            Point pd = new Point();//  读取值长度，读取码长度
-            int[] pa = new int[3];//
-            if (flag == 3) flag = 0;
-            if (flag == 0) {
-                pd = DCL.getCategory(code);
-            } else {
-                pd = DCC.getCategory(code);
+            Point pDC;//  读取值长度，读取码长度
+            int[] pAC;//
+            if(flag % 3 == 0) {
+                pDC = DCL.getCategory(code);
             }
-            int codeHead = pd.y, codeTail = pd.x + pd.y;//codeHead = i + 1
-            arr[k] = str0b2int(code.substring(codeHead, codeTail));//byte转int
+            else {
+                pDC = DCC.getCategory(code);
+            }
+            int codeHead = pDC.y,codeTail = pDC.x + pDC.y;//codeHead = i + 1
+            if(pDC.x == 0) arr[k] = 0;
+            else arr[k] = str0b2int(code.substring(codeHead,codeTail));//byte转int(DC)
             k++;
-            i += pd.x + pd.y;
-            if (flag == 0) {
-                pa = ACL.getRunSize(code.substring(codeTail, l));
-                while (pa[0] != 0 || pa[1] != 0) {      //非0/0时
-                    i += pa[1] + pa[2];
-                    for (int j = 0; j < pa[0]; j++) {       //R
-                        arr[k] = 0;     //增加R个0
+            i += pDC.x + pDC.y;
+            if(flag % 3 == 0) {
+                pAC = ACL.getRunSize(code.substring(codeTail, length));
+                while (pAC[0] != 0 || pAC[1] != 0) {      //非0/0时
+                    i += pAC[1] + pAC[2];
+                    for (int j = 0; j < pAC[0]; j++) {       //R
+                        arr[k] = 0;
                         k++;
                     }
-                    codeHead = codeTail + pa[2];
-                    codeTail = codeHead + pa[1];
-                    arr[k] = str0b2int(code.substring(codeHead, codeTail));
+                    codeHead = codeTail + pAC[2];
+                    codeTail = codeHead + pAC[1];
+                    prev = str0b2int(code.substring(codeHead, codeTail));//AC
+                    arr[k] =
                     k++;
-                    pa = ACL.getRunSize(code.substring(codeTail));
+                    pAC = ACL.getRunSize(code.substring(codeTail));
                 }
                 i++;// 0/0,识别码为0，后移一位
-                if (i == l - 1) {
+                if (i == length - 1) {
                     for (int j = k; j < 64; j++) {
                         arr[j] = 0;
                         DCT.add(arr);
@@ -76,7 +78,59 @@ public class DealWithImage {
                     codeHead = codeTail + 1;
                     while ((i + 1) % 8 != 0) {//移到字节尾
                         i++;
-                        if (i == l - 1) {
+                        if (i == length - 1) {
+                            for (int j = k; j < 64; j++) {
+                                arr[j] = 0;
+                                DCT.add(arr);
+                                return DCT;
+                            }//?
+                        }
+                        codeHead++;
+                    }
+                    i++;//跳到下一字节
+                    if (i == length - 1) {
+                        for (int j = k; j < 64; j++) {
+                            arr[j] = 0;
+                            DCT.add(arr);
+                            return DCT;
+                        }//?
+                        codeHead++;
+                    } else {
+                        codeHead = codeTail + 1;
+                        i++;
+                        if (i == length - 1) {
+                            for (int j = k; j < 64; j++) {
+                                arr[j] = 0;
+                                DCT.add(arr);
+                                return DCT;
+                            }//?
+                        }
+                    }
+                    for (; k < 64; k++) arr[k] = 0;
+                    DCT.add(arr);
+                    flag++;
+                }
+            }else {
+                pAC = ACC.getRunSize(code.substring(pDC.x+pDC.y,length));//R,(S,L)
+                while(pAC[0] != 0||pAC[1] != 0){      //非0/0时
+                    i += pAC[1] + pAC[2];
+                    for (int j = 0; j < pAC[0]; j++) {       //R
+                        arr[k] = 0;
+                        k++;
+                    }
+                    codeHead = codeTail + pAC[2];
+                    codeTail += codeHead + pAC[1];
+                    arr[k] = str0b2int(code.substring(codeHead,codeTail));
+                    k++;
+                    pAC = ACL.getRunSize(code.substring(codeTail,length));
+                }
+                i++;// 0/0,识别码为0，后移一位
+                codeTail++;
+                if((i+1) % 8 != 0) {
+                    codeHead = codeTail + 1;
+                    while ((i + 1) % 8 != 0) {//移到字节尾
+                        i++;
+                        if (i == length - 1) {
                             for (int j = k; j < 64; j++) {
                                 arr[j] = 0;
                                 DCT.add(arr);
@@ -85,86 +139,37 @@ public class DealWithImage {
                         }
                         codeHead++;
                     }
-                }
-                i++;//跳到下一字节
-                if (i == l - 1) {
-                    for (int j = k; j < 64; j++) {
-                        arr[j] = 0;
-                        DCT.add(arr);
-                        return DCT;
-                    }
-                    codeHead++;
-                } else {
-                    codeHead = codeTail + 1;
-                    i++;
-                    if (i == l - 1) {
+                    i++;//跳到下一字节
+                    if (i == length - 1) {
                         for (int j = k; j < 64; j++) {
                             arr[j] = 0;
                             DCT.add(arr);
                             return DCT;
-                        }
+                        }//
+                    }
+                    codeHead++;
+                }
+                else{
+                    codeHead = codeTail + 1;
+                    i++;
+                    if (i == length - 1) {
+                        for (int j = k; j < 64; j++) {
+                            arr[j] = 0;
+                            DCT.add(arr);
+                            return DCT;
+                        }//
                     }
                 }
-                for (; k < 64; k++) arr[k] = 0;
+                for(;k < 64 ;k++) arr[k] = 0;
                 DCT.add(arr);
                 flag++;
             }
-            else{
-            pa = ACC.getRunSize(code.substring(pd.x + pd.y, l));//R,(S,L)
-            while (pa[0] != 0 || pa[1] != 0) {      //非0/0时
-                i += pa[1] + pa[2];
-                for (int j = 0; j < pa[0]; j++) {       //R
-                    arr[k] = 0;
-                    k++;
-                }
-                codeHead = codeTail + pa[2];
-                codeTail += codeHead + pa[1];
-                arr[k] = str0b2int(code.substring(codeHead, codeTail));
-                k++;
-                pa = ACL.getRunSize(code.substring(codeTail, l));
-            }
-            i++;// 0/0,识别码为0，后移一位
-            codeTail++;
-            if ((i + 1) % 8 != 0) {
-                codeHead = codeTail + 1;
-                while ((i + 1) % 8 != 0) {//移到字节尾
-                    i++;
-                    if (i == l - 1) {
-                        for (int j = k; j < 64; j++) {
-                            arr[j] = 0;
-                            DCT.add(arr);
-                            return DCT;
-                        }
-                    }
-                    codeHead++;
-                }
-                i++;//跳到下一字节
-                if (i == l - 1) {
-                    for (int j = k; j < 64; j++) {
-                        arr[j] = 0;
-                        DCT.add(arr);
-                        return DCT;
-                    }
-                }
-                codeHead++;
-            } else {
-                codeHead = codeTail + 1;
-                i++;
-                if (i == l - 1) {
-                    for (int j = k; j < 64; j++) {
-                        arr[j] = 0;
-                        DCT.add(arr);
-                        return DCT;
-                    }
-                }
-            }
-            for (; k < 64; k++) arr[k] = 0;
-            DCT.add(arr);
-            flag++;
         }
-    }
         return DCT;
     }
+
+
+
 
     /**
      * 1*64数组转二进制字符串
@@ -172,39 +177,53 @@ public class DealWithImage {
      * @return DCT码
      */
     public static String setDCT(ArrayList<int[]> DCT){
-        int i = 0,j = 1;
         String code = "";
         String temp;
+        for(int i = DCT.size()-1;i > 0;i--){
+            int[] a = DCT.get(i);
+            int[] b = DCT.get(i - 1);
+            a[0] -= b[0];
+            DCT.set(i,a);
+        }
+        int DCTs = 0,index = 1;
         for (int[] ints : DCT) {
-            if (i % 3 == 0) {//亮度
+            if (DCTs % 3 == 0) {//亮度
+                System.out.println("亮度");
                 temp = int2str0b(ints[0]);
                 code += DCL.getHuffmanCode(temp.length()) + temp;
                 int lastNum = 0;
-                for (j = 1; j < 64; j++) {
-                    if (ints[i] != 0) {
-                        temp = int2str0b(ints[i]);
-                        code += ACL.getHuffmanCode(j - lastNum - 1, temp.length());
+                for (index = 1; index < 64; index++) {
+                    if (ints[index] != 0) {
+                        temp = int2str0b(lastNum == 0? ints[index]:ints[index] - ints[lastNum]);
+                        code += ACL.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
-                        lastNum = j;
-                    } else if (lastNum < 63 && j == 63) {
-                        code += ACL.get00();
+                        lastNum = index;
+                    } else if (lastNum < 63 && index == 63) {
+                        code += ACL.getEOB();
                     }
                 }
-            } else {
+                while (code.length()%8!=0)code += "0";
+            } else {//色度
+                System.out.println("色度");
                 temp = int2str0b(ints[0]);
                 code += DCC.getHuffmanCode(temp.length()) + temp;
                 int lastNum = 0;
-                for (j = 1; j < 64; j++) {
-                    if (ints[i] != 0) {
-                        temp = int2str0b(ints[i]);
-                        code += ACC.getHuffmanCode(j - lastNum - 1, temp.length());
+                for (index = 1; index < 64; index++) {
+                    if (ints[index] != 0) {
+                        temp = int2str0b(lastNum == 0? ints[index]:ints[index] - ints[lastNum]);
+                        System.out.println(ints[index]);
+                        System.out.println(temp);
+                        code += ACC.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
-                        lastNum = j;
-                    } else if (lastNum < 63 && j == 63) {
-                        code += ACC.get00();
+                        lastNum = index;
+                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
+                        code += ACC.getEOB();
                     }
                 }
+                while (code.length()%8!=0)code += "0";
             }
+            System.out.println(code);
+            DCTs++;
         }
     return code;
     }
@@ -233,19 +252,20 @@ public class DealWithImage {
      * @return
      */
     public static String int2str0b(int s){
-        String s1 = "";
+        StringBuilder s1 = new StringBuilder("");
         if(s < 0){
             s= -s;
-            while(s>0){
-                s1 += s%2 == 0? '1':'0';
+            do{
+                s1.insert(0,s%2 == 0? '1':'0') ;
                 s /= 2;
-            }
+            }while(s > 0);
         }else{
-            while(s > 0){
-                s1 += s%2+'0';
-            }
+            do{
+                s1.insert(0, s%2 == 0?'0':'1');
+                s /= 2;
+            }while(s > 0);
         }
-        return s1;
+        return s1.toString();
     }
 
     /**
@@ -346,13 +366,10 @@ public class DealWithImage {
     }
 
     public static void main(String[] args) {
-        int[] ints = new int[64];
-        ArrayList<int[]> arr = new ArrayList<>();
-        String code = "1110001011101000101000101000101011111001100100111111011100010011";
-        arr = getDCT(code);
-        ints = arr.get(1);
-        for (int i = 0; i < 64; i++) {
-            System.out.println(ints[i]);
-        }
+       ArrayList<int[]> a = new ArrayList<>();
+       a.add(new int[]{-52,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{-50,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       a.add(new int[]{-53,7,25,26,0,0,23,23,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+       System.out.println(setDCT(a));
     }
 }
