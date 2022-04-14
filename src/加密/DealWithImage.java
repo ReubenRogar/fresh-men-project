@@ -48,7 +48,7 @@ public class DealWithImage {
             }
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
-            if (pDC.x == 0) arr[index] = 0;
+            if (pDC.x == 0) arr[index++] = 0;
             else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
             code = code.substring(pDC.x + pDC.y);
             int[] pAC;//读取run/size
@@ -60,7 +60,8 @@ public class DealWithImage {
                             arr[index] = 0;
                         }
                         code = code.substring(pAC[2]);
-                        outputArr(DCT);
+                        //outputArr(DCT);
+                        //System.out.println(code);
                         break;
                     }else {// F/0 16个零
                         for (int i = 0; i < 16; i++) {
@@ -93,9 +94,11 @@ public class DealWithImage {
                     code = code.substring(1);
                 }
             }
-            outputArr(DCT);
-            System.out.println("--------------------------------------------------------------");
+            //outputArr(DCT);
+            //System.out.println(code);
+            //System.out.println("--------------------------------------------------------------");
         }
+        //System.out.println("============================================================");
         return changebias(DCT);
     }
 
@@ -304,6 +307,6 @@ public class DealWithImage {
         }
     }
     public static void main(String[] args) {
-        outputArr(getDCT("1110001011101000101000101000101011111001100100111111011100010011"));
+        System.out.println(setDCT(getDCT("111110011111111010001010001010001010000000001111")));
     }
 }
