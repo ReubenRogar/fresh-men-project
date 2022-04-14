@@ -60,6 +60,7 @@ public class DealWithImage {
                             arr[index] = 0;
                         }
                         code = code.substring(pAC[2]);
+                        outputArr(DCT);
                         break;
                     }else {// F/0 16个零
                         for (int i = 0; i < 16; i++) {
@@ -81,22 +82,29 @@ public class DealWithImage {
                     for(;index < 64;index++){
                         arr[index] = 0;
                     }
-                    DCT.add(arr);
-                    return DCT;
+                    DCT.add(arr.clone());
+                    return changebias(DCT);
                 }
             }
-            DCT.add(arr);
+            DCT.add(arr.clone());
             if(code.length() < 8)break;
             else {
                 while (code.length() % 8 != 0) {
                     code = code.substring(1);
                 }
             }
+            outputArr(DCT);
+            System.out.println("--------------------------------------------------------------");
+        }
+        return changebias(DCT);
+    }
+
+    public static ArrayList<int[]> changebias(ArrayList<int[]> DCT){
+        for(int i = 1;i < DCT.size() ;i++){
+            DCT.get(i)[0] += DCT.get(i - 1)[0];
         }
         return DCT;
     }
-
-
 
 
     /**
@@ -286,8 +294,16 @@ public class DealWithImage {
         System.arraycopy(target,0,code,i,target.length);
         return code;
     }
-
+    public static void outputArr(ArrayList<int[]> arr){
+        for (int[] ints : arr) {
+            System.out.print("{");
+            for (int anInt : ints) {
+                System.out.print(anInt+",");
+            }
+            System.out.println("}");
+        }
+    }
     public static void main(String[] args) {
-        System.out.println();
+        outputArr(getDCT("1110001011101000101000101000101011111001100100111111011100010011"));
     }
 }
