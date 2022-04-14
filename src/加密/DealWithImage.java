@@ -307,6 +307,7 @@ public class DealWithImage {
         }
     }
     public static void main(String[] args) {
-        System.out.println(setDCT(getDCT("111110011111111010001010001010001010000000001111")));
+
+
     }
 }

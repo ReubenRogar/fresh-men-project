@@ -6,33 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class ImageToCode {
-    private static final String TARGET = "实验红图";
-    private static final String SRC_FILE = "E:\\大一年度计划\\实验图像\\"+TARGET+".jpg";
-    private static final String DEST_FILE = "E:\\大一年度计划\\5.txt";
-    
-    public static void main(String[] args) {
-        try {
-            //if (args[0].equals("1")) {
-                //System.out.println(dataToFile(byteToString(imageToByte(SRC_FILE))));
-                //outImage(DealWithImage.xorCode(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".jpg","jpg");
-                //outImage(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".jpg","jpg");
-
-                /*System.out.println(byteToString(imageToByte(SRC_FILE)));
-                System.out.println("加密后:");
-                System.out.println(byteToString(DealWithImage.xorCode(imageToByte(SRC_FILE))));
-                System.out.println("解密后:");
-                System.out.println(byteToString(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE)))));
-                */
-                //dataToFile(byteToString(imageToByte(SRC_FILE)),"E:\\大一年度计划\\实验图像\\"+TARGET+".txt");
-            //dataToFile(byteToString(DealWithImage.xorCode(imageToByte(SRC_FILE))),"E:\\大一年度计划\\实验图像\\加密后"+TARGET+".txt");
-            //dataToFile(byteToString(DealWithImage.xorCode(DealWithImage.xorCode(imageToByte(SRC_FILE)))),"E:\\大一年度计划\\实验图像\\解密后"+TARGET+".txt");
-            //System.out.println(getImageCode(imageToByte(SRC_FILE)));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     //图片到byte数组
     public static byte[] imageToByte(String path) {
         byte[] data = null;
