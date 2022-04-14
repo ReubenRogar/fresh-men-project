@@ -74,8 +74,8 @@ public class DealWithImage {
                 for(int i = 0;i <pAC[0];i++){
                     arr[index++] = 0;
                 }//Run个零
-                arr[index++] = str0b2int(code.substring(pAC[2],pAC[1]+pAC[2]));
-                code = code.substring(pAC[1]+pAC[2]);
+                arr[index++] = str0b2int(code.substring(pAC[2], Math.min(pAC[2]+pAC[1],code.length())));
+                code = code.substring(Math.min(pAC[2]+pAC[1],code.length()));
                 if(index == 64){
                     break;
                 }
@@ -84,7 +84,7 @@ public class DealWithImage {
                         arr[index] = 0;
                     }
                     DCT.add(arr.clone());
-                    return changebias(DCT);
+                    return changeBias(DCT);
                 }
             }
             DCT.add(arr.clone());
@@ -99,10 +99,18 @@ public class DealWithImage {
             //System.out.println("--------------------------------------------------------------");
         }
         //System.out.println("============================================================");
-        return changebias(DCT);
+        return changeBias(DCT);
     }
 
-    public static ArrayList<int[]> changebias(ArrayList<int[]> DCT){
+    public static void main(String[] args) {
+        getDCT("111110011010111010001010001010001010111111000000110011111111011010000000");
+    }
+    /**
+     * 去差分
+     * @param DCT 二维数组
+     * @return 去差分后数组
+     */
+    public static ArrayList<int[]> changeBias(ArrayList<int[]> DCT){
         for(int i = 1;i < DCT.size() ;i++){
             DCT.get(i)[0] += DCT.get(i - 1)[0];
         }
@@ -306,8 +314,5 @@ public class DealWithImage {
             System.out.println("}");
         }
     }
-    public static void main(String[] args) {
 
-
-    }
 }
