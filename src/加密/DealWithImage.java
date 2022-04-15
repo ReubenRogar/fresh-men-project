@@ -7,27 +7,39 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class DealWithImage {
+    // 直流亮度表
     public DCTable DCL;
+    // 直流亮度表
     public DCTable DCC;
+    // 直流亮度表
     public ACTable ACL;
+    // 直流亮度表
     public ACTable ACC;
-    public ArrayList<int[]> DCT;
+
+    public ArrayList<int[]> DCT = new ArrayList<>();
+
     //private static double u = 3.79, x = 0.88;
 
-    /*static {
-        // 直流亮度表
-        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
-        // 直流色度表
-        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
-        // 交流亮度表
-        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
-        // 交流色度表
-        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
-    }*/
     public DealWithImage(byte[] image){
+
         getHuffmanTable(image);
+        int i;
+        for (i = image.length - 1; i >= 0; i--) {
+            if (image[i] == -1 && image[i + 1] == -38) {
+                i += 2;
+                break;
+            }
+        }
+        i += image[i] * 16 * 16 + image[i + 1];
+        byte[] target = new byte[image.length - 2 - i];
+        System.arraycopy(image, 0 + i, target, 0, target.length);
+        getDCT(bytes2Str0b(target));
+
     }
 
+    public static void main(String[] args) {
+        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/实验红图.jpg"));
+    }
 
     /**
      * 提取DCT块
@@ -76,8 +88,8 @@ public class DealWithImage {
                 for(int i = 0;i <pAC[0];i++){
                     arr[index++] = 0;
                 }//Run个零
-                arr[index++] = str0b2int(code.substring(pAC[2], Math.min(pAC[2]+pAC[1],code.length())));
-                code = code.substring(Math.min(pAC[2]+pAC[1],code.length()));
+                arr[index++] = str0b2int(code.substring(pAC[2], pAC[2]+pAC[1]));
+                code = code.substring(pAC[2]+pAC[1]);
                 if(index == 64){
                     break;
                 }
@@ -167,6 +179,8 @@ public class DealWithImage {
         //System.out.println(code.length());
     return code;
     }
+
+
     public void getHuffmanTable(byte[] image){
         Point DC_luminance = new Point();
         Point AC_luminance = new Point();

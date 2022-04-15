@@ -44,9 +44,7 @@ public class ACTable {
             }
         }
 
-    public static void main(String[] args) {
-        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/实验红图.jpg"));
-    }
+
 
     public static String long2str0b(long codew,int length){
         String result = "";
