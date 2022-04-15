@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class DealWithImage {
-    public static final DCTable DCL;
-    public static final DCTable DCC;
-    public static final ACTable ACL;
-    public static final ACTable ACC;
-    private static double u = 3.79, x = 0.88;
+    public DCTable DCL;
+    public DCTable DCC;
+    public ACTable ACL;
+    public ACTable ACC;
+    public ArrayList<int[]> DCT;
+    //private static double u = 3.79, x = 0.88;
 
-    static {
+    /*static {
         // 直流亮度表
         DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
         // 直流色度表
@@ -22,8 +23,10 @@ public class DealWithImage {
         ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
         // 交流色度表
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
+    }*/
+    public DealWithImage(byte[] image){
+        getHuffmanTable(image);
     }
-
 
 
     /**
@@ -31,8 +34,7 @@ public class DealWithImage {
      * @param code 二进制字符串
      * @return 1*64数据块
      */
-    public static ArrayList<int[]> getDCT(String code) {
-        ArrayList<int[]> DCT = new ArrayList<>();
+    public void getDCT(String code) {
         int[] arr = new int[64];
         DCTable dcTable;ACTable acTable;
         int flag = -1;
@@ -84,7 +86,8 @@ public class DealWithImage {
                         arr[index] = 0;
                     }
                     DCT.add(arr.clone());
-                    return changeBias(DCT);
+                    DCT = changeBias(DCT);
+                    return;
                 }
             }
             DCT.add(arr.clone());
@@ -99,12 +102,10 @@ public class DealWithImage {
             //System.out.println("--------------------------------------------------------------");
         }
         //System.out.println("============================================================");
-        return changeBias(DCT);
+        DCT = changeBias(DCT);
+        return;
     }
 
-    public static void main(String[] args) {
-        getDCT("111110011010111010001010001010001010111111000000110011111111011010000000");
-    }
     /**
      * 去差分
      * @param DCT 二维数组
@@ -120,10 +121,9 @@ public class DealWithImage {
 
     /**
      * 1*64数组转二进制字符串
-     * @param DCT 1*64数组
      * @return DCT码
      */
-    public static String setDCT(ArrayList<int[]> DCT){
+    public String setDCT(){
         String code = "";
         String temp;
         for(int i = DCT.size()-1;i > 0;i--){
@@ -167,6 +167,43 @@ public class DealWithImage {
         //System.out.println(code.length());
     return code;
     }
+    public void getHuffmanTable(byte[] image){
+        Point DC_luminance = new Point();
+        Point AC_luminance = new Point();
+        Point DC_chrominance = new Point();
+        Point AC_chrominance = new Point();
+        for(int i = 0 ;i < image.length;i++){
+            if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 0){
+                DC_luminance.x = i+5;
+            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 16){
+                DC_luminance.y = i-1;
+                AC_luminance.x = i+5;
+            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 1){
+                AC_luminance.y = i-1;
+                DC_chrominance.x = i+5;
+            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] ==  17){
+                DC_chrominance.y = i-1;
+                AC_chrominance.x = i+5;
+            }else if(image[i] == -1 && image[i+1] == -38){
+                AC_chrominance.y = i-1;
+                break;
+            }
+        }
+            byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x+1];
+            byte[] DC_C = new byte[DC_chrominance.y - DC_chrominance.x +1];
+            byte[] AC_L = new byte[AC_luminance.y - AC_luminance.x + 1];
+            byte[] AC_C = new byte[AC_chrominance.y - AC_chrominance.x+1];
+            System.arraycopy(image,DC_luminance.x,DC_L,0,DC_L.length);
+            System.arraycopy(image,DC_chrominance.x,DC_C,0,DC_C.length);
+            System.arraycopy(image,AC_luminance.x,AC_L,0,AC_L.length);
+            System.arraycopy(image,AC_chrominance.x,AC_C,0,AC_C.length);
+            DCC = new DCTable(DC_C);
+            DCL = new DCTable(DC_L);
+            ACC = new ACTable(AC_C);
+            ACL = new ACTable(AC_L);
+    }
+
+
     /**
      * 二进制字符串转int
      */
@@ -216,7 +253,7 @@ public class DealWithImage {
      * @return 异或后字节码
      */
     public static int xorCode(int code,int length) {
-        int xorTarget = (int)((Math.pow(2,length)-Math.pow(2,length-1))*x +Math.pow(2,length-1));
+        int xorTarget = (int)((Math.pow(2,length)-Math.pow(2,length-1))*0.88 +Math.pow(2,length-1));
         code = code ^ xorTarget;
         //x = u * x * (1 - x);
         return code;
@@ -288,23 +325,7 @@ public class DealWithImage {
             return bts;
         }
 
-    /**
-     * 加密方法集中，对byte数组提取、转换、加密再返回修改过得数组
-     */
-    public static byte[] imageEncrypt(byte[] code){
-        int i;
-        for (i =code.length-1;i >=0 ;i--){
-            if(code[i] == -1&&code[i+1] == -38) {
-                i += 2;
-                break;
-            }
-        }
-        i += code[i] * 16 * 16 +code[i+1];
-        byte[] target = new byte[code.length-2-i];
-        System.arraycopy(code, 0 + i, target, 0, target.length);
-        System.arraycopy(target,0,code,i,target.length);
-        return code;
-    }
+
     public static void outputArr(ArrayList<int[]> arr){
         for (int[] ints : arr) {
             System.out.print("{");

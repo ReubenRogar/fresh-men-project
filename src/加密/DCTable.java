@@ -8,15 +8,54 @@ public class DCTable {
      * 直流Huffman表
      */
 
-        private final int[] codeWordLength;
-        private final int[] category;
+        private final byte[] category;
         private final String[] codeWord;
         private final String fileName;
 
-        public DCTable(String fileName) {
-            category = new int[12];
+        public DCTable(byte[] image){
+            category = new byte[12];
             codeWord = new String[12];
-            codeWordLength = new int[12];
+            fileName = "";
+            byte[] length = new byte[16];
+            System.arraycopy(image,0,length,0,length.length);
+            System.arraycopy(image,16,category,0,category.length);
+            System.out.println("长度"+ImageToCode.byteToString(length));
+            int index = 0,i = 0;
+            long codew = 0;
+            while(index < 12){
+                while(length[i] == 0){
+                    if(index!=0)codew*=2;
+                    i++;
+                }
+                for(int j = 0;j <length[i];j++) {
+                    codeWord[index++] = long2str0b(codew,i+1);
+                    codew++;
+                }
+                i++;
+                codew*=2;
+            }
+            for (String s : codeWord) {
+                System.out.println(s);
+            }
+        }
+
+        public static String long2str0b(long codew,int length){
+            String result = "";
+            while(codew > 0){
+                result = ((codew%2 == 1)?"1":"0") +result;
+                codew /= 2;
+            }
+            while(result.length() < length){
+                result = "0" +result;
+            }
+            return result;
+        }
+
+
+
+        public DCTable(String fileName) {
+            category = new byte[12];
+            codeWord = new String[12];
             this.fileName = fileName;
             init();
         }
@@ -31,9 +70,8 @@ public class DCTable {
                     int index = 0;
                     while ((lineContent = br.readLine()) != null) {
                         String[] ss = lineContent.split("\\s\\s");
-                        category[index] = Integer.parseInt(ss[0]);
-                        codeWord[index] = ss[1];
-                        codeWordLength[index++] = Integer.parseInt(ss[2]);
+                        category[index] = Byte.parseByte(ss[0]);
+                        codeWord[index++] = ss[1];
                     }
                     br.close();
                     fileReader.close();
@@ -56,7 +94,7 @@ public class DCTable {
                 }
             }
             categoryAndCodeWordLength.x = category[i];
-            categoryAndCodeWordLength.y = codeWordLength[i];
+            categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;
         }
 

@@ -13,6 +13,53 @@ public class ACTable {
         private final ArrayList<String> codeWord;
         private final String fileName;
 
+        public ACTable(byte[] image){
+            fileName = "";
+            runSize = new ArrayList<>();
+            codeWord = new ArrayList<>();
+            byte[] length = new byte[16];
+            System.arraycopy(image,0,length,0,length.length);
+            for(int i = length.length;i < image.length;i++){
+                runSize.add(new Point(image[i]/16,image[i]%16));
+            }
+            System.out.println("长度"+ImageToCode.byteToString(length));
+            int i = 0;
+            long codew = 0;
+            while(codeWord.size()<162){
+                while(length[i] == 0){
+                    if(codeWord.size()>0)codew*=2;
+                    i++;
+                    System.out.print(i+" ");
+                }
+                for(int j = 0;j <length[i];j++) {
+                    codeWord.add(long2str0b(codew,i+1));
+                    codew++;
+                }
+                i++;
+                System.out.print(i+" ");
+                codew*=2;
+            }
+            for (String s : codeWord) {
+                System.out.println(s);
+            }
+        }
+
+    public static void main(String[] args) {
+        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/实验红图.jpg"));
+    }
+
+    public static String long2str0b(long codew,int length){
+        String result = "";
+        while(codew > 0){
+            result = ((codew%2 == 1)?"1":"0") +result;
+            codew /= 2;
+        }
+        while(result.length() < length){
+            result = "0" +result;
+        }
+        return result;
+    }
+
         public ACTable(String fileName) {
             runSize = new ArrayList<>();
             codeWord = new ArrayList<>();

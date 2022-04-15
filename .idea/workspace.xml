@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="测试准备">
-      <change afterPath="$PROJECT_DIR$/src/加密/MainLaucher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用图片/循环后实验黑图.jpg" afterDir="false" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="测试失败：红图">
+      <change afterPath="$PROJECT_DIR$/测试用图片/128粉线图.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DCTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/MainLaucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/MainLaucher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +52,33 @@
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.MainLaucher">
+  <component name="RunManager" selected="应用程序.ACTable">
+    <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="加密.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DCTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.DCTable" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="加密.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DealWithImage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.DealWithImage" />
       <module name="First-Java" />
@@ -78,8 +107,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.MainLaucher" />
+        <item itemvalue="应用程序.ACTable" />
+        <item itemvalue="应用程序.DCTable" />
         <item itemvalue="应用程序.DealWithImage" />
+        <item itemvalue="应用程序.MainLaucher" />
       </list>
     </recent_temporary>
   </component>
@@ -155,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649903868692</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="测试失败：红图">
+      <created>1649918730267</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1649918730267</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -178,6 +216,7 @@
     <MESSAGE value="解决按引用输入" />
     <MESSAGE value="改正index++" />
     <MESSAGE value="测试准备" />
-    <option name="LAST_COMMIT_MESSAGE" value="测试准备" />
+    <MESSAGE value="测试失败：红图" />
+    <option name="LAST_COMMIT_MESSAGE" value="测试失败：红图" />
   </component>
 </project>
