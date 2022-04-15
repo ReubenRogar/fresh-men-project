@@ -37,10 +37,18 @@ public class DealWithImage {
         byte[] target = new byte[image.length - 2 - i];
         System.arraycopy(image, 0 + i, target, 0, target.length);
         getDCT(bytes2Str0b(target));
+        outputArr(DCT);
+        target= str0b2Bytes(setDCT());
+        System.arraycopy(target,0,image,i,target.length);
+        ImageToCode.outImage(image,"./测试用图片/实验红图（循环后）.jpg","jpg");
     }
 
     public static void main(String[] args) {
         DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/实验红图.jpg"));
+        dealWithImage.DCC.outputDCTable("DCC");
+        dealWithImage.DCL.outputDCTable("DCL");
+        dealWithImage.ACC.outputACTable("ACC");
+        dealWithImage.ACL.outputACTable("ACL");
     }
 
     /**
@@ -334,11 +342,13 @@ public class DealWithImage {
 
         String outStr = "";
         int i =0;
-        for (byte b : target) {
+        for (int j = 0;j <target.length;j++) {
+            byte b = target[j];
             i = (b&0xF0) >> 4;
             outStr+=binaryArray[i];
             i=b&0x0F;
             outStr+=binaryArray[i];
+            if(b == -1)j++;
         }
         return outStr;
     }
@@ -355,6 +365,17 @@ public class DealWithImage {
             // Step 8 Apply compression
             for (int i = 0; i < bts.length; i++)
                 bts[i] = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
+                ArrayList<Byte> Bts = new ArrayList<>();
+        for (byte bt : bts) {
+            Bts.add(bt);
+            if(bt == -1){
+                Bts.add((byte)0);
+            }
+        }
+        bts = new byte[Bts.size()];
+        for (int i =0;i <Bts.size();i++){
+            bts[i] = Bts.get(i);
+        }
             return bts;
         }
 

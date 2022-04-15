@@ -8,18 +8,19 @@ public class DCTable {
      * 直流Huffman表
      */
 
-        private final byte[] category;
+        private final int[] category;
         private final String[] codeWord;
         private final String fileName;
 
         public DCTable(byte[] image){
-            category = new byte[12];
+            category = new int[12];
             codeWord = new String[12];
             fileName = "";
             byte[] length = new byte[16];
             System.arraycopy(image,0,length,0,length.length);
-            System.arraycopy(image,16,category,0,category.length);
-            System.out.println("长度"+ImageToCode.byteToString(length));
+            for(int i = 0;i < 12;i++){
+                category[i] = image[i] < 0?image[i]+256:image[i];
+            }
             int index = 0,i = 0;
             long codew = 0;
             while(index < 12){
@@ -34,11 +35,14 @@ public class DCTable {
                 i++;
                 codew*=2;
             }
-            for (String s : codeWord) {
-                System.out.println(s);
-            }
         }
-
+        public void outputDCTable(String fileName){
+            String DCTable = "";
+            for(int i = 0;i < 12;i++){
+                DCTable += category[i] +"\s\s"+codeWord[i]+"\n";
+            }
+            ImageToCode.dataToFile(DCTable,"./测试用文档/"+fileName+".txt");
+        }
         public static String long2str0b(long codew,int length){
             String result = "";
             while(codew > 0){
@@ -54,7 +58,7 @@ public class DCTable {
 
 
         public DCTable(String fileName) {
-            category = new byte[12];
+            category = new int[12];
             codeWord = new String[12];
             this.fileName = fileName;
             init();
