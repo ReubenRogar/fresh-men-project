@@ -15,13 +15,16 @@ public class DealWithImage {
     public ACTable ACL;
     // 直流亮度表
     public ACTable ACC;
-
+    //DCT 1*64数据
     public ArrayList<int[]> DCT = new ArrayList<>();
 
     //private static double u = 3.79, x = 0.88;
 
+    /**
+     * 构造器获取图片的huffman表和DCT数据
+     * @param image
+     */
     public DealWithImage(byte[] image){
-
         getHuffmanTable(image);
         int i;
         for (i = image.length - 1; i >= 0; i--) {
@@ -34,7 +37,6 @@ public class DealWithImage {
         byte[] target = new byte[image.length - 2 - i];
         System.arraycopy(image, 0 + i, target, 0, target.length);
         getDCT(bytes2Str0b(target));
-
     }
 
     public static void main(String[] args) {
@@ -47,26 +49,40 @@ public class DealWithImage {
      * @return 1*64数据块
      */
     public void getDCT(String code) {
-        int[] arr = new int[64];
-        DCTable dcTable;ACTable acTable;
-        int flag = -1;
-        while(true) {//读DCT块
+        int[] arr = new int[64];//接收一个DCT块数据的数组
+        DCTable dcTable;
+        ACTable acTable;
+        int flag = -1;//表区分标志
+        //读DCT块
+        while(true) {
+            //应用Huffman表
             flag++;
             int index = 0;
             if (flag % 3 == 0) {
+
                 dcTable = DCL;
                 acTable = ACL;
+
             } else {
+
                 dcTable = DCC;
                 acTable = ACC;
+
             }
+
+            //读取DC系数
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
+
             if (pDC.x == 0) arr[index++] = 0;
             else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
+
             code = code.substring(pDC.x + pDC.y);
-            int[] pAC;//读取run/size
-            while(true) {//读取AC哈夫曼码
+
+            //读取AC系数
+            int[] pAC;//用于读取run/size
+            //读取AC哈夫曼码
+            while(true) {
                 pAC = acTable.getRunSize(code);
                 if(pAC[1] == 0){
                     if(pAC[0] == 0){// 0/0 EOB
@@ -180,7 +196,10 @@ public class DealWithImage {
     return code;
     }
 
-
+    /**
+     * 获取图片中的huffman表
+     * @param image
+     */
     public void getHuffmanTable(byte[] image){
         Point DC_luminance = new Point();
         Point AC_luminance = new Point();
@@ -339,7 +358,7 @@ public class DealWithImage {
             return bts;
         }
 
-
+    //输出二维数组信息
     public static void outputArr(ArrayList<int[]> arr){
         for (int[] ints : arr) {
             System.out.print("{");

@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="获取图片huffman表">
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="完善DealWithImage类，红图测试失败">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DCTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DCTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -198,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649991901844</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="完善DealWithImage类，红图测试失败">
+      <created>1650004067641</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1650004067641</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -223,6 +226,7 @@
     <MESSAGE value="测试准备" />
     <MESSAGE value="测试失败：红图" />
     <MESSAGE value="获取图片huffman表" />
-    <option name="LAST_COMMIT_MESSAGE" value="获取图片huffman表" />
+    <MESSAGE value="完善DealWithImage类，红图测试失败" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善DealWithImage类，红图测试失败" />
   </component>
 </project>
