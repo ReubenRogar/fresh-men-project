@@ -18,8 +18,8 @@ public class DCTable {
             fileName = "";
             byte[] length = new byte[16];
             System.arraycopy(image,0,length,0,length.length);
-            for(int i = 0;i < 12;i++){
-                category[i] = image[i] < 0?image[i]+256:image[i];
+            for(int i = 16;i < 12+16;i++){
+                category[i-16] = image[i] < 0?image[i]+256:image[i];
             }
             int index = 0,i = 0;
             long codew = 0;
@@ -97,6 +97,7 @@ public class DCTable {
                     break;
                 }
             }
+            System.out.println(codeWord[i] +" 长度:"+category[i]);
             categoryAndCodeWordLength.x = category[i];
             categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;

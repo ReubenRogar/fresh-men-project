@@ -40,11 +40,11 @@ public class DealWithImage {
         outputArr(DCT);
         target= str0b2Bytes(setDCT());
         System.arraycopy(target,0,image,i,target.length);
-        ImageToCode.outImage(image,"./测试用图片/实验红图（循环后）.jpg","jpg");
+        ImageToCode.outImage(image,"./测试用图片/8蓝图（循环后）.jpg","jpg");
     }
 
     public static void main(String[] args) {
-        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/实验红图.jpg"));
+        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/8蓝图.jpg"));
         dealWithImage.DCC.outputDCTable("DCC");
         dealWithImage.DCL.outputDCTable("DCL");
         dealWithImage.ACC.outputACTable("ACC");
@@ -57,6 +57,8 @@ public class DealWithImage {
      * @return 1*64数据块
      */
     public void getDCT(String code) {
+//测试
+        System.out.println("全部数据:"+code);
         int[] arr = new int[64];//接收一个DCT块数据的数组
         DCTable dcTable;
         ACTable acTable;
@@ -84,36 +86,43 @@ public class DealWithImage {
 
             if (pDC.x == 0) arr[index++] = 0;
             else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
+//测试
+            System.out.println(arr[index-1]);
 
             code = code.substring(pDC.x + pDC.y);
-
+//测试
+            System.out.println("剩余数据:"+code);
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
             while(true) {
                 pAC = acTable.getRunSize(code);
-                if(pAC[1] == 0){
+                if(pAC[1] == 0){//Size为0
                     if(pAC[0] == 0){// 0/0 EOB
                         for(;index < 64;index++){
                             arr[index] = 0;
                         }
                         code = code.substring(pAC[2]);
-                        //outputArr(DCT);
-                        //System.out.println(code);
                         break;
                     }else {// F/0 16个零
                         for (int i = 0; i < 16; i++) {
                             arr[index++] = 0;
                         }
                         code = code.substring(pAC[2]);
+//测试
+                        System.out.println("剩余数据:"+code);
                         continue;
                     }
                 }
+                //Run个零
                 for(int i = 0;i <pAC[0];i++){
                     arr[index++] = 0;
-                }//Run个零
+                }
                 arr[index++] = str0b2int(code.substring(pAC[2], pAC[2]+pAC[1]));
+//测试
+                System.out.println(arr[index-1]);
                 code = code.substring(pAC[2]+pAC[1]);
+                //DCT块数据输入完毕
                 if(index == 64){
                     break;
                 }
@@ -133,11 +142,8 @@ public class DealWithImage {
                     code = code.substring(1);
                 }
             }
-            //outputArr(DCT);
-            //System.out.println(code);
-            //System.out.println("--------------------------------------------------------------");
+
         }
-        //System.out.println("============================================================");
         DCT = changeBias(DCT);
         return;
     }

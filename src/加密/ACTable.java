@@ -113,8 +113,8 @@ public class ACTable {
                     break;
                 }
             }
-            if(i != 162)return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
-            else return new int[]{0,0,0};
+            System.out.println(codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y);
+            return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
         }
 
         public String getHuffmanCode(int run,int size){
