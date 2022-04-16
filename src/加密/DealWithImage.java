@@ -45,7 +45,8 @@ public class DealWithImage {
     }
 
     public static void main(String[] args) {
-        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/8纯蓝图.jpg"));
+        String s = bytes2Str0b(ImageToCode.imageToByte("./测试用图片/8纯紫图.jpg"));
+        System.out.println(s.substring(s.length()-80, s.length()-8));
 
     }
 
