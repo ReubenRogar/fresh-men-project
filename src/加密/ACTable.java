@@ -122,7 +122,7 @@ public class ACTable {
             String result = "";
             if(run > 16){
                 for(;i < run / 16;i++){
-                    result += codeWord.get(151);
+                    result += getHuffmanCode(16,0);
                 }
                 run %= 16;
             }
@@ -135,6 +135,6 @@ public class ACTable {
         }
 
         public String getEOB(){
-            return codeWord.get(0);
+            return getHuffmanCode(0,0);
         }
 }
