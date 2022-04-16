@@ -41,7 +41,9 @@ public class DealWithImage {
         System.out.println(byteToString(target));
         getDCT(bytes2Str0b(target));
         outputArr(DCT);
-        target= str0b2Bytes(setDCT());
+        System.out.println(byteToString(target));
+        //target= str0b2Bytes(setDCT());
+        System.out.println(byteToString(target));
         System.arraycopy(target,0,image,i,target.length);
         outImage(image,"./测试用图片/8纯红图（循环后）.jpg","jpg");
     }
