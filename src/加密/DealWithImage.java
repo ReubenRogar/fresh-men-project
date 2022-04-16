@@ -41,21 +41,17 @@ public class DealWithImage {
         outputArr(DCT);
         target= str0b2Bytes(setDCT());
         System.arraycopy(target,0,image,i,target.length);
-        ImageToCode.outImage(image,"./测试用图片/8纯蓝图（循环后）.jpg","jpg");
+        ImageToCode.outImage(image,"./测试用图片/8纯蓝图.jpg","jpg");
     }
 
-    public static void main(String[] args) {
-        String s = bytes2Str0b(ImageToCode.imageToByte("./测试用图片/8纯紫图.jpg"));
-        System.out.println(s.substring(s.length()-80, s.length()-8));
 
-    }
 
     /**
      * 提取DCT块
      * @param code 二进制字符串
      * @return 1*64数据块
      */
-    public void getDCT(String code) {
+    public void  getDCT(String code) {
 //测试
         System.out.println("全部数据:"+code);
         int[] arr = new int[64];//接收一个DCT块数据的数组
@@ -405,4 +401,8 @@ public class DealWithImage {
         }
     }
 
+    public static void main(String[] args) {
+        DealWithImage d = new DealWithImage(ImageToCode.imageToByte("./测试用图片/8纯蓝图.jpg"));
+        d.getDCT(bytes2Str0b(ImageToCode.imageToByte("./测试用图片/8纯蓝图.jpg")));
+    }
 }

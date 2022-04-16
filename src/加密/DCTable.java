@@ -111,4 +111,9 @@ public class DCTable {
                 }
                 return codeWord[i];
             }
+
+    public static void main(String[] args) {
+
+
+    }
     }
