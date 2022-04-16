@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改返回识别码">
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="嗯">
+      <change afterPath="$PROJECT_DIR$/out/production/First-Java/加密/OutputForText.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/测试用图片/8纯红图（循环后）.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/测试用图片/8纯红图（循环后）（循环后）.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/ImageToCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ImageToCode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650094300292</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="嗯">
+      <created>1650096147385</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1650096147385</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -307,6 +317,7 @@
     <MESSAGE value="添加图2" />
     <MESSAGE value="添加setDCT检查输出，整合类“检查输出”" />
     <MESSAGE value="修改返回识别码" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改返回识别码" />
+    <MESSAGE value="嗯" />
+    <option name="LAST_COMMIT_MESSAGE" value="嗯" />
   </component>
 </project>

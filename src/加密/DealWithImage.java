@@ -27,6 +27,7 @@ public class DealWithImage {
      * @param image
      */
     public DealWithImage(byte[] image){
+        System.out.println(byteToString(image));
         getHuffmanTable(image);
         int i;
         for (i = image.length - 1; i >= 0; i--) {
@@ -39,18 +40,41 @@ public class DealWithImage {
         byte[] target = new byte[image.length - 2 - i];
         System.arraycopy(image, 0 + i, target, 0, target.length);
         System.out.println(byteToString(target));
-        getDCT(bytes2Str0b(target));
-        outputArr(DCT);
-        System.out.println(byteToString(target));
-        //target= str0b2Bytes(setDCT());
+        target = simpleAct(target);
         System.out.println(byteToString(target));
         System.arraycopy(target,0,image,i,target.length);
-        outImage(image,"./测试用图片/8纯红图（循环后）.jpg","jpg");
+        System.out.println(byteToString(image));
+        outputImage("./测试用图片/8纯红图--.jpg",image);
     }
 
     public static void main(String[] args) {
-        DealWithImage dealWithImage = new DealWithImage(imageToByte("./测试用图片/8纯红图.jpg"));
+        DealWithImage dealWithImage = new DealWithImage(imageToByte("./测试用图片/8纯红图-.jpg"));
     }
+    /**
+     * 仅异或第一个DC系数
+     */
+    public byte[] simpleAct(byte[] target){
+        String code = bytes2Str0b(target);
+        System.out.println(code);
+        Point index = DCL.getCategory(code);
+        String dc = code.substring(index.y,index.x + index.y);
+        System.out.println(dc);
+        int x = str0b2int(dc);
+        int xs = (int)((Math.pow(2,index.x)-Math.pow(2,index.x-1))*0.88+Math.pow(2, index.x-1));
+        x ^=xs;
+        String temp = int2str0b(x);
+        if(temp.length()<index.x){
+            if(temp.startsWith("0"))
+                while(temp.length()<index.x)temp = "1"+temp;
+            else while(temp.length()<index.x)temp = "0"+temp;
+        }
+        code = code.substring(0,index.y)+temp+code.substring(index.x+index.y);
+        System.out.println(temp);
+        System.out.println(code);
+        return str0b2Bytes(code);
+    }
+
+
 
     /**
      * 提取DCT块
@@ -81,6 +105,7 @@ public class DealWithImage {
                 System.out.println("色度");
                 dcTable = DCC;
                 acTable = ACC;
+
 
             }
 
