@@ -36,19 +36,17 @@ public class DealWithImage {
         i += image[i] * 16 * 16 + image[i + 1];
         byte[] target = new byte[image.length - 2 - i];
         System.arraycopy(image, 0 + i, target, 0, target.length);
+        System.out.println(ImageToCode.byteToString(target));
         getDCT(bytes2Str0b(target));
         outputArr(DCT);
         target= str0b2Bytes(setDCT());
         System.arraycopy(target,0,image,i,target.length);
-        ImageToCode.outImage(image,"./测试用图片/8蓝图（循环后）.jpg","jpg");
+        ImageToCode.outImage(image,"./测试用图片/8纯蓝图（循环后）.jpg","jpg");
     }
 
     public static void main(String[] args) {
-        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/8蓝图.jpg"));
-        dealWithImage.DCC.outputDCTable("DCC");
-        dealWithImage.DCL.outputDCTable("DCL");
-        dealWithImage.ACC.outputACTable("ACC");
-        dealWithImage.ACL.outputACTable("ACL");
+        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/8纯蓝图.jpg"));
+
     }
 
     /**
@@ -87,7 +85,7 @@ public class DealWithImage {
             if (pDC.x == 0) arr[index++] = 0;
             else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
 //测试
-            System.out.println(arr[index-1]);
+            System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+arr[index-1]);
 
             code = code.substring(pDC.x + pDC.y);
 //测试
@@ -120,8 +118,10 @@ public class DealWithImage {
                 }
                 arr[index++] = str0b2int(code.substring(pAC[2], pAC[2]+pAC[1]));
 //测试
-                System.out.println(arr[index-1]);
+                System.out.println(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]);
                 code = code.substring(pAC[2]+pAC[1]);
+//测试
+                System.out.println("剩余数据:"+code);
                 //DCT块数据输入完毕
                 if(index == 64){
                     break;
@@ -131,11 +131,15 @@ public class DealWithImage {
                         arr[index] = 0;
                     }
                     DCT.add(arr.clone());
+                    outputArr(DCT);
+                    System.out.println("--------------------------------------------------------------------------");
                     DCT = changeBias(DCT);
                     return;
                 }
             }
             DCT.add(arr.clone());
+            outputArr(DCT);
+            System.out.println("--------------------------------------------------------------------------");
             if(code.length() < 8)break;
             else {
                 while (code.length() % 8 != 0) {
@@ -248,6 +252,10 @@ public class DealWithImage {
             DCL = new DCTable(DC_L);
             ACC = new ACTable(AC_C);
             ACL = new ACTable(AC_L);
+            DCC.outputDCTable("DCC");
+            DCL.outputDCTable("DCL");
+            ACC.outputACTable("ACC");
+            ACL.outputACTable("ACL");
     }
 
 

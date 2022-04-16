@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="取出FF 00">
-      <change afterPath="$PROJECT_DIR$/out/production/First-Java/加密/ImageToCode.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/First-Java/加密/MainLaucher.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用图片/循环后实验红图.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用文档/128粉图.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/测试用文档/实验红图图.txt" afterDir="false" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改获取categroy">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DCTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DCTable.class" afterDir="false" />
@@ -18,7 +9,8 @@
       <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DCTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用图片/实验红图.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/8蓝图.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650025793166</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="修改获取categroy">
+      <created>1650027482030</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1650027482030</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -258,6 +257,7 @@
     <MESSAGE value="完善DealWithImage类，红图测试失败" />
     <MESSAGE value="准备除bug" />
     <MESSAGE value="取出FF 00" />
-    <option name="LAST_COMMIT_MESSAGE" value="取出FF 00" />
+    <MESSAGE value="修改获取categroy" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改获取categroy" />
   </component>
 </project>
