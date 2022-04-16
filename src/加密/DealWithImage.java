@@ -2,9 +2,11 @@ package 加密;
 
 
 import java.awt.*;
-import java.awt.font.LineMetrics;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import static 加密.ImageToCode.*;
+import static 加密.OutputForText.outputArr;
 
 public class DealWithImage {
     // 直流亮度表
@@ -36,17 +38,16 @@ public class DealWithImage {
         i += image[i] * 16 * 16 + image[i + 1];
         byte[] target = new byte[image.length - 2 - i];
         System.arraycopy(image, 0 + i, target, 0, target.length);
-        System.out.println(ImageToCode.byteToString(target));
+        System.out.println(byteToString(target));
         getDCT(bytes2Str0b(target));
         outputArr(DCT);
         target= str0b2Bytes(setDCT());
         System.arraycopy(target,0,image,i,target.length);
-        ImageToCode.outImage(image,"./测试用图片/8纯蓝图（循环后）.jpg","jpg");
+        outImage(image,"./测试用图片/8纯红图（循环后）.jpg","jpg");
     }
 
     public static void main(String[] args) {
-        DealWithImage dealWithImage = new DealWithImage(ImageToCode.imageToByte("./测试用图片/8纯蓝图.jpg"));
-
+        DealWithImage dealWithImage = new DealWithImage(imageToByte("./测试用图片/8纯红图.jpg"));
     }
 
     /**
@@ -56,12 +57,15 @@ public class DealWithImage {
      */
     public void getDCT(String code) {
 //测试
-        System.out.println("全部数据:"+code);
+        System.out.print("全部数据:");
+        OutputForText.output8Str(code);
         int[] arr = new int[64];//接收一个DCT块数据的数组
         DCTable dcTable;
         ACTable acTable;
         int flag = -1;//表区分标志
         //读DCT块
+//测试
+        System.out.println("----------------------getDCT------------------------");
         while(true) {
             //应用Huffman表
             flag++;
@@ -89,7 +93,8 @@ public class DealWithImage {
 
             code = code.substring(pDC.x + pDC.y);
 //测试
-            System.out.println("剩余数据:"+code);
+            System.out.print("剩余数据:");
+            OutputForText.output8Str(code);
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
@@ -108,7 +113,8 @@ public class DealWithImage {
                         }
                         code = code.substring(pAC[2]);
 //测试
-                        System.out.println("剩余数据:"+code);
+                        System.out.print("剩余数据:");
+                        OutputForText.output8Str(code);
                         continue;
                     }
                 }
@@ -121,7 +127,8 @@ public class DealWithImage {
                 System.out.println(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]);
                 code = code.substring(pAC[2]+pAC[1]);
 //测试
-                System.out.println("剩余数据:"+code);
+                System.out.print("剩余数据:");
+                OutputForText.output8Str(code);
                 //DCT块数据输入完毕
                 if(index == 64){
                     break;
@@ -175,6 +182,8 @@ public class DealWithImage {
         for(int i = DCT.size()-1;i > 0;i--){
             DCT.get(i)[0] -= DCT.get(i - 1)[0];
         }//去差分
+//测试
+        System.out.println("------------------------setDCT-------------------------");
         int DCTs = 0,index = 1;
         for (int[] ints : DCT) {//遍历1*64数据块
             DCTable dcTable;
@@ -182,23 +191,32 @@ public class DealWithImage {
             if (DCTs % 3 == 0) {//亮度
                 dcTable = DCL;
                 acTable = ACL;
-                //System.out.println("亮度");
+//测试
+                System.out.println("亮度");
             }else {//色度*2
                 dcTable = DCC;
                 acTable = ACC;
-                //System.out.println("色度");
+//测试
+                System.out.println("色度");
             }
                 if(ints[0]!= 0){
                     temp = int2str0b(ints[0]);
                     code += dcTable.getHuffmanCode(temp.length()) + temp;
                 }else{
+                    temp ="00";
                     code += "00";
                 }
+//数据
+            System.out.println("DC:"+ints[0]+" "+temp);
+            System.out.print("数据:");
+            OutputForText.outputStr8(code);
+
                 int lastNum = 0;
                 for (index = 1; index < 64; index++) {
                     if (ints[index] != 0) {
                         temp = int2str0b(ints[index]);
-                        //System.out.println(ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
+//测试
+                        System.out.println("AC:"+ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
                         code += acTable.getHuffmanCode(index - lastNum - 1, temp.length());
                         code += temp;
                         lastNum = index;
@@ -206,8 +224,13 @@ public class DealWithImage {
                         code += acTable.getEOB();
                     }
                 }
-                while (code.length()%8!=0)code += "0";
-            //System.out.println(code);
+                if(DCTs!=DCT.size()-1)while (code.length()%8!=0)code += "0";
+                else while (code.length()%8!=0)code += "1";
+//测试
+            System.out.println("一个dct块输入结束：");
+            System.out.print("数据:");
+            OutputForText.outputStr8(code);
+
             DCTs++;
         }
         //System.out.println(code.length());
@@ -393,15 +416,5 @@ public class DealWithImage {
             return bts;
         }
 
-    //输出二维数组信息
-    public static void outputArr(ArrayList<int[]> arr){
-        for (int[] ints : arr) {
-            System.out.print("{");
-            for (int anInt : ints) {
-                System.out.print(anInt+",");
-            }
-            System.out.println("}");
-        }
-    }
 
 }
