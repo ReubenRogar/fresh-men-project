@@ -64,12 +64,12 @@ public class DealWithImage {
             flag++;
             int index = 0;
             if (flag % 3 == 0) {
-
+                System.out.println("亮度");
                 dcTable = DCL;
                 acTable = ACL;
 
             } else {
-
+                System.out.println("色度");
                 dcTable = DCC;
                 acTable = ACC;
 
