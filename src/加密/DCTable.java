@@ -97,7 +97,7 @@ public class DCTable {
                     break;
                 }
             }
-            //System.out.println("DC{"+codeWord[i] +" 长度:"+category[i]+"}");
+            System.out.println("DC{"+codeWord[i] +" 长度:"+category[i]+"}");
             categoryAndCodeWordLength.x = category[i];
             categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;
