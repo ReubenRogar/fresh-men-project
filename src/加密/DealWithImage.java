@@ -66,7 +66,7 @@ public class DealWithImage {
 
 
     public static void main(String[] args) {
-        System.out.println(bytes2Str0b(imageToByte("E:/测试/8蓝图.jpg")));
+        output8Str(bytes2Str0b(imageToByte("E:/测试/8蓝图.jpg")));
         //DealWithImage dealWithImage = new DealWithImage("E:/测试/8蓝图.jpg");
         //dealWithImage.simpleEn();
         //DealWithImage DealWithImage = new DealWithImage(imageToByte("./测试用图片/8纯红图-.jpg"),"./测试用图片/8纯红图--.jpg");
