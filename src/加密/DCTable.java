@@ -97,10 +97,14 @@ public class DCTable {
                     break;
                 }
             }
-            System.out.println("DC{"+codeWord[i] +" 长度:"+category[i]+"}");
-            categoryAndCodeWordLength.x = category[i];
-            categoryAndCodeWordLength.y = codeWord[i].length();
-            return categoryAndCodeWordLength;
+            if(i <12) {
+                System.out.println("DC{" + codeWord[i] + " 长度:" + category[i] + "}");
+                categoryAndCodeWordLength.x = category[i];
+                categoryAndCodeWordLength.y = codeWord[i].length();
+                return categoryAndCodeWordLength;
+            }else{
+                return new Point(0,0);
+            }
         }
 
         //得到DC哈夫曼码

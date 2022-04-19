@@ -37,11 +37,13 @@ public class DealWithImage {
      */
     public DealWithImage(String inFile){
         image = imageToByte(inFile);
-        //getHuffmanTable(image);
+        getHuffmanTable(image);
+        /*
         DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
         DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
         ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
+        */
         for (start = image.length - 1; start >= 0; start--) {
             if (image[start] == -1 && image[start + 1] == -38) {
                 start += 2;
@@ -82,9 +84,8 @@ public class DealWithImage {
 
     public static void main(String[] args) {
         //output8Str(bytes2Str0b(imageToByte("E:/测试/8蓝图.jpg")));
-        DealWithImage dealWithImage = new DealWithImage("E:/测试/128粉线图.jpg");
+        DealWithImage dealWithImage = new DealWithImage("E:/测试/1.jpg");
         dealWithImage.simpleEn();
-        //DealWithImage DealWithImage = new DealWithImage(imageToByte("./测试用图片/8纯红图-.jpg"),"./测试用图片/8纯红图--.jpg");
     }
     /**
      * 仅异或第一个DC系数
@@ -150,8 +151,8 @@ public class DealWithImage {
             //读取DC系数
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
-
-            if (pDC.x == 0) DC.add(0);
+            if(pDC.y == 0)return;
+            else if (pDC.x == 0) DC.add(0);
             else DC.add(str0b2int(code.substring(pDC.y, pDC.x + pDC.y)));//byte转int(DC)
 //测试
             System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1));
@@ -166,8 +167,9 @@ public class DealWithImage {
                     if(pAC[0] == 0){// 0/0 EOB
                         code = code.substring(pAC[2]);
                         break;
-                    }else if(pAC[0] != 16){
+                    }else if(pAC[0] != 15){
                         System.out.println("剩余填充数据");
+                        System.out.println(code.substring(0,code.length()<100?code.length():100));
                         System.out.println(DC);
                         System.out.println("--------------------------------------------------------------------------");
                         return;
@@ -186,16 +188,7 @@ public class DealWithImage {
                 }
             }
             System.out.println("--------------------------------------------------------------------------");
-            if(code.length() < 8)break;
-            /*
-            else {
-                output8Str(code);
-                while (code.length() % 8 != 0) {
-                    code = code.substring(1);
-                }
-            }*/
         }
-        return;
     }
 
 
