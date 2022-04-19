@@ -24,7 +24,9 @@ public class DealWithImage {
     private ACTable ACC;
     //DCT 1*64数据
     private ArrayList<int[]> DCT = new ArrayList<>();
-    private ArrayList<Integer> DC;
+    private ArrayList<Integer> yDC;
+    private ArrayList<Integer> CbDC;
+    private ArrayList<Integer> CrDC;
     private byte[] image;
     private byte[] target;
     private int start;
@@ -53,10 +55,23 @@ public class DealWithImage {
 
     public void simpleEn(){
         getDCTOnlyDC(bytes2Str0b(target));
-        for(int i = 0;i < DC.size()-1;i++){
-            DC.set(i+1,DC.get(i)+DC.get(i+1));
+        for(int i = 1;i <=3;i++){
+            ArrayList<Integer> DC = null;
+            switch (i){
+                case 1:DC = yDC;
+                break;
+                case 2:DC = CbDC;
+                break;
+                case 3:DC = CrDC;
+                break;
+            }
+            for(int j =0;j< DC.size()-1;j++){
+                DC.set(j+1,DC.get(j)+ DC.get(j+1));
+            }
         }
-        System.out.println(DC);
+        System.out.println("Y:"+yDC);
+        System.out.println("Cb:"+CbDC);
+        System.out.println("Cr:"+CrDC);
         //target = simpleAct(target);
         //getDCT(bytes2Str0b(target));
         //target = str0b2Bytes(setDCT());
@@ -66,9 +81,9 @@ public class DealWithImage {
 
 
     public static void main(String[] args) {
-        output8Str(bytes2Str0b(imageToByte("E:/测试/8蓝图.jpg")));
-        //DealWithImage dealWithImage = new DealWithImage("E:/测试/8蓝图.jpg");
-        //dealWithImage.simpleEn();
+        //output8Str(bytes2Str0b(imageToByte("E:/测试/8蓝图.jpg")));
+        DealWithImage dealWithImage = new DealWithImage("E:/测试/128粉线图.jpg");
+        dealWithImage.simpleEn();
         //DealWithImage DealWithImage = new DealWithImage(imageToByte("./测试用图片/8纯红图-.jpg"),"./测试用图片/8纯红图--.jpg");
     }
     /**
@@ -101,36 +116,42 @@ public class DealWithImage {
      * @return 1*64数据块
      */
     public void getDCTOnlyDC(String code) {
+        int allStart;
         DCTable dcTable;
         ACTable acTable;
-        DC = new ArrayList<>();
+        yDC = new ArrayList<>();
+        CrDC = new ArrayList<>();
+        CbDC = new ArrayList<>();
+        ArrayList<Integer> DC;
         int flag = -1;//表区分标志
         //读DCT块
         System.out.println("----------------------getDCT------------------------");
         while(true) {
             //应用Huffman表
             flag++;
-            int index = 64;
-            if (flag % 3 == 0) {
+            int index = 1;
+            if (flag % 6 < 4) {
                 System.out.println("亮度");
                 dcTable = DCL;
                 acTable = ACL;
-
-            } else {
+                DC = yDC;
+            } else if(flag% 6 ==4){
                 System.out.println("色度");
                 dcTable = DCC;
                 acTable = ACC;
-
+                DC = CbDC;
+            }else{
+                System.out.println("色度");
+                dcTable = DCC;
+                acTable = ACC;
+                DC = CrDC;
             }
 
             //读取DC系数
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
 
-            if (pDC.x == 0) {
-                DC.add(0);
-                index--;
-            }
+            if (pDC.x == 0) DC.add(0);
             else DC.add(str0b2int(code.substring(pDC.y, pDC.x + pDC.y)));//byte转int(DC)
 //测试
             System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1));
@@ -145,18 +166,18 @@ public class DealWithImage {
                     if(pAC[0] == 0){// 0/0 EOB
                         code = code.substring(pAC[2]);
                         break;
-                    }else{
+                    }else if(pAC[0] != 16){
                         System.out.println("剩余填充数据");
                         System.out.println(DC);
                         System.out.println("--------------------------------------------------------------------------");
                         return;
                     }
                 }
-                //Run个零+Size个数
-                index -= pAC[0]+pAC[1];
+                //Run个零+1个ac
+                index += pAC[0]+1;
                 code = code.substring(pAC[2]+pAC[1]);
                 //DCT块数据输入完毕
-                if(index == 0){
+                if(index == 64){
                     break;
                 }
                 if(code == ""){
@@ -166,12 +187,13 @@ public class DealWithImage {
             }
             System.out.println("--------------------------------------------------------------------------");
             if(code.length() < 8)break;
+            /*
             else {
+                output8Str(code);
                 while (code.length() % 8 != 0) {
                     code = code.substring(1);
                 }
-            }
-
+            }*/
         }
         return;
     }
