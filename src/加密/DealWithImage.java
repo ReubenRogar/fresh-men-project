@@ -53,7 +53,7 @@ public class DealWithImage {
      */
     public void  getDCT(String code) {
 //测试
-        System.out.println("全部数据:"+code);
+        //System.out.println("全部数据:"+code);
         int[] arr = new int[64];//接收一个DCT块数据的数组
         DCTable dcTable;
         ACTable acTable;
@@ -64,12 +64,12 @@ public class DealWithImage {
             flag++;
             int index = 0;
             if (flag % 3 == 0) {
-                System.out.println("亮度");
+                //System.out.println("亮度");
                 dcTable = DCL;
                 acTable = ACL;
 
             } else {
-                System.out.println("色度");
+                //System.out.println("色度");
                 dcTable = DCC;
                 acTable = ACC;
 
@@ -82,11 +82,11 @@ public class DealWithImage {
             if (pDC.x == 0) arr[index++] = 0;
             else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
 //测试
-            System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+arr[index-1]);
+            //System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+arr[index-1]);
 
             code = code.substring(pDC.x + pDC.y);
 //测试
-            System.out.println("剩余数据:"+code);
+            //System.out.println("剩余数据:"+code);
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
@@ -105,7 +105,7 @@ public class DealWithImage {
                         }
                         code = code.substring(pAC[2]);
 //测试
-                        System.out.println("剩余数据:"+code);
+                        //System.out.println("剩余数据:"+code);
                         continue;
                     }
                 }
@@ -115,10 +115,10 @@ public class DealWithImage {
                 }
                 arr[index++] = str0b2int(code.substring(pAC[2], pAC[2]+pAC[1]));
 //测试
-                System.out.println(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]);
+                //System.out.println(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]);
                 code = code.substring(pAC[2]+pAC[1]);
 //测试
-                System.out.println("剩余数据:"+code);
+                //System.out.println("剩余数据:"+code);
                 //DCT块数据输入完毕
                 if(index == 64){
                     break;
@@ -391,18 +391,63 @@ public class DealWithImage {
         }
 
     //输出二维数组信息
-    public static void outputArr(ArrayList<int[]> arr){
+    public static void outputArr(ArrayList<int[]> arr) {
         for (int[] ints : arr) {
             System.out.print("{");
             for (int anInt : ints) {
-                System.out.print(anInt+",");
+                System.out.print(anInt + ",");
             }
             System.out.println("}");
         }
     }
+    /*public static int XOR(int DC) {
+        String S1 = int2str0b(DC);
+        int [] DC2Hex = new int[16];
+        for (int i = 0; i < S1.length(); i++) {
+            int m = Integer.valueOf(S1.substring(i,i+1));
+            DC2Hex[i] = m;
+            System.out.println(DC2Hex[i]);
+            DC2Hex[i] ^= 1;
+        }
+        //S = DC2Hex.toString();  toString 有问题
+        String S2 = "";
+        for (int i = 0; i < S1.length(); i++) {
+            S2 += DC2Hex[i];
+        }
+        int k = str0b2int(S2);
+        return k;
+    }*/
+
+    public static void rc4(char[] Sbox ,ArrayList<Point> Point){//得到Sbox
+        int i =0, j = 0;
+        char[] key = {1,2,3};//密钥
+        char[] K = new char[256];
+        char tmp = 0;
+        for (i = 0 ; i < 256 ; i ++) {
+            Sbox[i] = (char)i;
+            K[i] = key[i % key.length];//超过长度则回到key[0]
+        }
+        for (i = 0 ; i < 256; i++) {
+            j=(j + Sbox[i] + K[i]) % 256;//j = (j + i + key[i % Len]) % 256
+            tmp = Sbox[i];
+            Sbox[i] = Sbox[j]; //交换s[i]和s[j]
+            Sbox[j] = tmp;
+        }
+        int T = 0 , m = 0;
+        for(i = 0, j = 0 , m = 0 ; m < key.length ; m++) {
+            i =(i + 1) % 256;
+            j=(j+Sbox[i])%256;
+            tmp = Sbox[i];
+            Sbox[i] = Sbox[j]; //交换s[x]和s[y]
+            Sbox[j] = tmp;
+            T=(Sbox[i]+Sbox[j])%256;
+            Point.get(i).x ^= Sbox[T];//?
+        }
+    }
 
     public static void main(String[] args) {
-        DealWithImage d = new DealWithImage(ImageToCode.imageToByte("./测试用图片/8纯蓝图.jpg"));
-        d.getDCT(bytes2Str0b(ImageToCode.imageToByte("./测试用图片/8纯蓝图.jpg")));
+        char[] s = new char[256];
+        ArrayList<Point> P = new ArrayList<>();
+        rc4(s,P);
     }
 }
