@@ -108,13 +108,18 @@ public class ACTable {
 
         public int[] getRunSize(String code){
             int i = 0;
-            for(;i<codeWord.size();i++){
+            for(;i<162;i++){
                 if(code.startsWith(codeWord.get(i))){
                     break;
                 }
             }
-            System.out.println("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
-            return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
+            if(i<162){
+                System.out.println("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
+                return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
+            }else{
+                System.out.println("无法识别的哈夫曼表:"+code);
+                return new int[]{0,0,0};
+            }
         }
 
         public String getHuffmanCode(int run,int size){

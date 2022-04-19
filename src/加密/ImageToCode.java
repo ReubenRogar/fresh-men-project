@@ -26,21 +26,6 @@ public class ImageToCode {
         return data;
     }
 
-    //byte数组到图片
-    public static void outImage(byte[] bytes,String fileName,String type){
-        if(type.isEmpty()){
-            type = "jpg";
-        }
-        try{
-            ByteArrayInputStream input = new ByteArrayInputStream(bytes);
-            BufferedImage image = ImageIO.read(input);
-            File target =new File(fileName);
-            ImageIO.write(image,type,target);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
     //byte数组到16进制字符串
     public static String byteToString(byte[] data) {
@@ -77,5 +62,18 @@ public class ImageToCode {
         }
     }
 
-
+    //byte数组到图片
+    public static void outputImage(String fileName, byte[] matrix) {
+        FileOutputStream outSTr;
+        BufferedOutputStream Buff;
+        try {
+            outSTr = new FileOutputStream(fileName);
+            Buff = new BufferedOutputStream(outSTr);
+            Buff.write(matrix);
+            Buff.flush();
+            Buff.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
