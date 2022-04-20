@@ -143,7 +143,8 @@ public class DealWithImage {
  *
  */
 
-    public void rc4(char[] Sbox) {//得到Sbox
+    public void rc4() {//得到Sbox
+        char[] Sbox = new char[256];
         int i = 0, j = 0;
         char[] key = {1, 2, 3};//密钥
         char[] K = new char[256];
