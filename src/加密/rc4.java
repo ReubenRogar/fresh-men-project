@@ -33,6 +33,6 @@ public class rc4 {
 
 
     public static void main(String[] args) {
-
+        DealWithImage DC = new DealWithImage(bytes2Str0b(ImageToCode.imageToByte("./测试用图片/1.jpg")));
     }
 }
