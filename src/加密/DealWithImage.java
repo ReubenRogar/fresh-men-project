@@ -178,30 +178,16 @@ public class DealWithImage {
             };
             i = 0;
             j = 0;
-            int DCnum = DC.size();
-            if (o == 1) {
-                for (int k = 0; k < DCnum; k++) {
-                    i = (i + 1) % 256;
-                    j = (j + Sbox[i]) % 256;
-                    tmp = Sbox[i];
-                    Sbox[i] = Sbox[j]; //交换s[x]和s[y]
-                    Sbox[j] = tmp;
-                    T = (Sbox[i] + Sbox[j]) % 256;
-                    DC.get(k).x ^= Sbox[T];
-                }
-            } else {
-                for (int k = 0; k < DCnum; k++) {
-                    i = (i + 1) % 256;
-                    j = (j + Sbox[i]) % 256;
-                    tmp = Sbox[i];
-                    Sbox[i] = Sbox[j]; //交换s[x]和s[y]
-                    Sbox[j] = tmp;
-                    T = (Sbox[i] + Sbox[j]) % 256;
-                    DC.get(k).x ^= Sbox[T];
-                }
+            for (int k = 0; k < DC.size(); k++) {
+                i = (i + 1) % 256;
+                j = (j + Sbox[i]) % 256;
+                tmp = Sbox[i];
+                Sbox[i] = Sbox[j]; //交换s[x]和s[y]
+                Sbox[j] = tmp;
+                T = (Sbox[i] + Sbox[j]) % 256;
+                DC.get(k).x ^= Sbox[T];
             }
         }
-    }
 
     /**
      * 提取DCT块
