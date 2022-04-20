@@ -559,37 +559,37 @@ public class DealWithImage {
      * @param x 去差分还是差分
      */
     public void changeBias(int x){
-        switch (x){
-            case 0:
-                for(int i = 1;i <=3;i++){//去差分
-                    ArrayList<Point> DC = switch (i) {
-                        case 1 -> yDC;
-                        case 2 -> CbDC;
-                        case 3 -> CrDC;
-                        default -> null;
-                    };
+        for(int i = 1;i <=3;i++){
+            ArrayList<Point> DC;
+            switch (i) {
+                case 1:
+                    DC = yDC;
+                    break;
+                case 2:
+                    DC = CbDC;
+                    break;
+                case 3:
+                    DC = CrDC;
+                    break;
+                default:
+                    DC = null;
+            };
+            switch (x){
+                case 0://去差分
                     for(int j =0;j< DC.size()-1;j++){
                         DC.get(j+1).x+=DC.get(j).x;
                     }
-                }
-                break;
-            case 1:
-                for(int i = 1;i <=3;i++){//差分
-                    ArrayList<Point> DC = switch (i) {
-                        case 1 -> yDC;
-                        case 2 -> CbDC;
-                        case 3 -> CrDC;
-                        default -> null;
-                    };
+                    break;
+                case 1:
                     for(int j =DC.size()-1;j>0;j--){
                         DC.get(j).x-=DC.get(j-1).x;
                     }
-                }
-                break;
-            default:
-                System.out.println("无效参数输入");
-                break;
-        }
+                    break;
+                default:
+                    System.out.println("无效参数输入");
+                    break;
+            }
 
+        }
     }
 }

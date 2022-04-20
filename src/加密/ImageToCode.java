@@ -1,8 +1,6 @@
 package 加密;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import java.awt.image.BufferedImage;
+
 import java.io.*;
 
 public class ImageToCode {
@@ -10,7 +8,7 @@ public class ImageToCode {
     public static byte[] imageToByte(String path) {
         byte[] data = null;
         
-        try (FileImageInputStream input = new FileImageInputStream(new File(path));
+        try (FileInputStream input = new FileInputStream(new File(path));
              ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             
             byte[] buf = new byte[1024];
