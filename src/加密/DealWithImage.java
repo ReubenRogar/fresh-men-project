@@ -43,10 +43,10 @@ public class DealWithImage {
         System.out.println("startGet!");
         start += image[start] * 16 * 16 + image[start + 1];
         target = new byte[image.length - 2 - start];
-        System.arraycopy(image, 0 + start, target, 0, target.length);
+        System.arraycopy(image, start, target, 0, target.length);
     }
 
-    public void simpleEn(){
+    public void simpleEn(String outFile){
         System.out.println("simpleEnStart!");
         getDCTOnlyDC();
         System.out.println("Y:"+yDC);
@@ -58,18 +58,21 @@ public class DealWithImage {
         StringBuilder sb = new StringBuilder();
         int bytes = 0;
         for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
-            ArrayList<Point> DC = null;
-            int index = 0;
-            switch (i%6){
-                case 5:DC = CbDC;
-                    index = i/6;
-                    break;
-                case 0:DC = CrDC;
-                index = i / 6-1;
-                    break;
-                default:DC = yDC;
-                index = i/6*4+i%6-1;
-                    break;
+            ArrayList<Point> DC;
+            int index;
+            switch (i % 6) {
+                case 5 -> {
+                    DC = CbDC;
+                    index = i / 6;
+                }
+                case 0 -> {
+                    DC = CrDC;
+                    index = i / 6 - 1;
+                }
+                default -> {
+                    DC = yDC;
+                    index = i / 6 * 4 + i % 6 - 1;
+                }
             }
             while(sb.length()<DC.get(index).y+16&&bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
             if(DC.get(index).x != 0) {
@@ -87,14 +90,14 @@ public class DealWithImage {
         temp[temp.length-1] = -39;
         temp[temp.length-2] = -1;
         System.arraycopy(target,0,temp,start,target.length);
-        outputImage("E:/测试/6--.jpg",temp);
+        outputImage(outFile,temp);
     }
 
 
     public static void main(String[] args) {
 
         DealWithImage dealWithImage = new DealWithImage("E:/测试/6-.jpg");
-        dealWithImage.simpleEn();
+        dealWithImage.simpleEn("E:/测试/6--.jpg");
     }
     /**
      * 仅异或DC系数
@@ -104,18 +107,12 @@ public class DealWithImage {
         String temp, key,result;
         double u = 3.79, x = 0.88;
         for(int o = 1;o <=3;o++) {
-            ArrayList<Point> DC = null;
-            switch (o) {
-                case 1:
-                    DC = yDC;
-                    break;
-                case 2:
-                    DC = CbDC;
-                    break;
-                case 3:
-                    DC = CrDC;
-                    break;
-            }
+            ArrayList<Point> DC = switch (o) {
+                case 1 -> yDC;
+                case 2 -> CbDC;
+                case 3 -> CrDC;
+                default -> null;
+            };
             for (int i = 0; i < DC.size(); i++) {
                 if (DC.get(i).x!=0) {
                     temp = int2str0b(DC.get(i).x);
@@ -206,7 +203,7 @@ public class DealWithImage {
                         break;
                     }else if(pAC[0] != 15){
                         System.out.println("剩余填充数据");
-                        System.out.println(code.substring(0,code.length()<100?code.length():100));
+                        System.out.println(code.substring(0, Math.min(code.length(), 100)));
                         System.out.println(DC);
                         System.out.println("--------------------------------------------------------------------------");
                         return;
@@ -221,7 +218,7 @@ public class DealWithImage {
                 if(index == 64){
                     break;
                 }
-                if(code == ""){
+                if(code.isEmpty()){
                     System.out.println("--------------------------------------------------------------------------");
                     return;
                 }
@@ -234,7 +231,6 @@ public class DealWithImage {
     /**
      * 提取DCT块
      * @param code 二进制字符串
-     * @return 1*64数据块
      */
     public void getDCT(String code) {
 //测试
@@ -316,7 +312,7 @@ public class DealWithImage {
                 if(index == 64){
                     break;
                 }
-                if(code == ""){
+                if(code.isEmpty()){
                     DCT.add(arr.clone());
                     outputArr(DCT);
                     System.out.println("--------------------------------------------------------------------------");
@@ -334,7 +330,6 @@ public class DealWithImage {
             }
 
         }
-        return;
     }
 
 
@@ -407,7 +402,7 @@ public class DealWithImage {
 
     /**
      * 获取图片中的huffman表
-     * @param image
+     * @param image 图片信息
      */
     public void getHuffmanTable(byte[] image){
         Point DC_luminance = new Point();
@@ -472,8 +467,8 @@ public class DealWithImage {
 
     /**
      * int转二进制字符串
-     * @param s
-     * @return
+     * @param s 数字
+     * @return 遵循0开头为负二进制字符串
      */
     public static String int2str0b(int s){
         StringBuilder s1 = new StringBuilder("");
