@@ -91,7 +91,7 @@ public class DealWithImage {
 
     public static void main(String[] args) {
 
-        DealWithImage dealWithImage = new DealWithImage("E:/测试/6.jpg");
+        DealWithImage dealWithImage = new DealWithImage("./测试用图片/1.jpg");
         dealWithImage.simpleEn();
     }
     /**
