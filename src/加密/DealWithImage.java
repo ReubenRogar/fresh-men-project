@@ -54,9 +54,8 @@ public class DealWithImage {
         System.out.println("Cr:"+CrDC);
 
         //simpleAct();
-        char[] Sbox = new char[256];
         //rc4(Sbox);
-        rc4(Sbox);
+        rc4();
         StringBuilder sb = new StringBuilder();
         int bytes = 0;
         /*for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
@@ -175,7 +174,8 @@ public class DealWithImage {
                 default:
                     DC = null;
                     break;
-            };
+            }
+            ;
             i = 0;
             j = 0;
             for (int k = 0; k < DC.size(); k++) {
@@ -188,7 +188,7 @@ public class DealWithImage {
                 DC.get(k).x ^= Sbox[T];
             }
         }
-
+    }
     /**
      * 提取DCT块
      */
