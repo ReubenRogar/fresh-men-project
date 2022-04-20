@@ -1,12 +1,9 @@
 package 加密;
 
 
-import jdk.swing.interop.SwingInterOpUtils;
 
 import java.awt.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static 加密.ImageToCode.*;
 import static 加密.ImageToCode.imageToByte;
@@ -36,95 +33,66 @@ public class DealWithImage {
     public DealWithImage(String inFile){
         image = imageToByte(inFile);
         getHuffmanTable(image);
+        System.out.println("获取哈夫曼表！");
         for (start = image.length - 1; start >= 0; start--) {
             if (image[start] == -1 && image[start + 1] == -38) {
                 start += 2;
                 break;
             }
         }
+        System.out.println("startGet!");
         start += image[start] * 16 * 16 + image[start + 1];
         target = new byte[image.length - 2 - start];
         System.arraycopy(image, 0 + start, target, 0, target.length);
     }
 
     public void simpleEn(){
-        getDCTOnlyDC(bytes2Str0b(target));
-        /*
-        for(int i = 1;i <=3;i++){//去差分
-            ArrayList<Point> DC = null;
-            switch (i){
-                case 1:DC = yDC;
-                break;
-                case 2:DC = CbDC;
-                break;
-                case 3:DC = CrDC;
-                break;
-            }
-            for(int j =0;j< DC.size()-1;j++){
-                DC.get(j+1).x+=DC.get(j).x;
-            }
-        }*/
+        System.out.println("simpleEnStart!");
+        getDCTOnlyDC();
         System.out.println("Y:"+yDC);
         System.out.println("Cb:"+CbDC);
         System.out.println("Cr:"+CrDC);
-        /*
-        for(int i = 1;i <=3;i++){//差分
-            ArrayList<Point> DC = null;
-            switch (i){
-                case 1:DC = yDC;
-                    break;
-                case 2:DC = CbDC;
-                    break;
-                case 3:DC = CrDC;
-                    break;
-            }
-            for(int j =DC.size()-1;j>0;j--){
-                DC.get(j).x-=DC.get(j-1).x;
-            }
-        }*/
-        System.out.println("加密前FF 00数量:"+countFF00(target));
 
         simpleAct();
 
-        StringBuilder sb = new StringBuilder(bytes2Str0b(target));
-        System.out.println("加密前压缩数据长度:"+sb.length());
-        for(int i = 1;i <=3;i++){//加密放回
+        StringBuilder sb = new StringBuilder();
+        int bytes = 0;
+        for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
             ArrayList<Point> DC = null;
-            switch (i){
-                case 1:DC = yDC;
+            int index = 0;
+            switch (i%6){
+                case 5:DC = CbDC;
+                    index = i/6;
                     break;
-                case 2:DC = CbDC;
+                case 0:DC = CrDC;
+                index = i / 6-1;
                     break;
-                case 3:DC = CrDC;
+                default:DC = yDC;
+                index = i/6*4+i%6-1;
                     break;
             }
-            for(int j =0;j< DC.size();j++){
-                if(DC.get(j).x != 0) {
-                    String temp = int2str0b(DC.get(j).x);
-                    sb.replace(DC.get(j).y, DC.get(j).y + temp.length(), temp);
-                }
-            }
+            while(sb.length()<DC.get(index).y+16&&bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
+            String temp = int2str0b(DC.get(index).x);
+            sb.replace(DC.get(index).y,DC.get(index).y+temp.length(),temp);
         }
-        System.out.println("放入后压缩数据长度:"+sb.length());
-        //System.out.println("Y:"+yDC);
-        //System.out.println("Cb:"+CbDC);
-        //System.out.println("Cr:"+CrDC);
+        while(sb.length() < target.length*8)sb.append(byte2Str0b(target[bytes++]));
+        System.out.println("Y:"+yDC);
+        System.out.println("Cb:"+CbDC);
+        System.out.println("Cr:"+CrDC);
         target = str0b2Bytes(new String(sb));
         byte[] temp = new byte[start+2+target.length];
         System.arraycopy(image,0,temp,0,start);
         temp[temp.length-1] = -39;
         temp[temp.length-2] = -1;
-        System.out.println("加密后FF 00数量:"+countFF00(target));
         System.arraycopy(target,0,temp,start,target.length);
-        outputImage("E:/测试/1--.jpg",temp);
+        outputImage("E:/测试/6-.jpg",temp);
     }
 
 
     public static void main(String[] args) {
-        //output8Str(bytes2Str0b(imageToByte("E:/测试/8蓝图.jpg")));
-        DealWithImage dealWithImage = new DealWithImage("E:/测试/1-.jpg");
+
+        DealWithImage dealWithImage = new DealWithImage("E:/测试/6.jpg");
         dealWithImage.simpleEn();
-        System.out.println(int2str0b(0));
     }
     /**
      * 仅异或DC系数
@@ -173,10 +141,11 @@ public class DealWithImage {
 
     /**
      * 提取DCT块
-     * @param code 二进制字符串
-     * @return 1*64数据块
      */
-    public void getDCTOnlyDC(String code) {
+    public void getDCTOnlyDC() {
+        String code = "";
+        int bytes = 0;//压缩数据byte数组的输入数
+        while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
         int allStart = 0;//Dc系数在压缩数据中的位置
         DCTable dcTable;
         ACTable acTable;
@@ -221,6 +190,7 @@ public class DealWithImage {
             System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1)+"allStart:"+allStart);
 
             code = code.substring(pDC.x + pDC.y);
+            while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
@@ -229,6 +199,7 @@ public class DealWithImage {
                 if(pAC[1] == 0){//Size为0
                     if(pAC[0] == 0){// 0/0 EOB
                         code = code.substring(pAC[2]);
+                        while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
                         allStart += pAC[2];
                         break;
                     }else if(pAC[0] != 15){
@@ -242,6 +213,7 @@ public class DealWithImage {
                 //Run个零+1个ac
                 index += pAC[0]+1;
                 code = code.substring(pAC[2]+pAC[1]);
+                while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
                 allStart += pAC[2]+pAC[1];
                 //DCT块数据输入完毕
                 if(index == 64){
@@ -325,7 +297,6 @@ public class DealWithImage {
                         DCT.add(arr.clone());
                         outputArr(DCT);
                         System.out.println("--------------------------------------------------------------------------");
-                        DCT = changeBias(DCT);
                         return;
                     }
                 }
@@ -347,7 +318,6 @@ public class DealWithImage {
                     DCT.add(arr.clone());
                     outputArr(DCT);
                     System.out.println("--------------------------------------------------------------------------");
-                    DCT = changeBias(DCT);
                     return;
                 }
             }
@@ -362,21 +332,10 @@ public class DealWithImage {
             }
 
         }
-        DCT = changeBias(DCT);
         return;
     }
 
-    /**
-     * 去差分
-     * @param DCT 二维数组
-     * @return 去差分后数组
-     */
-    public static ArrayList<int[]> changeBias(ArrayList<int[]> DCT){
-        for(int i = 1;i < DCT.size() ;i++){
-            DCT.get(i)[0] += DCT.get(i - 1)[0];
-        }
-        return DCT;
-    }
+
 
 
     /**
@@ -531,51 +490,9 @@ public class DealWithImage {
         return s1.toString();
     }
 
-    /**
-     * 异或处理二进制数组
-     *
-     * @param code 字节码
-     * @return 异或后字节码
-     */
-    public static int xorCode(int code,int length) {
-        int xorTarget = (int)((Math.pow(2,length)-Math.pow(2,length-1))*0.88 +Math.pow(2,length-1));
-        code = code ^ xorTarget;
-        //x = u * x * (1 - x);
-        return code;
-    }
-
-    /**
-     * 对DC的字符串信息进行异或处理
-     * @param DCBefore
-     * @return
-     */
-    public static String changeDC(String DCBefore) {
-        int DC = 0, delta = 1;
-        byte DCs[] = DCBefore.getBytes();
-        System.out.println(DCBefore);
-        String result ="";
-            for (int i = DCs.length - 1; i >= 0; i--) {
-                if (DCs[i] == '1') DC += delta;
-                delta *= 2;
-            }
-        System.out.println(DC);
-            DC = xorCode(DC,DCBefore.length());
-        System.out.println(DC);
-            LinkedList<Character> DCAfter = new LinkedList<>();
-            while (DC > 0) {
-                DCAfter.addFirst((char)(DC%2+'0'));
-                DC /= 2;
-            }
-            while(DCAfter.size()< DCs.length)DCAfter.addFirst('0');
-            for (Character character : DCAfter) {
-                result += character;
-            }
-        System.out.println(result);
-        return result;
-    }
 
     //把byte数组转二进制字符串
-    public static String bytes2Str0b(byte[] target){
+    public static String bytes2Str0b(byte[] bytes){
         String[] binaryArray =
                 {
                         "0000","0001","0010","0011",
@@ -586,14 +503,32 @@ public class DealWithImage {
 
         String outStr = "";
         int i =0;
-        for (int j = 0;j <target.length;j++) {
-            byte b = target[j];
+        for (int j = 0;j <bytes.length;j++) {
+            byte b = bytes[j];
             i = (b&0xF0) >> 4;
             outStr+=binaryArray[i];
             i=b&0x0F;
             outStr+=binaryArray[i];
             if(b == -1)j++;
         }
+        return outStr;
+    }
+    //把byte数组转二进制字符串
+    public static String byte2Str0b(byte b){
+        String[] binaryArray =
+                {
+                        "0000","0001","0010","0011",
+                        "0100","0101","0110","0111",
+                        "1000","1001","1010","1011",
+                        "1100","1101","1110","1111"
+                };
+
+        String outStr = "";
+        int i =0;
+            i = (b&0xF0) >> 4;
+            outStr+=binaryArray[i];
+            i=b&0x0F;
+            outStr+=binaryArray[i];
         return outStr;
     }
 
@@ -623,5 +558,49 @@ public class DealWithImage {
             return bts;
         }
 
+    /**
+     * 去差分
+     * @param x 去差分还是差分
+     * @return 去差分后数组
+     */
+    public void changeBias(int x){
+        switch (x){
+            case 0:
+                for(int i = 1;i <=3;i++){//去差分
+                    ArrayList<Point> DC = null;
+                    switch (i){
+                        case 1:DC = yDC;
+                            break;
+                        case 2:DC = CbDC;
+                            break;
+                        case 3:DC = CrDC;
+                            break;
+                    }
+                    for(int j =0;j< DC.size()-1;j++){
+                        DC.get(j+1).x+=DC.get(j).x;
+                    }
+                }
+                break;
+            case 1:
+                for(int i = 1;i <=3;i++){//差分
+                    ArrayList<Point> DC = null;
+                    switch (i){
+                        case 1:DC = yDC;
+                            break;
+                        case 2:DC = CbDC;
+                            break;
+                        case 3:DC = CrDC;
+                            break;
+                    }
+                    for(int j =DC.size()-1;j>0;j--){
+                        DC.get(j).x-=DC.get(j-1).x;
+                    }
+                }
+                break;
+            default:
+                System.out.println("无效参数输入");
+                break;
+        }
 
+    }
 }
