@@ -23,6 +23,9 @@ public class DealWithImage {
     private ArrayList<Point> yDC;
     private ArrayList<Point> CbDC;
     private ArrayList<Point> CrDC;
+    private ArrayList<Point> EnyDC;
+    private ArrayList<Point> EnCbDC;
+    private ArrayList<Point> EnCrDC;
     private byte[] image;
     private byte[] target;
     private int start;
@@ -53,9 +56,10 @@ public class DealWithImage {
         System.out.println("Cb:"+CbDC);
         System.out.println("Cr:"+CrDC);
 
-        //simpleAct();
+        simpleAct();
+        //char[] Sbox = new char[256];
+
         //rc4(Sbox);
-        rc4();
         StringBuilder sb = new StringBuilder();
         int bytes = 0;
         /*for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
@@ -105,14 +109,26 @@ public class DealWithImage {
      */
     public void simpleAct() {
         int xs;
+        EnyDC = new ArrayList<>();
+        EnCbDC = new ArrayList<>();
+        EnCrDC = new ArrayList<>();
         String temp, key,result;
         double u = 3.79, x = 0.88;
         for(int o = 1;o <=3;o++) {
-            ArrayList<Point> DC = switch (o) {
-                case 1 -> yDC;
-                case 2 -> CbDC;
-                case 3 -> CrDC;
-                default -> null;
+            ArrayList<Point> DC;
+            ArrayList<Point> EnDC;
+            switch (o) {
+                case 1:
+                    DC =  yDC;
+                    break;
+                case 2:
+                    DC =  CbDC;
+                    break;
+                case 3:
+                    DC =  CrDC;
+                    break;
+                default:
+                    DC = null;
             };
             for (int i = 0; i < DC.size(); i++) {
                 if (DC.get(i).x!=0) {
@@ -142,13 +158,12 @@ public class DealWithImage {
  *
  */
 
-    public void rc4() {//得到Sbox
-        char[] Sbox = new char[256];
+    public void rc4(char[] Sbox) {//得到Sbox
         int i = 0, j = 0;
         char[] key = {1, 2, 3};//密钥
         char[] K = new char[256];
         char tmp = 0;
-        for (; i < 256; i++) {
+        for (i = 0; i < 256; i++) {
             Sbox[i] = (char) i;
             K[i] = key[i % key.length];//超过长度则回到key[0]
         }
@@ -159,36 +174,44 @@ public class DealWithImage {
             Sbox[j] = tmp;
         }
         int T = 0, m = 0;
-        for (int o = 1; o <= 3; o++) {
-            ArrayList<Point> DC;
+        for(int o = 1;o <= 3;o++) {
+            ArrayList<Point> DC ;
             switch (o) {
-                case 1:
-                    DC = yDC;
-                    break;
-                case 2:
-                    DC = CbDC;
-                    break;
-                case 3:
-                    DC = CrDC;
-                    break;
-                default:
-                    DC = null;
-                    break;
-            }
-            ;
+                case 1 :DC = yDC;
+                            break;
+                case 2 :DC = CbDC;
+                            break;
+                case 3 :DC = CrDC;
+                            break;
+                default :DC = null;
+            };
             i = 0;
             j = 0;
-            for (int k = 0; k < DC.size(); k++) {
-                i = (i + 1) % 256;
-                j = (j + Sbox[i]) % 256;
-                tmp = Sbox[i];
-                Sbox[i] = Sbox[j]; //交换s[x]和s[y]
-                Sbox[j] = tmp;
-                T = (Sbox[i] + Sbox[j]) % 256;
-                DC.get(k).x ^= Sbox[T];
+            int DCnum = DC.size();
+            if (o == 1) {
+                for (int k = 0; k < DCnum; k++) {
+                    i = (i + 1) % 256;
+                    j = (j + Sbox[i]) % 256;
+                    tmp = Sbox[i];
+                    Sbox[i] = Sbox[j]; //交换s[x]和s[y]
+                    Sbox[j] = tmp;
+                    T = (Sbox[i] + Sbox[j]) % 256;
+                    DC.get(k).x ^= Sbox[T];
+                }
+            } else {
+                for (int k = 0; k < DCnum; k++) {
+                    i = (i + 1) % 256;
+                    j = (j + Sbox[i]) % 256;
+                    tmp = Sbox[i];
+                    Sbox[i] = Sbox[j]; //交换s[x]和s[y]
+                    Sbox[j] = tmp;
+                    T = (Sbox[i] + Sbox[j]) % 256;
+                    DC.get(k).x ^= Sbox[T];
+                }
             }
         }
     }
+
     /**
      * 提取DCT块
      */
