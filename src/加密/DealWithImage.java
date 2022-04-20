@@ -53,11 +53,13 @@ public class DealWithImage {
         System.out.println("Cb:"+CbDC);
         System.out.println("Cr:"+CrDC);
 
-        simpleAct();
-
+        //simpleAct();
+        char[] Sbox = new char[256];
+        //rc4(Sbox);
+        rc4(Sbox);
         StringBuilder sb = new StringBuilder();
         int bytes = 0;
-        for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
+        /*for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
             ArrayList<Point> DC;
             int index;
             switch (i % 6) {
@@ -79,7 +81,7 @@ public class DealWithImage {
                 String temp = int2str0b(DC.get(index).x);
                 sb.replace(DC.get(index).y, DC.get(index).y + temp.length(), temp);
             }
-        }
+        }*/
         while(bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
         System.out.println("Y:"+yDC);
         System.out.println("Cb:"+CbDC);
@@ -96,8 +98,8 @@ public class DealWithImage {
 
     public static void main(String[] args) {
 
-        DealWithImage dealWithImage = new DealWithImage("E:/测试/6-.jpg");
-        dealWithImage.simpleEn("E:/测试/6--.jpg");
+        DealWithImage dealWithImage = new DealWithImage("./测试用图片/1.jpg");
+        dealWithImage.simpleEn("./测试用图片/1.jpg");
     }
     /**
      * 仅异或DC系数
@@ -135,8 +137,55 @@ public class DealWithImage {
         }
         }
 
+/**
+ *
+ *   RC4
+ *
+ */
 
-
+    public void rc4(char[] Sbox) {//得到Sbox
+        int i = 0, j = 0;
+        char[] key = {1, 2, 3};//密钥
+        char[] K = new char[256];
+        char tmp = 0;
+        for (i = 0; i < 256; i++) {
+            Sbox[i] = (char) i;
+            K[i] = key[i % key.length];//超过长度则回到key[0]
+        }
+        for (i = 0; i < 256; i++) {
+            j = (j + Sbox[i] + K[i]) % 256;//j = (j + i + key[i % Len]) % 256
+            tmp = Sbox[i];
+            Sbox[i] = Sbox[j]; //交换s[i]和s[j]
+            Sbox[j] = tmp;
+        }
+        int T = 0, m = 0;
+        for(int o = 1;o <= 3;o++) {
+            ArrayList<Point> DC ;
+            switch (o) {
+                case 1 :DC = yDC;
+                            break;
+                case 2 :DC = CbDC;
+                            break;
+                case 3 :DC = CrDC;
+                            break;
+                default :DC = null;
+            };
+            for (i = 0, j = 0, m = 0; m < key.length; m++) {
+                i = (i + 1) % 256;
+                j = (j + Sbox[i]) % 256;
+                tmp = Sbox[i];
+                Sbox[i] = Sbox[j]; //交换s[x]和s[y]
+                Sbox[j] = tmp;
+                T = (Sbox[i] + Sbox[j]) % 256;
+            }
+            if (o == 0) {
+                for (int k = 0; k < 4; k++) {
+                    DC.get(k).x ^= Sbox[T];//?
+                }
+            }
+            else DC.get(0).x ^= Sbox[T];
+        }
+    }
 
     /**
      * 提取DCT块
