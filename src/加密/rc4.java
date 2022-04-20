@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class rc4 {
-    public void rc4(char[] Sbox , ArrayList<Point> Point){//得到Sbox
+    public static void rc4(char[] Sbox , ArrayList<Point> Point){//得到Sbox
         int i =0, j = 0;
         char[] key = {1,2,3};//密钥
         char[] K = new char[256];

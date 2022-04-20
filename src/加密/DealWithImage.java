@@ -10,8 +10,7 @@ import java.util.LinkedList;
 
 import static 加密.ImageToCode.*;
 import static 加密.ImageToCode.imageToByte;
-import static 加密.OutputForText.output8Str;
-import static 加密.OutputForText.outputArr;
+import static 加密.OutputForText.*;
 
 public class DealWithImage {
     // 直流亮度表
@@ -62,7 +61,7 @@ public class DealWithImage {
                 break;
             }
             for(int j =0;j< DC.size()-1;j++){
-                DC.set(j+1,new Point(DC.get(j+1).x+ DC.get(j).x,DC.get(j+1).y));
+                DC.get(j+1).x+=DC.get(j).x;
             }
         }*/
         System.out.println("Y:"+yDC);
@@ -80,13 +79,15 @@ public class DealWithImage {
                     break;
             }
             for(int j =DC.size()-1;j>0;j--){
-                DC.set(j,new Point(DC.get(j).x- DC.get(j-1).x,DC.get(j).y));
+                DC.get(j).x-=DC.get(j-1).x;
             }
         }*/
+        System.out.println("加密前FF 00数量:"+countFF00(target));
+
         simpleAct();
 
         StringBuilder sb = new StringBuilder(bytes2Str0b(target));
-        System.out.println(sb);
+        System.out.println("加密前压缩数据长度:"+sb.length());
         for(int i = 1;i <=3;i++){//加密放回
             ArrayList<Point> DC = null;
             switch (i){
@@ -104,19 +105,24 @@ public class DealWithImage {
                 }
             }
         }
-        System.out.println(sb);
-        System.out.println("Y:"+yDC);
-        System.out.println("Cb:"+CbDC);
-        System.out.println("Cr:"+CrDC);
+        System.out.println("放入后压缩数据长度:"+sb.length());
+        //System.out.println("Y:"+yDC);
+        //System.out.println("Cb:"+CbDC);
+        //System.out.println("Cr:"+CrDC);
         target = str0b2Bytes(new String(sb));
-        System.arraycopy(target,0,image,start,target.length);
-        outputImage("E:/测试/512难图--.jpg",image);
+        byte[] temp = new byte[start+2+target.length];
+        System.arraycopy(image,0,temp,0,start);
+        temp[temp.length-1] = -39;
+        temp[temp.length-2] = -1;
+        System.out.println("加密后FF 00数量:"+countFF00(target));
+        System.arraycopy(target,0,temp,start,target.length);
+        outputImage("E:/测试/1--.jpg",temp);
     }
 
 
     public static void main(String[] args) {
         //output8Str(bytes2Str0b(imageToByte("E:/测试/8蓝图.jpg")));
-        DealWithImage dealWithImage = new DealWithImage("E:/测试/512难图-.jpg");
+        DealWithImage dealWithImage = new DealWithImage("E:/测试/1-.jpg");
         dealWithImage.simpleEn();
         System.out.println(int2str0b(0));
     }
@@ -155,7 +161,7 @@ public class DealWithImage {
                         if (temp.charAt(j) == key.charAt(j)) result += "0";
                         else result += "1";
                     }
-                    System.out.println("temp:" + temp + " key:" + key + " result:" + result);
+                    //System.out.println("temp:" + temp + " key:" + key + " result:" + result);
                     DC.set(i, new Point(str0b2int(result), DC.get(i).y));
                 }
             }
