@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="解决FF 00bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
