@@ -72,10 +72,12 @@ public class DealWithImage {
                     break;
             }
             while(sb.length()<DC.get(index).y+16&&bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
-            String temp = int2str0b(DC.get(index).x);
-            sb.replace(DC.get(index).y,DC.get(index).y+temp.length(),temp);
+            if(DC.get(index).x != 0) {
+                String temp = int2str0b(DC.get(index).x);
+                sb.replace(DC.get(index).y, DC.get(index).y + temp.length(), temp);
+            }
         }
-        while(sb.length() < target.length*8)sb.append(byte2Str0b(target[bytes++]));
+        while(bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
         System.out.println("Y:"+yDC);
         System.out.println("Cb:"+CbDC);
         System.out.println("Cr:"+CrDC);
@@ -85,13 +87,13 @@ public class DealWithImage {
         temp[temp.length-1] = -39;
         temp[temp.length-2] = -1;
         System.arraycopy(target,0,temp,start,target.length);
-        outputImage("E:/测试/6-.jpg",temp);
+        outputImage("E:/测试/6--.jpg",temp);
     }
 
 
     public static void main(String[] args) {
 
-        DealWithImage dealWithImage = new DealWithImage("./测试用图片/1.jpg");
+        DealWithImage dealWithImage = new DealWithImage("E:/测试/6-.jpg");
         dealWithImage.simpleEn();
     }
     /**
@@ -545,9 +547,9 @@ public class DealWithImage {
             for (int i = 0; i < bts.length; i++)
                 bts[i] = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
                 ArrayList<Byte> Bts = new ArrayList<>();
-        for (byte bt : bts) {
-            Bts.add(bt);
-            if(bt == -1){
+        for (int i = 0;i<bts.length;i++) {
+            Bts.add(bts[i]);
+            if(bts[i] == -1&&bts[i+1] != 0){
                 Bts.add((byte)0);
             }
         }
