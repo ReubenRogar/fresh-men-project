@@ -226,7 +226,7 @@ public class DealWithImage {
             }
 
             //读取DC系数
-            Point pDC;//  读取categroy
+            Point pDC;//  读取category
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0)return;
             allStart += pDC.y;
@@ -311,7 +311,7 @@ public class DealWithImage {
             }
 
             //读取DC系数
-            Point pDC;//  读取categroy
+            Point pDC;//  读取category
             pDC = dcTable.getCategory(code);
 
             if (pDC.x == 0) index++;
@@ -584,8 +584,7 @@ public class DealWithImage {
             // 注：这里in.length() 不可在for循环内调用，因为长度在变化
             int remainder = in.length() % 8;
             if (remainder > 0)
-                for (int i = 0; i < 8 - remainder; i++)
-                    in.append("0");
+                in.append("0".repeat(8 - remainder));
             byte[] bts = new byte[in.length() / 8];
             // Step 8 Apply compression
             for (int i = 0; i < bts.length; i++)
@@ -607,46 +606,39 @@ public class DealWithImage {
     /**
      * 去差分
      * @param x 去差分还是差分
-     * @return 去差分后数组
      */
     public void changeBias(int x){
-        switch (x){
-            case 0:
-                for(int i = 1;i <=3;i++){//去差分
-                    ArrayList<Point> DC = null;
-                    switch (i){
-                        case 1:DC = yDC;
-                            break;
-                        case 2:DC = CbDC;
-                            break;
-                        case 3:DC = CrDC;
-                            break;
-                    }
+        for(int i = 1;i <=3;i++){
+            ArrayList<Point> DC;
+            switch (i) {
+                case 1:
+                    DC = yDC;
+                    break;
+                case 2:
+                    DC = CbDC;
+                    break;
+                case 3:
+                    DC = CrDC;
+                    break;
+                default:
+                    DC = null;
+            };
+            switch (x){
+                case 0://去差分
                     for(int j =0;j< DC.size()-1;j++){
                         DC.get(j+1).x+=DC.get(j).x;
                     }
-                }
-                break;
-            case 1:
-                for(int i = 1;i <=3;i++){//差分
-                    ArrayList<Point> DC = null;
-                    switch (i){
-                        case 1:DC = yDC;
-                            break;
-                        case 2:DC = CbDC;
-                            break;
-                        case 3:DC = CrDC;
-                            break;
-                    }
+                    break;
+                case 1:
                     for(int j =DC.size()-1;j>0;j--){
                         DC.get(j).x-=DC.get(j-1).x;
                     }
-                }
-                break;
-            default:
-                System.out.println("无效参数输入");
-                break;
-        }
+                    break;
+                default:
+                    System.out.println("无效参数输入");
+                    break;
+            }
 
+        }
     }
 }
