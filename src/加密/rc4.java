@@ -30,4 +30,9 @@ public class rc4 {
             Point.get(i).x ^= Sbox[T];//?
         }
     }
+
+
+    public static void main(String[] args) {
+
+    }
 }
