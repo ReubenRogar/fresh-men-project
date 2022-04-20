@@ -254,11 +254,9 @@ public class DealWithImage {
             Point pDC;//  读取category
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0)return;
-            allStart += pDC.y;
-            if (pDC.x == 0)
-                DC.add(new Point(0,allStart));
+            if (pDC.x == 0) DC.add(new Point(0,allStart));
             else DC.add(new Point(str0b2int(code.substring(pDC.y, pDC.x + pDC.y)),allStart));//byte转int(DC)
-            allStart += pDC.x;
+            allStart += pDC.x+pDC.y;
 //测试
             System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1)+"allStart:"+allStart);
 
