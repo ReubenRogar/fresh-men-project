@@ -115,11 +115,11 @@ public class DealWithImage {
 
 
     public static void main(String[] args) {
-        String fileName = "6";
-        DealWithImage dealWithImage = new DealWithImage("E:/测试/"+fileName+".jpg");
-        dealWithImage.simpleEn("E:/测试/"+fileName+"-.jpg");
-        DealWithImage DealWithImage = new DealWithImage("E:/测试/"+fileName+"-.jpg");
-        DealWithImage.simpleEn("E:/测试/"+fileName+"--.jpg");
+        String fileName = "8蓝图";
+        DealWithImage dealWithImage = new DealWithImage("./测试用图片/"+fileName+".jpg");
+        dealWithImage.simpleEn("./测试用图片/"+fileName+"-.jpg");
+        /*DealWithImage DealWithImage = new DealWithImage("./测试用图片/"+fileName+"-.jpg");
+        DealWithImage.simpleEn("./测试用图片/"+fileName+"--.jpg");*/
     }
 
 /**
@@ -171,15 +171,25 @@ public class DealWithImage {
                     index = flag/6*4+flag%6-1;
                     break;
             }
+
+            String int2str = int2str0b(DC.get(index).x);
+            String DC1 = "";
+            for (int k = 0; k < int2str.length(); k++) {
+                int[] str2intarr = new int[int2str.length()];
+                str2intarr[k] = Integer.valueOf(int2str.substring(k,k+1));
+                System.out.println("str2intarr[" + k + "]" + "=" + str2intarr[k]);
                 i = (i + 1) % 256;
                 j = (j + Sbox[i]) % 256;
                 tmp = Sbox[i];
                 Sbox[i] = Sbox[j]; //交换s[x]和s[y]
                 Sbox[j] = tmp;
                 T = (Sbox[i] + Sbox[j]) % 256;
-                EnDC.add(new Point(DC.get(index).x,DC.get(index).y));
-            //System.out.print(" index:"+index+" x:"+EnDC.get(index).x+" y:"+EnDC.get(index).y+" LastY:"+lastY);
-
+                str2intarr[k] ^= Sbox[T]%2;
+                System.out.println("Str2intarr[" + k + "]" + "=" + str2intarr[k] + "    Sbox[" + T + "]" + "=" + Sbox[T]);
+                DC1 = DC1 + str2intarr[k];
+                System.out.println(DC1);
+            }
+            //EnDC.add(new Point(str0b2int(DC1),DC.get(index).y));
         }
     }
 
