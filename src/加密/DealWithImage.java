@@ -1,6 +1,5 @@
 package 加密;
 import java.awt.*;
-import java.nio.channels.Pipe;
 import java.util.ArrayList;
 
 import static 加密.ImageToCode.*;
@@ -18,22 +17,26 @@ public class DealWithImage {
     private ACTable ACC;
     //DCT 1*64数据
     private ArrayList<int[]> DCT = new ArrayList<>();
-    private ArrayList<Point> yDC;
-    private ArrayList<Point> CbDC;
-    private ArrayList<Point> CrDC;
-    private ArrayList<Point> EnyDC;
-    private ArrayList<Point> EnCbDC;
-    private ArrayList<Point> EnCrDC;
+    private ArrayList<int[]> yDC;
+    private ArrayList<int[]> CbDC;
+    private ArrayList<int[]> CrDC;
     private byte[] image;
     private byte[] target;
     private int start;
+
+
+
 
     /**
      * 构造器获取图片的huffman表和DCT数据
      */
     public DealWithImage(String inFile){
         image = imageToByte(inFile);
-        getHuffmanTable(image);
+        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
+        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
+        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
+        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
+        //getHuffmanTable(image);
         for (start = image.length - 1; start >= 0; start--) {
             if (image[start] == -1 && image[start + 1] == -38) {
                 start += 2;
@@ -45,81 +48,33 @@ public class DealWithImage {
         System.arraycopy(image, start, target, 0, target.length);
     }
 
-    public void simpleEn(String outFile){
-        getDCTOnlyDC();
+    public void simpleEn(String outFile) {
+        getDCT();
+        changeBias(0);
+        System.out.print("Y:");outputArr(yDC);
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.print("Cb:");outputArr(CbDC);
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.print("Cr:");outputArr(CrDC);
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
+        changeBias(1);
 
-        rc4();
+        //rc4();
 
-        System.out.println("Y:"+yDC);
-        System.out.println("Cb:"+CbDC);
-        System.out.println("Cr:"+CrDC);
-        System.out.println("------------------------------------");
-        System.out.println("EnY:"+EnyDC);
-        System.out.println("EnCb:"+EnCbDC);
-        System.out.println("EnCr:"+EnCrDC);
-        StringBuilder sb = new StringBuilder();
-        int bytes = 0,allStart = 0;//bytes为target数组的位置，allStart为二进制字符串位置
-        for(int i = 1;i <=CbDC.size()+yDC.size()+CrDC.size();i++){//加密放回
-            ArrayList<Point> EnDC,DC;
-            DCTable dcTable;
-            String temp;
-            int index,lengthOfDC;
-            switch (i % 6) {
-                case 5:
-                    DC = CbDC;
-                    dcTable = DCC;
-                    EnDC = EnCbDC;
-                    index = i / 6;
-                    System.out.print("EnCbDC["+index+"]");
-                    temp = int2str0b(EnDC.get(index).x);
-                    temp = DCC.getHuffmanCode(temp.length()) +temp;
-                break;
-                case 0:
-                    dcTable = DCC;
-                    DC = CrDC;
-                    EnDC = EnCrDC;
-                    index = i / 6 - 1;
-                    System.out.print("EnCrDC["+index+"]");
-                    temp = int2str0b(EnDC.get(index).x);
-                    temp = DCC.getHuffmanCode(temp.length()) +temp;
-                break;
-                default:
-                    dcTable = DCL;
-                    DC = yDC;
-                    EnDC = EnyDC;
-                    index = i / 6 * 4 + i % 6 - 1;
-                    System.out.print("EnyDC["+index+"]");
-                    temp = int2str0b(EnDC.get(index).x);
-                    temp = DCL.getHuffmanCode(temp.length()) +temp;
-                break;
-            }
-            allStart += EnDC.get(index).y;
-            while(sb.length()<allStart+32&&bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
-            Point pDC = dcTable.getCategory(sb.substring(allStart));
-            if(pDC.y == 0) System.err.println("原DC位置错误,allStart:"+allStart);
-            if(str0b2int(sb.substring(allStart+pDC.y,allStart+pDC.x+pDC.y)) != DC.get(index).x) System.err.println("对应原DC错误");
-            else  System.out.println("替换DC:"+DC.get(index).x);
-                sb.replace(allStart, allStart+pDC.x+pDC.y, temp);
-                allStart += temp.length();
-        }
-        while(bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
-        target = str0b2Bytes(new String(sb));
-        byte[] temp = new byte[start+2+target.length];
-        System.arraycopy(image,0,temp,0,start);
-        temp[temp.length-1] = -39;
-        temp[temp.length-2] = -1;
-        System.arraycopy(target,0,temp,start,target.length);
-        outputImage(outFile,temp);
-        System.out.println("----------------------------上图结束----------------------------------");
+
+        //System.out.print("EnY:");outputArr(yDC);
+        //System.out.print("EnCb:");outputArr(CbDC);
+        //System.out.print("EnCr:");outputArr(CrDC);
+        setDCT(outFile);
     }
 
 
     public static void main(String[] args) {
-        String fileName = "6";
+        String fileName = "128粉线图";
         DealWithImage dealWithImage = new DealWithImage("E:/测试/"+fileName+".jpg");
         dealWithImage.simpleEn("E:/测试/"+fileName+"-.jpg");
-        DealWithImage DealWithImage = new DealWithImage("E:/测试/"+fileName+"-.jpg");
-        DealWithImage.simpleEn("E:/测试/"+fileName+"--.jpg");
+        //DealWithImage DealWithImage = new DealWithImage("E:/测试/"+fileName+"-.jpg");
+        //DealWithImage.simpleEn("E:/测试/"+fileName+"--.jpg");
     }
 
 /**
@@ -129,10 +84,6 @@ public class DealWithImage {
  */
 
     public void rc4() {//得到Sbox
-        EnyDC = new ArrayList<>();
-        EnCbDC =new ArrayList<>();
-        EnCrDC =new ArrayList<>();
-
         int i = 0, j = 0;
         char[] Sbox = new char[256];
         char[] key = {1, 2, 3};//密钥
@@ -150,24 +101,21 @@ public class DealWithImage {
         }
         int T,index;
         for (int flag = 1; flag <= CbDC.size()+CrDC.size()+yDC.size(); flag++) {
-            ArrayList<Point> DC,EnDC;
+            ArrayList<int[]> DC,EnDC;
             switch (flag%6) {
                 case 5:
                     //System.out.print("Cb: ");
                     DC = CbDC;
-                    EnDC = EnCbDC;
                     index = flag/6;
                    break;
                 case 0:
                     //System.out.print("Cr: ");
                     DC = CrDC;
-                    EnDC = EnCrDC;
                     index = flag/6-1;
                     break;
                 default:
                     //System.out.print("Y: ");
                     DC = yDC;
-                    EnDC = EnyDC;
                     index = flag/6*4+flag%6-1;
                     break;
             }
@@ -177,7 +125,7 @@ public class DealWithImage {
                 Sbox[i] = Sbox[j]; //交换s[x]和s[y]
                 Sbox[j] = tmp;
                 T = (Sbox[i] + Sbox[j]) % 256;
-                EnDC.add(new Point(DC.get(index).x,DC.get(index).y));
+                DC.get(index)[0]^=Sbox[T];
             //System.out.print(" index:"+index+" x:"+EnDC.get(index).x+" y:"+EnDC.get(index).y+" LastY:"+lastY);
 
         }
@@ -186,17 +134,16 @@ public class DealWithImage {
     /**
      * 提取DCT块
      */
-    public void getDCTOnlyDC() {
+    public void getDCT() {
         String code = "";
         int bytes = 0;//压缩数据byte数组的输入数
         while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
-        int allStart = 0,lastStart = 0;//Dc系数在压缩数据中的位置
         DCTable dcTable;
         ACTable acTable;
         yDC = new ArrayList<>();
         CrDC = new ArrayList<>();
         CbDC = new ArrayList<>();
-        ArrayList<Point> DC;
+        ArrayList<int[]> DC;
         int flag = -1;//表区分标志
         //读DCT块
         System.out.println("----------------------getDCT------------------------");
@@ -220,17 +167,14 @@ public class DealWithImage {
                 acTable = ACC;
                 DC = CrDC;
             }
-
+            int[] arr = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
             //读取DC系数
             Point pDC;//  读取category
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0)return;
-            if (pDC.x == 0) DC.add(new Point(0,allStart-lastStart));
-            else DC.add(new Point(str0b2int(code.substring(pDC.y, pDC.x + pDC.y)),allStart-lastStart));//byte转int(DC)
-            allStart += pDC.x+pDC.y;
-            lastStart = allStart;
+            if (pDC.x != 0)arr[0] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
 //测试
-            System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1)+"allStart:"+allStart);
+            System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+arr[0]);
 
             code = code.substring(pDC.x + pDC.y);
             while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
@@ -243,7 +187,7 @@ public class DealWithImage {
                     if(pAC[0] == 0){// 0/0 EOB
                         code = code.substring(pAC[2]);
                         while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
-                        allStart += pAC[2];
+                        DC.add(arr.clone());
                         break;
                     }else if(pAC[0] != 15){
                         System.out.println("剩余填充数据");
@@ -251,15 +195,20 @@ public class DealWithImage {
                         System.out.println(DC);
                         System.out.println("--------------------------------------------------------------------------");
                         return;
+                    }else{
+                        index += 16;
+                        code = code.substring(pAC[2]);
+                        continue;
                     }
                 }
                 //Run个零+1个ac
-                index += pAC[0]+1;
+                index += pAC[0];
+                arr[index++] = str0b2int(code.substring(pAC[2], pAC[2] + pAC[1]));
                 code = code.substring(pAC[2]+pAC[1]);
                 while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
-                allStart += pAC[2]+pAC[1];
                 //DCT块数据输入完毕
-                if(index == 64){
+                if(index > 63){
+                    DC.add(arr.clone());
                     break;
                 }
                 if(code.isEmpty()){
@@ -270,178 +219,66 @@ public class DealWithImage {
         }
     }
 
-
     /**
-     * 提取DCT块
-     * @param code 二进制字符串
+     * 放回DC系数
      */
-    public void getDCT(String code) {
-//测试
-        System.out.print("全部数据:");
-        OutputForText.output8Str(code);
-        int[] arr;//接收一个DCT块数据的数组
-        DCTable dcTable;
-        ACTable acTable;
-        int flag = -1;//表区分标志
-        //读DCT块
-//测试
-        System.out.println("----------------------getDCT------------------------");
-        while(true) {
-            //应用Huffman表
-            flag++;
-            arr = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
-            int index = 0;
-            if (flag % 3 == 0) {
-                System.out.println("亮度");
-                dcTable = DCL;
-                acTable = ACL;
-
-            } else {
-                System.out.println("色度");
-                dcTable = DCC;
-                acTable = ACC;
-
-
-            }
-
-            //读取DC系数
-            Point pDC;//  读取category
-            pDC = dcTable.getCategory(code);
-
-            if (pDC.x == 0) index++;
-            else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
-//测试
-            System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+arr[index-1]);
-
-            code = code.substring(pDC.x + pDC.y);
-//测试
-            System.out.print("剩余数据:");
-            OutputForText.output8Str(code);
-            //读取AC系数
-            int[] pAC;//用于读取run/size
-            //读取AC哈夫曼码
-            while(true) {
-                pAC = acTable.getRunSize(code);
-                if(pAC[1] == 0){//Size为0
-                    if(pAC[0] == 0){// 0/0 EOB
-                        code = code.substring(pAC[2]);
-                        break;
-                    }else if(pAC[0] == 16){// F/0 16个零
-                        index+=16;
-                        code = code.substring(pAC[2]);
-//测试
-                        System.out.print("剩余数据:");
-                        OutputForText.output8Str(code);
-                        continue;
-                    }else{
-                        System.out.println("剩余填充数据");
-                        DCT.add(arr.clone());
-                        outputArr(DCT);
-                        System.out.println("--------------------------------------------------------------------------");
-                        return;
-                    }
-                }
-                //Run个零
-                    index += pAC[0];
-                    output8Str(code.substring(0,code.length()%8+8));
-                    arr[index++] = str0b2int(code.substring(pAC[2], pAC[2] + pAC[1]));
-//测试
-                System.out.println(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]+" index:"+(index-1));
-                code = code.substring(pAC[2]+pAC[1]);
-//测试
-                System.out.print("剩余数据:");
-                OutputForText.output8Str(code);
-                //DCT块数据输入完毕
-                if(index == 64){
-                    break;
-                }
-                if(code.isEmpty()){
-                    DCT.add(arr.clone());
-                    outputArr(DCT);
-                    System.out.println("--------------------------------------------------------------------------");
-                    return;
-                }
-            }
-            DCT.add(arr.clone());
-            outputArr(DCT);
-            System.out.println("--------------------------------------------------------------------------");
-            if(code.length() < 8)break;
-            else {
-                while (code.length() % 8 != 0) {
-                    code = code.substring(1);
-                }
-            }
-
-        }
-    }
-
-
-
-
-    /**
-     * 1*64数组转二进制字符串
-     * @return DCT码
-     */
-    public String setDCT(){
-        String code = "";
-        String temp;
-        for(int i = DCT.size()-1;i > 0;i--){
-            DCT.get(i)[0] -= DCT.get(i - 1)[0];
-        }//去差分
-//测试
-        //System.out.println("------------------------setDCT-------------------------");
-        int DCTs = 0,index = 1;
-        for (int[] ints : DCT) {//遍历1*64数据块
+    public void setDCT(String outFile) {
+        StringBuilder sb = new StringBuilder();
+        int bytes = 0;//bytes为target数组的位置
+        for(int flag = 0;flag <CbDC.size()+yDC.size()+CrDC.size();flag++){//加密放回
+            ArrayList<int[]> EnDC,DC;
             DCTable dcTable;
             ACTable acTable;
-            if (DCTs % 3 == 0) {//亮度
-                dcTable = DCL;
-                acTable = ACL;
-//测试
-                //System.out.println("亮度");
-            }else {//色度*2
-                dcTable = DCC;
-                acTable = ACC;
-//测试
-                //System.out.println("色度");
+            String temp;
+            int index;
+            switch (flag % 6) {
+                case 4:
+                    DC = CbDC;
+                    dcTable = DCC;
+                    acTable = ACC;
+                    index = flag / 6;
+                    System.out.print("EnCbDC["+index+"]");
+                    break;
+                case 5:
+                    DC = CrDC;
+                    dcTable = DCC;
+                    acTable = ACC;
+                    index = flag / 6;
+                    System.out.print("EnCrDC["+index+"]");
+                    break;
+                default:
+                    DC = yDC;
+                    dcTable = DCL;
+                    acTable = ACL;
+                    index = flag / 6 * 4 + flag % 6;
+                    System.out.print("EnyDC["+index+"]");
+                    break;
             }
-                if(ints[0]!= 0){
-                    temp = int2str0b(ints[0]);
-                    code += dcTable.getHuffmanCode(temp.length()) + temp;
-                }else{
-                    temp ="00";
-                    code += "00";
+            temp = int2str0b(DC.get(index)[0]);
+            temp = dcTable.getHuffmanCode(temp.length()) +temp;
+            sb.append(temp);
+            int last = 0;
+            for(int i = 1;i <64;i++){
+                if(DC.get(index)[i] != 0){
+                    temp = int2str0b(DC.get(index)[i]);
+                    temp = acTable.getHuffmanCode(i - last - 1,temp.length()) + temp;
+                    sb.append(temp);
+                    last = i;
                 }
-//数据
-            //System.out.println("DC:"+ints[0]+" "+temp);
-            //System.out.print("数据:");
-            OutputForText.outputStr8(code);
-
-                int lastNum = 0;
-                for (index = 1; index < 64; index++) {
-                    if (ints[index] != 0) {
-                        temp = int2str0b(ints[index]);
-//测试
-                        //System.out.println("AC:"+ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
-                        code += acTable.getHuffmanCode(index - lastNum - 1, temp.length());
-                        code += temp;
-                        lastNum = index;
-                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
-                        code += acTable.getEOB();
-                    }
-                }
-                if(DCTs!=DCT.size()-1)while (code.length()%8!=0)code += "0";
-                else while (code.length()%8!=0)code += "1";
-//测试
-            //System.out.println("一个dct块输入结束：");
-            //System.out.print("数据:");
-            //OutputForText.outputStr8(code);
-
-            DCTs++;
+            }
         }
-        //System.out.println(code.length());
-    return code;
+        while (sb.length() %8 !=0)sb.append("1");
+        target = str0b2Bytes(new String(sb));
+        byte[] temp = new byte[start+2+target.length];
+        System.arraycopy(image,0,temp,0,start);
+        temp[temp.length-1] = -39;
+        temp[temp.length-2] = -1;
+        System.arraycopy(target,0,temp,start,target.length);
+        outputImage(outFile,temp);
+        System.out.println("----------------------------上图结束----------------------------------");
     }
+
+
 
     /**
      * 获取图片中的huffman表
@@ -603,7 +440,7 @@ public class DealWithImage {
      */
     public void changeBias(int x){
         for(int i = 1;i <=3;i++){
-            ArrayList<Point> DC;
+            ArrayList<int[]> DC;
             switch (i) {
                 case 1:
                     DC = yDC;
@@ -620,12 +457,12 @@ public class DealWithImage {
             switch (x){
                 case 0://去差分
                     for(int j =0;j< DC.size()-1;j++){
-                        DC.get(j+1).x+=DC.get(j).x;
+                        DC.get(j+1)[0]+=DC.get(j)[0];
                     }
                     break;
                 case 1:
                     for(int j =DC.size()-1;j>0;j--){
-                        DC.get(j).x-=DC.get(j-1).x;
+                        DC.get(j)[0]-=DC.get(j-1)[0];
                     }
                     break;
                 default:
