@@ -1,6 +1,8 @@
 package 加密;
+
+
+
 import java.awt.*;
-import java.nio.channels.Pipe;
 import java.util.ArrayList;
 
 import static 加密.ImageToCode.*;
@@ -10,20 +12,17 @@ import static 加密.OutputForText.*;
 public class DealWithImage {
     // 直流亮度表
     private DCTable DCL;
-    // 直流色度表
+    // 直流亮度表
     private DCTable DCC;
-    // 交流亮度表
+    // 直流亮度表
     private ACTable ACL;
-    // 交流色度表
+    // 直流亮度表
     private ACTable ACC;
     //DCT 1*64数据
     private ArrayList<int[]> DCT = new ArrayList<>();
     private ArrayList<Point> yDC;
     private ArrayList<Point> CbDC;
     private ArrayList<Point> CrDC;
-    private ArrayList<Point> EnyDC;
-    private ArrayList<Point> EnCbDC;
-    private ArrayList<Point> EnCrDC;
     private byte[] image;
     private byte[] target;
     private int start;
@@ -34,75 +33,60 @@ public class DealWithImage {
     public DealWithImage(String inFile){
         image = imageToByte(inFile);
         getHuffmanTable(image);
+        System.out.println("获取哈夫曼表！");
         for (start = image.length - 1; start >= 0; start--) {
             if (image[start] == -1 && image[start + 1] == -38) {
                 start += 2;
                 break;
             }
         }
+        System.out.println("startGet!");
         start += image[start] * 16 * 16 + image[start + 1];
         target = new byte[image.length - 2 - start];
         System.arraycopy(image, start, target, 0, target.length);
+        getTargetWithff00();
     }
 
     public void simpleEn(String outFile){
+        System.out.println("simpleEnStart!");
         getDCTOnlyDC();
-
-        rc4();
-
         System.out.println("Y:"+yDC);
         System.out.println("Cb:"+CbDC);
         System.out.println("Cr:"+CrDC);
-        System.out.println("------------------------------------");
-        System.out.println("EnY:"+EnyDC);
-        System.out.println("EnCb:"+EnCbDC);
-        System.out.println("EnCr:"+EnCrDC);
+
+        simpleAct();
+        simpleAct();
+
         StringBuilder sb = new StringBuilder();
-        int bytes = 0,allStart = 0;//bytes为target数组的位置，allStart为二进制字符串位置
-        for(int i = 1;i <=CbDC.size()+yDC.size()+CrDC.size();i++){//加密放回
-            ArrayList<Point> EnDC,DC;
-            DCTable dcTable;
-            String temp;
-            int index,lengthOfDC;
+        int bytes = 0;
+        for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
+            ArrayList<Point> DC;
+            int index;
             switch (i % 6) {
-                case 5:
+                case 5 -> {
                     DC = CbDC;
-                    dcTable = DCC;
-                    EnDC = EnCbDC;
                     index = i / 6;
-                    System.out.print("EnCbDC["+index+"]");
-                    temp = int2str0b(EnDC.get(index).x);
-                    temp = DCC.getHuffmanCode(temp.length()) +temp;
-                break;
-                case 0:
-                    dcTable = DCC;
+                }
+                case 0 -> {
                     DC = CrDC;
-                    EnDC = EnCrDC;
                     index = i / 6 - 1;
-                    System.out.print("EnCrDC["+index+"]");
-                    temp = int2str0b(EnDC.get(index).x);
-                    temp = DCC.getHuffmanCode(temp.length()) +temp;
-                break;
-                default:
-                    dcTable = DCL;
+                }
+                default -> {
                     DC = yDC;
-                    EnDC = EnyDC;
                     index = i / 6 * 4 + i % 6 - 1;
-                    System.out.print("EnyDC["+index+"]");
-                    temp = int2str0b(EnDC.get(index).x);
-                    temp = DCL.getHuffmanCode(temp.length()) +temp;
-                break;
+                }
             }
-            allStart += EnDC.get(index).y;
-            while(sb.length()<allStart+32&&bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
-            Point pDC = dcTable.getCategory(sb.substring(allStart));
-            if(pDC.y == 0) System.err.println("原DC位置错误,allStart:"+allStart);
-            if(str0b2int(sb.substring(allStart+pDC.y,allStart+pDC.x+pDC.y)) != DC.get(index).x) System.err.println("对应原DC错误");
-            else  System.out.println("替换DC:"+DC.get(index).x);
-                sb.replace(allStart, allStart+pDC.x+pDC.y, temp);
-                allStart += temp.length();
+            while(sb.length()<DC.get(index).y+16&&bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
+            if(DC.get(index).x != 0) {
+                String temp = int2str0b(DC.get(index).x);
+                sb.replace(DC.get(index).y, DC.get(index).y + temp.length(), temp);
+            }
         }
         while(bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
+        while (sb.length()%8 == 0)sb.append("1");
+        System.out.println("Y:"+yDC);
+        System.out.println("Cb:"+CbDC);
+        System.out.println("Cr:"+CrDC);
         target = str0b2Bytes(new String(sb));
         byte[] temp = new byte[start+2+target.length];
         System.arraycopy(image,0,temp,0,start);
@@ -110,97 +94,63 @@ public class DealWithImage {
         temp[temp.length-2] = -1;
         System.arraycopy(target,0,temp,start,target.length);
         outputImage(outFile,temp);
-        System.out.println("----------------------------上图结束----------------------------------");
     }
 
 
     public static void main(String[] args) {
-        String fileName = "8蓝图";
-        DealWithImage dealWithImage = new DealWithImage("./测试用图片/"+fileName+".jpg");
-        dealWithImage.simpleEn("./测试用图片/"+fileName+"-.jpg");
-        /*DealWithImage DealWithImage = new DealWithImage("./测试用图片/"+fileName+"-.jpg");
-        DealWithImage.simpleEn("./测试用图片/"+fileName+"--.jpg");*/
+        String fileName = "1";
+        DealWithImage dealWithImage = new DealWithImage("E:/测试/"+fileName+ ".jpg");
+        dealWithImage.simpleEn("E:/测试/"+fileName+ "-.jpg");
+        DealWithImage DealWithImage = new DealWithImage("E:/测试/"+fileName+ "-.jpg");
+        DealWithImage.simpleEn("E:/测试/"+fileName+ "--.jpg");
     }
-
-/**
- *
- *   RC4加密
- *
- */
-
-    public void rc4() {//得到Sbox
-        EnyDC = new ArrayList<>();
-        EnCbDC =new ArrayList<>();
-        EnCrDC =new ArrayList<>();
-
-        int i = 0, j = 0;
-        char[] Sbox = new char[256];
-        char[] key = {1, 2, 3};//密钥
-        char[] K = new char[256];
-        char tmp = 0;
-        for (i = 0; i < 256; i++) {
-            Sbox[i] = (char) i;
-            K[i] = key[i % key.length];//超过长度则回到key[0]
-        }
-        for (i = 0; i < 256; i++) {
-            j = (j + Sbox[i] + K[i]) % 256;//j = (j + i + key[i % Len]) % 256
-            tmp = Sbox[i];
-            Sbox[i] = Sbox[j]; //交换s[i]和s[j]
-            Sbox[j] = tmp;
-        }
-        int T,index;
-        for (int flag = 1; flag <= CbDC.size()+CrDC.size()+yDC.size(); flag++) {
-            ArrayList<Point> DC,EnDC;
-            switch (flag%6) {
-                case 5:
-                    //System.out.print("Cb: ");
-                    DC = CbDC;
-                    EnDC = EnCbDC;
-                    index = flag/6;
-                   break;
-                case 0:
-                    //System.out.print("Cr: ");
-                    DC = CrDC;
-                    EnDC = EnCrDC;
-                    index = flag/6-1;
-                    break;
-                default:
-                    //System.out.print("Y: ");
-                    DC = yDC;
-                    EnDC = EnyDC;
-                    index = flag/6*4+flag%6-1;
-                    break;
+    /**
+     * 仅异或DC系数
+     */
+    private void simpleAct() {
+        int xs;
+        String temp, key,result;
+        double u = 3.79, x = 0.88;
+        for(int o = 1;o <=3;o++) {
+            ArrayList<Point> DC = switch (o) {
+                case 1 -> yDC;
+                case 2 -> CbDC;
+                case 3 -> CrDC;
+                default -> null;
+            };
+            for (int i = 0; i < DC.size(); i++) {
+                if (DC.get(i).x!=0) {
+                    temp = int2str0b(DC.get(i).x);
+                    xs = (int) (Math.pow(2, temp.length() - 1) * (1 + x));
+                    x = x * u * (1 - x);
+                    key = int2str0b(xs);
+                    result = "" + temp.charAt(0);
+                    for (int j = 1; j < temp.length(); j++) {
+                        if (temp.length() != key.length()) {
+                            System.out.println("出错！");
+                            return;
+                        }
+                        if (temp.charAt(j) == key.charAt(j)) result += "0";
+                        else result += "1";
+                    }
+                    //System.out.println("temp:" + temp + " key:" + key + " result:" + result);
+                    DC.set(i, new Point(str0b2int(result), DC.get(i).y));
+                }
             }
-
-            String int2str = int2str0b(DC.get(index).x);
-            String DC1 = "";
-            for (int k = 0; k < int2str.length(); k++) {
-                int[] str2intarr = new int[int2str.length()];
-                str2intarr[k] = Integer.valueOf(int2str.substring(k,k+1));
-                System.out.println("str2intarr[" + k + "]" + "=" + str2intarr[k]);
-                i = (i + 1) % 256;
-                j = (j + Sbox[i]) % 256;
-                tmp = Sbox[i];
-                Sbox[i] = Sbox[j]; //交换s[x]和s[y]
-                Sbox[j] = tmp;
-                T = (Sbox[i] + Sbox[j]) % 256;
-                str2intarr[k] ^= Sbox[T]%2;
-                System.out.println("Str2intarr[" + k + "]" + "=" + str2intarr[k] + "    Sbox[" + T + "]" + "=" + Sbox[T]);
-                DC1 = DC1 + str2intarr[k];
-                System.out.println(DC1);
-            }
-            //EnDC.add(new Point(str0b2int(DC1),DC.get(index).y));
         }
-    }
+        }
+
+
+
 
     /**
      * 提取DCT块
      */
-    public void getDCTOnlyDC() {
+    private void getDCTOnlyDC() {
         String code = "";
         int bytes = 0;//压缩数据byte数组的输入数
         while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
-        int allStart = 0,lastStart = 0;//Dc系数在压缩数据中的位置
+        int allStart = 0;//Dc系数在压缩数据中的位置
         DCTable dcTable;
         ACTable acTable;
         yDC = new ArrayList<>();
@@ -215,30 +165,31 @@ public class DealWithImage {
             flag++;
             int index = 1;
             if (flag % 6 < 4) {
-                //System.out.println("亮度");
+                System.out.println("亮度");
                 dcTable = DCL;
                 acTable = ACL;
                 DC = yDC;
             } else if(flag% 6 ==4){
-                //System.out.println("色度");
+                System.out.println("色度");
                 dcTable = DCC;
                 acTable = ACC;
                 DC = CbDC;
             }else{
-                //System.out.println("色度");
+                System.out.println("色度");
                 dcTable = DCC;
                 acTable = ACC;
                 DC = CrDC;
             }
 
             //读取DC系数
-            Point pDC;//  读取category
+            Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0)return;
-            if (pDC.x == 0) DC.add(new Point(0,allStart-lastStart));
-            else DC.add(new Point(str0b2int(code.substring(pDC.y, pDC.x + pDC.y)),allStart-lastStart));//byte转int(DC)
-            allStart += pDC.x+pDC.y;
-            lastStart = allStart;
+            allStart += pDC.y;
+            if (pDC.x == 0)
+                DC.add(new Point(0,allStart));
+            else DC.add(new Point(str0b2int(code.substring(pDC.y, pDC.x + pDC.y)),allStart));//byte转int(DC)
+            allStart += pDC.x;
 //测试
             System.out.println(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1)+"allStart:"+allStart);
 
@@ -277,6 +228,7 @@ public class DealWithImage {
                     return;
                 }
             }
+            System.out.println("--------------------------------------------------------------------------");
         }
     }
 
@@ -315,7 +267,7 @@ public class DealWithImage {
             }
 
             //读取DC系数
-            Point pDC;//  读取category
+            Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
 
             if (pDC.x == 0) index++;
@@ -457,7 +409,7 @@ public class DealWithImage {
      * 获取图片中的huffman表
      * @param image 图片信息
      */
-    public void getHuffmanTable(byte[] image){
+    private void getHuffmanTable(byte[] image){
         Point DC_luminance = new Point();
         Point AC_luminance = new Point();
         Point DC_chrominance = new Point();
@@ -525,13 +477,13 @@ public class DealWithImage {
      */
     public static String int2str0b(int s){
         StringBuilder s1 = new StringBuilder("");
-        if(s < 0) {
-            s = -s;
-            do {
-                s1.insert(0, s % 2 == 0 ? '1' : '0');
+        if(s < 0){
+            s= -s;
+            do{
+                s1.insert(0,s%2 == 0? '1':'0') ;
                 s /= 2;
-            } while (s > 0);
-        }else if(s > 0){
+            }while(s > 0);
+        }else{
             do{
                 s1.insert(0, s%2 == 0?'0':'1');
                 s /= 2;
@@ -588,7 +540,8 @@ public class DealWithImage {
             // 注：这里in.length() 不可在for循环内调用，因为长度在变化
             int remainder = in.length() % 8;
             if (remainder > 0)
-                in.append("0".repeat(8 - remainder));
+                for (int i = 0; i < 8 - remainder; i++)
+                    in.append("0");
             byte[] bts = new byte[in.length() / 8];
             // Step 8 Apply compression
             for (int i = 0; i < bts.length; i++)
@@ -610,39 +563,58 @@ public class DealWithImage {
     /**
      * 去差分
      * @param x 去差分还是差分
+     * @return 去差分后数组
      */
     public void changeBias(int x){
-        for(int i = 1;i <=3;i++){
-            ArrayList<Point> DC;
-            switch (i) {
-                case 1:
-                    DC = yDC;
-                    break;
-                case 2:
-                    DC = CbDC;
-                    break;
-                case 3:
-                    DC = CrDC;
-                    break;
-                default:
-                    DC = null;
-            };
-            switch (x){
-                case 0://去差分
+        switch (x){
+            case 0:
+                for(int i = 1;i <=3;i++){//去差分
+                    ArrayList<Point> DC = null;
+                    switch (i){
+                        case 1:DC = yDC;
+                            break;
+                        case 2:DC = CbDC;
+                            break;
+                        case 3:DC = CrDC;
+                            break;
+                    }
                     for(int j =0;j< DC.size()-1;j++){
                         DC.get(j+1).x+=DC.get(j).x;
                     }
-                    break;
-                case 1:
+                }
+                break;
+            case 1:
+                for(int i = 1;i <=3;i++){//差分
+                    ArrayList<Point> DC = null;
+                    switch (i){
+                        case 1:DC = yDC;
+                            break;
+                        case 2:DC = CbDC;
+                            break;
+                        case 3:DC = CrDC;
+                            break;
+                    }
                     for(int j =DC.size()-1;j>0;j--){
                         DC.get(j).x-=DC.get(j-1).x;
                     }
-                    break;
-                default:
-                    System.out.println("无效参数输入");
-                    break;
-            }
-
+                }
+                break;
+            default:
+                System.out.println("无效参数输入");
+                break;
         }
+
+    }
+
+    private void getTargetWithff00(){
+        byte[] temp = new byte[target.length -countFF00(target)];
+        int index = 0;
+        for(int i = 0;i < target.length;i++){
+            temp[index++] = target[i];
+            if(target[i] == -1&&target[i+1] == 0){
+                i++;
+            }
+        }
+        target = temp;
     }
 }

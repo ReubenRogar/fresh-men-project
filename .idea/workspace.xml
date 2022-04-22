@@ -5,6 +5,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +24,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
