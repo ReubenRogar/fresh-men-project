@@ -11,6 +11,7 @@ import static 加密.OutputForText.*;
 
 public class DealWithImage {
     // 直流亮度表
+
     private DCTable DCL;
     // 直流亮度表
     private DCTable DCC;
@@ -32,7 +33,11 @@ public class DealWithImage {
      */
     public DealWithImage(String inFile){
         image = imageToByte(inFile);
-        getHuffmanTable(image);
+        //getHuffmanTable(image);
+        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
+        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
+        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
+        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
         System.out.println("获取哈夫曼表！");
         for (start = image.length - 1; start >= 0; start--) {
             if (image[start] == -1 && image[start + 1] == -38) {
@@ -54,7 +59,6 @@ public class DealWithImage {
         System.out.println("Cb:"+CbDC);
         System.out.println("Cr:"+CrDC);
 
-        simpleAct();
         simpleAct();
 
         StringBuilder sb = new StringBuilder();
@@ -99,10 +103,8 @@ public class DealWithImage {
 
     public static void main(String[] args) {
         String fileName = "1";
-        DealWithImage dealWithImage = new DealWithImage("E:/测试/"+fileName+ ".jpg");
-        dealWithImage.simpleEn("E:/测试/"+fileName+ "-.jpg");
-        DealWithImage DealWithImage = new DealWithImage("E:/测试/"+fileName+ "-.jpg");
-        DealWithImage.simpleEn("E:/测试/"+fileName+ "--.jpg");
+        DealWithImage dealWithImage = new DealWithImage("E:/text/"+fileName+ ".jpg");
+        dealWithImage.simpleEn("E:/text/"+fileName+ ".jpg");
     }
     /**
      * 仅异或DC系数
@@ -125,11 +127,11 @@ public class DealWithImage {
                     x = x * u * (1 - x);
                     key = int2str0b(xs);
                     result = "" + temp.charAt(0);
+                    if (temp.length() != key.length()) {
+                        System.out.println("出错！");
+                        return;
+                    }
                     for (int j = 1; j < temp.length(); j++) {
-                        if (temp.length() != key.length()) {
-                            System.out.println("出错！");
-                            return;
-                        }
                         if (temp.charAt(j) == key.charAt(j)) result += "0";
                         else result += "1";
                     }
@@ -138,7 +140,7 @@ public class DealWithImage {
                 }
             }
         }
-        }
+    }
 
 
 
@@ -182,6 +184,7 @@ public class DealWithImage {
             }
 
             //读取DC系数
+            while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0)return;
@@ -483,7 +486,7 @@ public class DealWithImage {
                 s1.insert(0,s%2 == 0? '1':'0') ;
                 s /= 2;
             }while(s > 0);
-        }else{
+        }else if(s > 0){
             do{
                 s1.insert(0, s%2 == 0?'0':'1');
                 s /= 2;
