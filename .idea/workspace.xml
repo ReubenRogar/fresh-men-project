@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="老版本新上线">
-      <change afterPath="$PROJECT_DIR$/src/加密/NewTypeEncrypt.java" afterDir="false" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="完成新加密密钥构建">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First-Java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/First-Java.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/NewTypeEncrypt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/NewTypeEncrypt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DCTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/MainLaucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/MainLaucher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +26,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -40,16 +44,24 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/测试用图片" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\programming_demo\freshman-year-project\src" />
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.NewTypeEncrypt">
+  <component name="RunManager" selected="应用程序.DealWithImage">
     <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
       <module name="First-Java" />
@@ -117,8 +129,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.NewTypeEncrypt" />
         <item itemvalue="应用程序.DealWithImage" />
+        <item itemvalue="应用程序.NewTypeEncrypt" />
         <item itemvalue="应用程序.OutputForText" />
         <item itemvalue="应用程序.ACTable" />
         <item itemvalue="应用程序.DCTable" />
@@ -386,7 +398,28 @@
       <option name="project" value="LOCAL" />
       <updated>1658061906224</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="新加密密钥构建">
+      <created>1659712534906</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1659712534906</updated>
+    </task>
+    <task id="LOCAL-00038" summary="新加密密钥构建">
+      <created>1659712616405</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1659712616405</updated>
+    </task>
+    <task id="LOCAL-00039" summary="完成新加密密钥构建">
+      <created>1659829719363</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1659829719363</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -401,8 +434,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="测试失败：红图" />
-    <MESSAGE value="获取图片huffman表" />
     <MESSAGE value="完善DealWithImage类，红图测试失败" />
     <MESSAGE value="准备除bug" />
     <MESSAGE value="取出FF 00" />
@@ -426,6 +457,8 @@
     <MESSAGE value="修改getDCTOnlyDC" />
     <MESSAGE value="deBug开始" />
     <MESSAGE value="老版本新上线" />
-    <option name="LAST_COMMIT_MESSAGE" value="老版本新上线" />
+    <MESSAGE value="新加密密钥构建" />
+    <MESSAGE value="完成新加密密钥构建" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成新加密密钥构建" />
   </component>
 </project>

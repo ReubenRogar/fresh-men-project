@@ -97,10 +97,10 @@ public class ACTable {
                     br.close();
                     fileReader.close();
                 } catch (FileNotFoundException e) {
-                    System.out.println("-----------[INFORMATION] File does not exist! -----------");
+                    DealWithImage.LOGGER.error("-----------[INFORMATION] File does not exist! -----------");
                     e.printStackTrace();
                 } catch (IOException e) {
-                    System.out.println("-----------[INFORMATION] Io exception! -----------");
+                    DealWithImage.LOGGER.error("-----------[INFORMATION] Io exception! -----------");
                     e.printStackTrace();
                 }
             }
@@ -114,7 +114,7 @@ public class ACTable {
                 }
             }
             if(i<162){
-                System.out.println("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
+                DealWithImage.LOGGER.info("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
                 return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
             }else{
                 System.out.println("无法识别的哈夫曼表:"+code);
