@@ -8,11 +8,10 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static 加密.ImageToCode.*;
 import static 加密.ImageToCode.imageToByte;
-import static 加密.OutputForText.*;
+import static 加密.OutputFormat.*;
 
-public class DealWithImage {
+public class JPEGs {
     // 直流亮度表
 
     private DCTable DCL;
@@ -32,12 +31,12 @@ public class DealWithImage {
     private int start;
 
     //Logback框架
-    public static final Logger LOGGER = LoggerFactory.getLogger("DealWithImage.class");
+    public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
 
     /**
      * 构造器获取图片的huffman表和DCT数据
      */
-    public DealWithImage(String inFile){
+    public JPEGs(String inFile){
         image = imageToByte(inFile);
         getHuffmanTable(image);
 //        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
@@ -109,8 +108,8 @@ public class DealWithImage {
 
     public static void main(String[] args) {
         String fileName = "1";
-        DealWithImage dealWithImage = new DealWithImage("E:/test/"+fileName+ ".jpg");
-        dealWithImage.simpleEn("E:/test/"+fileName+ ".jpg");
+        JPEGs jpegs = new JPEGs("E:/test/"+fileName+ ".jpg");
+        jpegs.simpleEn("E:/test/"+fileName+ ".jpg");
     }
     /**
      * 仅异或DC系数
@@ -249,7 +248,7 @@ public class DealWithImage {
     public void getDCT(String code) {
 //测试
         System.out.print("全部数据:");
-        OutputForText.output8Str(code);
+        OutputFormat.output8Str(code);
         int[] arr;//接收一个DCT块数据的数组
         DCTable dcTable;
         ACTable acTable;
@@ -287,7 +286,7 @@ public class DealWithImage {
             code = code.substring(pDC.x + pDC.y);
 //测试
             LOGGER.debug("剩余数据:");
-            OutputForText.output8Str(code);
+            OutputFormat.output8Str(code);
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
@@ -302,7 +301,7 @@ public class DealWithImage {
                         code = code.substring(pAC[2]);
 //测试
                         LOGGER.debug("剩余数据:");
-                        OutputForText.output8Str(code);
+                        OutputFormat.output8Str(code);
                         continue;
                     }else{
                         LOGGER.debug("剩余填充数据");
@@ -321,7 +320,7 @@ public class DealWithImage {
                 code = code.substring(pAC[2]+pAC[1]);
 //测试
                 LOGGER.debug("剩余数据:");
-                OutputForText.output8Str(code);
+                OutputFormat.output8Str(code);
                 //DCT块数据输入完毕
                 if(index == 64){
                     break;
@@ -386,7 +385,7 @@ public class DealWithImage {
 //数据
             //LOGGER.debug("DC:"+ints[0]+" "+temp);
             //LOGGER.debug("数据:");
-            OutputForText.outputStr8(code);
+            OutputFormat.outputStr8(code);
 
                 int lastNum = 0;
                 for (index = 1; index < 64; index++) {
@@ -406,7 +405,7 @@ public class DealWithImage {
 //测试
             //LOGGER.debug("一个dct块输入结束：");
             //LOGGER.debug("数据:");
-            //OutputForText.outputStr8(code);
+            //OutputFormat.outputStr8(code);
 
             DCTs++;
         }

@@ -2,7 +2,7 @@ package 加密;
 
 import java.util.ArrayList;
 
-public class OutputForText {
+public class OutputFormat {
     /**
      * 8个字节一段输出字符串（后不足8位）
      */

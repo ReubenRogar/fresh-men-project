@@ -1,17 +1,22 @@
 package 加密;
 
-import java.awt.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-public class NewTypeEncrypt {
+public class Encrypt {
     private ArrayList<int[]> DCTs;
     private KeyXU originKey;
     private KeyXU finalKey;
 
-    public NewTypeEncrypt(ArrayList<int[]> d,KeyXU k) throws NoSuchAlgorithmException {
+    /**
+     * 依据dct数据建立密钥
+     * @param d dct数据
+     * @param k 初始密钥
+     * @throws NoSuchAlgorithmException
+     */
+    public Encrypt(ArrayList<int[]> d, KeyXU k) throws NoSuchAlgorithmException {
         DCTs = d;
         originKey = k;
 
@@ -33,7 +38,7 @@ public class NewTypeEncrypt {
         }
         MessageDigest digest = MessageDigest.getInstance("SHA-512");
         byte[] encodedHash = digest.digest(feature.getBytes(StandardCharsets.UTF_8));
-        String hashFeature = DealWithImage.bytes2Str0b(encodedHash);
+        String hashFeature = JPEGs.bytes2Str0b(encodedHash);
         int count;
         String addXKey = "",addUKey = "";
         //前半加密x

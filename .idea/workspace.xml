@@ -3,13 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="完成新加密密钥构建">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/First-Java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/First-Java.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/NewTypeEncrypt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/NewTypeEncrypt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DCTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/DCTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DealWithImage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/NewTypeEncrypt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/rc4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/加密/rc4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/ACTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/加密/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DCTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/DealWithImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/MainLaucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/MainLaucher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/DealWithImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/MainLaucher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/NewTypeEncrypt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/Encrypt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/加密/rc4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/加密/rc4.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +65,7 @@
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.DealWithImage">
+  <component name="RunManager" selected="应用程序.JPEGs">
     <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
       <module name="First-Java" />
@@ -88,8 +92,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DealWithImage" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="加密.DealWithImage" />
+    <configuration name="Encrypt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.Encrypt" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
@@ -101,8 +105,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NewTypeEncrypt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="加密.NewTypeEncrypt" />
+    <configuration name="JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.JPEGs" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
@@ -114,8 +118,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="OutputForText" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="加密.OutputForText" />
+    <configuration name="OutputFormat" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.OutputFormat" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
@@ -129,9 +133,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.DealWithImage" />
-        <item itemvalue="应用程序.NewTypeEncrypt" />
-        <item itemvalue="应用程序.OutputForText" />
+        <item itemvalue="应用程序.JPEGs" />
+        <item itemvalue="应用程序.OutputFormat" />
         <item itemvalue="应用程序.ACTable" />
         <item itemvalue="应用程序.DCTable" />
       </list>

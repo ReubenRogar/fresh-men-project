@@ -82,10 +82,10 @@ public class DCTable {
                 br.close();
                 fileReader.close();
             } catch (FileNotFoundException e) {
-                DealWithImage.LOGGER.error("-----------[INFORMATION] File does not exist! -----------");
+                JPEGs.LOGGER.error("-----------[INFORMATION] File does not exist! -----------");
                 e.printStackTrace();
             } catch (IOException e) {
-                DealWithImage.LOGGER.error("-----------[INFORMATION] Io exception! -----------");
+                JPEGs.LOGGER.error("-----------[INFORMATION] Io exception! -----------");
                 e.printStackTrace();
             }
         }
@@ -101,7 +101,7 @@ public class DCTable {
             }
         }
         if (i < 12) {
-            DealWithImage.LOGGER.info("DC{" + codeWord[i] + " 长度:" + category[i] + "}");
+            JPEGs.LOGGER.info("DC{" + codeWord[i] + " 长度:" + category[i] + "}");
             categoryAndCodeWordLength.x = category[i];
             categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;
