@@ -49,11 +49,11 @@ public class ACTable {
         }
         ImageToCode.dataToFile(ACTable,"./测试用文档/"+filename+".txt");
     }
-    public static String long2str0b(long codew,int length){
+    public static String long2str0b(long code,int length){
         String result = "";
-        while(codew > 0){
-            result = ((codew%2 == 1)?"1":"0") +result;
-            codew /= 2;
+        while(code > 0){
+            result = ((code%2 == 1)?"1":"0") +result;
+            code /= 2;
         }
         while(result.length() < length){
             result = "0" +result;
@@ -88,7 +88,7 @@ public class ACTable {
                 try {
                     FileReader fileReader = new FileReader(file);
                     BufferedReader br = new BufferedReader(fileReader);
-                    String lineContent = null;
+                    String lineContent;
                     while ((lineContent = br.readLine()) != null) {
                         String[] ss = lineContent.split("\\s\\s");
                         runSize.add(handleRS(ss[0]));

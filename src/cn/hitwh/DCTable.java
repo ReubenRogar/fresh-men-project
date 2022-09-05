@@ -22,18 +22,18 @@ public class DCTable {
             category[i - 16] = image[i] < 0 ? image[i] + 256 : image[i];
         }
         int index = 0, i = 0;
-        long codew = 0;
+        long code = 0;
         while (index < 12) {
             while (length[i] == 0) {
-                if (index != 0) codew *= 2;
+                if (index != 0) code *= 2;
                 i++;
             }
             for (int j = 0; j < length[i]; j++) {
-                codeWord[index++] = long2str0b(codew, i + 1);
-                codew++;
+                codeWord[index++] = long2str0b(code, i + 1);
+                code++;
             }
             i++;
-            codew *= 2;
+            code *= 2;
         }
     }
 
@@ -45,11 +45,11 @@ public class DCTable {
         ImageToCode.dataToFile(DCTable, "./测试用文档/" + fileName + ".txt");
     }
 
-    public static String long2str0b(long codew, int length) {
+    public static String long2str0b(long code, int length) {
         String result = "";
-        while (codew > 0) {
-            result = ((codew % 2 == 1) ? "1" : "0") + result;
-            codew /= 2;
+        while (code > 0) {
+            result = ((code % 2 == 1) ? "1" : "0") + result;
+            code /= 2;
         }
         while (result.length() < length) {
             result = "0" + result;
@@ -72,7 +72,7 @@ public class DCTable {
             try {
                 FileReader fileReader = new FileReader(file);
                 BufferedReader br = new BufferedReader(fileReader);
-                String lineContent = null;
+                String lineContent;
                 int index = 0;
                 while ((lineContent = br.readLine()) != null) {
                     String[] ss = lineContent.split("\\s\\s");

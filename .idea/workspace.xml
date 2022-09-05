@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="类名规范，Logback输出日志到本地">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/DCTquantity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/DCTquantity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/Encrypt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/ImageToCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ImageToCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/KeyXU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/KeyXU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/OutputFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/加密/rc4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/rc4.java" afterDir="false" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="包名修改">
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/rc4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/rc4.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -427,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662166659022</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="包名修改">
+      <created>1662357456496</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1662357456496</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -442,7 +443,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="准备除bug" />
     <MESSAGE value="取出FF 00" />
     <MESSAGE value="修改获取categroy" />
     <MESSAGE value="测试输出" />
@@ -467,6 +467,7 @@
     <MESSAGE value="新加密密钥构建" />
     <MESSAGE value="完成新加密密钥构建" />
     <MESSAGE value="类名规范，Logback输出日志到本地" />
-    <option name="LAST_COMMIT_MESSAGE" value="类名规范，Logback输出日志到本地" />
+    <MESSAGE value="包名修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="包名修改" />
   </component>
 </project>
