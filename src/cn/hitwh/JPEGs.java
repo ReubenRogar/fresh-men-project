@@ -1,4 +1,4 @@
-package 加密;
+package cn.hitwh;
 
 
 
@@ -8,8 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static 加密.ImageToCode.imageToByte;
-import static 加密.OutputFormat.*;
+import static cn.hitwh.ImageToCode.imageToByte;
 
 public class JPEGs {
     // 直流亮度表
@@ -38,11 +37,11 @@ public class JPEGs {
      */
     public JPEGs(String inFile){
         image = imageToByte(inFile);
-        getHuffmanTable(image);
-//        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
-//        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
-//        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
-//        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
+        //getHuffmanTable(image);
+        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
+        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
+        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
+        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
         LOGGER.debug("获取哈夫曼表！");
         for (start = image.length - 1; start >= 0; start--) {
             if (image[start] == -1 && image[start + 1] == -38) {
@@ -306,14 +305,14 @@ public class JPEGs {
                     }else{
                         LOGGER.debug("剩余填充数据");
                         DCT.add(arr.clone());
-                        outputArr(DCT);
+                        OutputFormat.outputArr(DCT);
                         LOGGER.debug("--------------------------------------------------------------------------");
                         return;
                     }
                 }
                 //Run个零
                     index += pAC[0];
-                    output8Str(code.substring(0,code.length()%8+8));
+                    OutputFormat.output8Str(code.substring(0,code.length()%8+8));
                     arr[index++] = str0b2int(code.substring(pAC[2], pAC[2] + pAC[1]));
 //测试
                 LOGGER.debug(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]+" index:"+(index-1));
@@ -327,13 +326,13 @@ public class JPEGs {
                 }
                 if(code.isEmpty()){
                     DCT.add(arr.clone());
-                    outputArr(DCT);
+                    OutputFormat.outputArr(DCT);
                     LOGGER.debug("--------------------------------------------------------------------------");
                     return;
                 }
             }
             DCT.add(arr.clone());
-            outputArr(DCT);
+            OutputFormat.outputArr(DCT);
             LOGGER.debug("--------------------------------------------------------------------------");
             if(code.length() < 8)break;
             else {
@@ -616,7 +615,7 @@ public class JPEGs {
     }
 
     private void getTargetWithff00(){
-        byte[] temp = new byte[target.length -countFF00(target)];
+        byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
         int index = 0;
         for(int i = 0;i < target.length;i++){
             temp[index++] = target[i];

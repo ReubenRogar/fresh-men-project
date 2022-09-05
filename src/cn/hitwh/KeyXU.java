@@ -1,4 +1,4 @@
-package 加密;
+package cn.hitwh;
 
 public class KeyXU {
     public double x;

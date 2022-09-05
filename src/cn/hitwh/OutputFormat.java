@@ -1,4 +1,4 @@
-package 加密;
+package cn.hitwh;
 
 import java.util.ArrayList;
 
