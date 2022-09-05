@@ -26,7 +26,7 @@ public class OutputFormat {
 
     /**
      * 输出二维数组信息
-     * @param arr
+     * @param arr 目标数组
      */
     public static void outputArr(ArrayList<int[]> arr){
         for (int[] ints : arr) {
