@@ -57,7 +57,20 @@
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.JPEGs">
+  <component name="RunManager" selected="应用程序.测试">
+    <configuration name="测试" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="JPEGs.测试" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="JPEGs.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
       <module name="First-Java" />
@@ -73,19 +86,6 @@
     </configuration>
     <configuration name="DCTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.DCTable" />
-      <module name="First-Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="加密.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Encrypt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="加密.Encrypt" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
@@ -125,6 +125,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="应用程序.测试" />
         <item itemvalue="应用程序.JPEGs" />
         <item itemvalue="应用程序.OutputFormat" />
         <item itemvalue="应用程序.ACTable" />
