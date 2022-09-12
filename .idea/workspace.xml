@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="包名修改">
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/rc4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/rc4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ACTable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DCTable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/DCTquantity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/Encrypt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/ImageToCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/JPEGs.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/KeyXU.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/OutputForText.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/加密/rc4.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +58,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\freshman-year-project-java\src" />
       <recent name="E:\programming_demo\freshman-year-project\src" />
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
@@ -429,7 +435,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662357456496</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="包名修改">
+      <created>1662642041642</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1662642041642</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
