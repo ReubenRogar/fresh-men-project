@@ -5,7 +5,12 @@ package cn.hitwh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.stream.FileImageInputStream;
 import java.awt.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
@@ -32,9 +37,9 @@ public class JPEGs {
     //Logback框架
     public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
 
-    /**
-     * 构造器获取图片的huffman表和DCT数据
-     */
+        /**
+         * 构造器获取图片的huffman表和DCT数据
+         */
     public JPEGs(String inFile){
         image = imageToByte(inFile);
         //getHuffmanTable(image);
