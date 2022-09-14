@@ -106,6 +106,7 @@ public class DCTable {
             categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;
         } else {
+            JPEGs.LOGGER.error("无法识别的huffman码："+code);
             return new Point(0, 0);
         }
     }

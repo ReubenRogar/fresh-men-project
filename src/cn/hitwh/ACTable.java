@@ -117,7 +117,7 @@ public class ACTable {
                 JPEGs.LOGGER.info("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
                 return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
             }else{
-                System.out.println("无法识别的哈夫曼表:"+code);
+                JPEGs.LOGGER.error("无法识别的哈夫曼表:"+code);
                 return new int[]{0,0,0};
             }
         }

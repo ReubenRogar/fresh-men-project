@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="包名修改">
-      <change afterPath="$PROJECT_DIR$/src/cn/hitwh/JNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cn/hitwh/SOF0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First-Java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/First-Java.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/SOF0.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/SOF0.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JNode.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/SOF0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/SOF0.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,13 +46,13 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/untitled" />
     <property name="project.structure.last.edited" value="模块" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -57,7 +64,7 @@
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.测试">
+  <component name="RunManager" selected="应用程序.JPEGs">
     <configuration name="测试" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="JPEGs.测试" />
       <module name="First-Java" />
@@ -97,7 +104,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="JPEGs" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.JPEGs" />
       <module name="First-Java" />
       <extension name="coverage">
@@ -126,7 +133,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="应用程序.测试" />
-        <item itemvalue="应用程序.JPEGs" />
         <item itemvalue="应用程序.OutputFormat" />
         <item itemvalue="应用程序.ACTable" />
         <item itemvalue="应用程序.DCTable" />
