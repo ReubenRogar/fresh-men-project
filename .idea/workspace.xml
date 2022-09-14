@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="包名修改">
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="简化输出">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/SOF0.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/SOF0.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/SOF0.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/SOF0.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,38 +37,24 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/untitled" />
-    <property name="project.structure.last.edited" value="模块" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="project.structure.last.edited" value="库" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\freshman-year-project-java\src" />
       <recent name="E:\programming_demo\freshman-year-project\src" />
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.JPEGs">
-    <configuration name="测试" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="JPEGs.测试" />
-      <module name="First-Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="JPEGs.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="应用程序.JPEGs (1)">
     <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
       <module name="First-Java" />
@@ -102,8 +81,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JPEGs" type="Application" factoryName="Application" nameIsGenerated="true">
+    <configuration name="JPEGs (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cn.hitwh.JPEGs" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.hitwh.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="加密.JPEGs" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
@@ -128,16 +120,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="应用程序.JPEGs" />
-      <item itemvalue="应用程序.ACTable" />
-      <item itemvalue="应用程序.DCTable" />
-      <item itemvalue="应用程序.OutputFormat" />
-      <item itemvalue="应用程序.测试" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.测试" />
+        <item itemvalue="应用程序.JPEGs (1)" />
+        <item itemvalue="应用程序.JPEGs" />
         <item itemvalue="应用程序.OutputFormat" />
         <item itemvalue="应用程序.ACTable" />
         <item itemvalue="应用程序.DCTable" />
@@ -440,21 +426,63 @@
       <option name="project" value="LOCAL" />
       <updated>1662357456496</updated>
     </task>
-    <task id="LOCAL-00042" summary="包名修改">
-      <created>1662642041642</created>
+    <task id="LOCAL-00042" summary="删除新添加的文件，依赖放至lib下">
+      <created>1663070315708</created>
       <option name="number" value="00042" />
       <option name="presentableId" value="LOCAL-00042" />
       <option name="project" value="LOCAL" />
-      <updated>1662642041642</updated>
+      <updated>1663070315708</updated>
     </task>
-    <task id="LOCAL-00043" summary="包名修改">
-      <created>1662953828465</created>
+    <task id="LOCAL-00043" summary="依赖放至lib下">
+      <created>1663070501951</created>
       <option name="number" value="00043" />
       <option name="presentableId" value="LOCAL-00043" />
       <option name="project" value="LOCAL" />
-      <updated>1662953828465</updated>
+      <updated>1663070501951</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="修改logback.xml">
+      <created>1663121018976</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1663121018976</updated>
+    </task>
+    <task id="LOCAL-00045" summary="git添加logback.xml">
+      <created>1663121092089</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1663121092089</updated>
+    </task>
+    <task id="LOCAL-00046" summary="删除无用类DCTquantity">
+      <created>1663121910978</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1663121910978</updated>
+    </task>
+    <task id="LOCAL-00047" summary="修改logback.xml实现控制台输出">
+      <created>1663122682839</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1663122682839</updated>
+    </task>
+    <task id="LOCAL-00048" summary="简化输出">
+      <created>1663154702711</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1663154702711</updated>
+    </task>
+    <task id="LOCAL-00049" summary="简化输出">
+      <created>1663154813019</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1663154813019</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -469,14 +497,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="取出FF 00" />
-    <MESSAGE value="修改获取categroy" />
-    <MESSAGE value="测试输出" />
-    <MESSAGE value="添加图" />
-    <MESSAGE value="添加图2" />
-    <MESSAGE value="添加setDCT检查输出，整合类“检查输出”" />
-    <MESSAGE value="修改返回识别码" />
-    <MESSAGE value="嗯" />
     <MESSAGE value="改outImage方法" />
     <MESSAGE value="emmm" />
     <MESSAGE value="1" />
@@ -494,6 +514,14 @@
     <MESSAGE value="完成新加密密钥构建" />
     <MESSAGE value="类名规范，Logback输出日志到本地" />
     <MESSAGE value="包名修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="包名修改" />
+    <MESSAGE value="添加远程依赖" />
+    <MESSAGE value="删除新添加的文件，依赖放至lib下" />
+    <MESSAGE value="依赖放至lib下" />
+    <MESSAGE value="修改logback.xml" />
+    <MESSAGE value="git添加logback.xml" />
+    <MESSAGE value="删除无用类DCTquantity" />
+    <MESSAGE value="修改logback.xml实现控制台输出" />
+    <MESSAGE value="简化输出" />
+    <option name="LAST_COMMIT_MESSAGE" value="简化输出" />
   </component>
 </project>
