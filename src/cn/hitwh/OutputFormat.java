@@ -1,5 +1,6 @@
 package cn.hitwh;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class OutputFormat {
@@ -50,4 +51,16 @@ public class OutputFormat {
         }
         return count;
     }
+
+    /**
+     * 仅输出ArrayList<Point>的x
+     */
+    public static String PointsOut(ArrayList<Point> arrayList){
+        String result = "";
+        for (Point point : arrayList) {
+            result += " "+point.x;
+        }
+        return result;
+    }
 }
+
