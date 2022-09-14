@@ -33,9 +33,122 @@ public class JPEGs {
     private byte[] image;
     private byte[] target;
     private int start;
+    private int Heigh;//图片高度
+    private int Width;//图片宽度
+    private int sampling ;//采样系数比例的整数形，如（422 444）
+
 
     //Logback框架
     public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
+
+    /**
+     * 读取SOF0段数据获取图片信息
+     */
+    public void translate(String Jhin) {
+        SOF0 s = new SOF0();
+        int offset = 0;
+        for (int i = 0; i < Jhin.length(); i++) {
+            if (Jhin.charAt(i) == 'f' && Jhin.charAt(i) == 'f' && Jhin.charAt(i) == 'c' && Jhin.charAt(i) == '0')
+                offset = i;
+            break;
+        }
+        offset += 4;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
+            s.SOF0length = 16 * 16 * 16 * (Jhin.charAt(offset) - 87);
+        else s.SOF0length = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
+            s.SOF0length += 16 * 16 * (Jhin.charAt(offset) - 87);
+        else s.SOF0length += 16 * 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.SOF0length += 16 * (Jhin.charAt(offset) - 87);
+        else s.SOF0length += 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.SOF0length += Jhin.charAt(offset) - 87;
+        else s.SOF0length += Jhin.charAt(offset) - 48;//SOF0长度
+
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numColor = 16 * (Jhin.charAt(offset) - 87);
+        else s.numColor = 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numColor += Jhin.charAt(offset) - 87;
+        else s.numColor += Jhin.charAt(offset) - 48;//颜色分量
+
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
+            s.hight = 16 * 16 * 16 * (Jhin.charAt(offset) - 87);
+        else s.hight = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.hight += 16 * 16 * (Jhin.charAt(offset) - 87);
+        else s.hight += 16 * 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.hight += 16 * (Jhin.charAt(offset) - 87);
+        else s.hight += 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') {
+            s.hight += Jhin.charAt(offset) - 87;
+        } else {
+            s.hight += Jhin.charAt(offset) - 48;//得到高度
+        }
+        Heigh = s.hight;//将高度数据存进heigh中
+
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
+            s.width = 16 * 16 * 16 * (Jhin.charAt(offset) - 87);
+        else s.width = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += 16 * 16 * (Jhin.charAt(offset) - 87);
+        else s.width += 16 * 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += 16 * (Jhin.charAt(offset) - 87);
+        else s.width += 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += Jhin.charAt(offset) - 87;
+        else s.width += Jhin.charAt(offset) - 48;//得到宽度
+        Width = s.width;//将宽度数据存进width中
+
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numComponents = 16 * (Jhin.charAt(offset) - 87);
+        else s.numComponents = 16 * (Jhin.charAt(offset) - 48);
+        offset++;
+        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numComponents += Jhin.charAt(offset) - 87;
+        else s.numComponents += Jhin.charAt(offset) - 48;
+
+        for (int i = 0; i < 3; i++) {
+            offset += 2;
+            if (Jhin.charAt(offset) == '1') {
+                offset += 2;
+                s.ySample = Jhin.charAt(offset) - 48;//y的采样系数
+                offset += 2;
+                s.yTable = Jhin.charAt(offset) - 48;//得到y表号
+            }
+            if (Jhin.charAt(offset) == '2') {
+                offset += 2;
+                s.cbSample = Jhin.charAt(offset) - 48;//cb的采样系数
+                offset += 2;
+                s.cbTable = Jhin.charAt(offset) - 48;//得到cb表号
+            }
+            if (Jhin.charAt(offset) == '3') {
+                offset += 2;
+                s.crSample = Jhin.charAt(offset) - 48;//cr的采样系数
+                offset += 2;
+                s.crTable = Jhin.charAt(offset) - 48;//得到cr表号
+            }
+        }
+        if(s.ySample/s.cbSample==1){
+            sampling=444;
+        }
+        else if (s.ySample/s.cbSample==2&&s.crSample==0){
+            sampling=420;
+        }
+        else{
+            sampling=422;
+        }
+
+    }
+        /**
+         * 读取SOF0段数据获取图片信息结束
+         */
 
         /**
          * 构造器获取图片的huffman表和DCT数据
@@ -111,7 +224,7 @@ public class JPEGs {
 
 
     public static void main(String[] args) {
-        String fileName = "2";
+        String fileName = "1";
         JPEGs jpegs = new JPEGs("E:/test/"+fileName+ ".jpg");
         jpegs.simpleEn("E:/test/"+fileName+ ".jpg");
     }
