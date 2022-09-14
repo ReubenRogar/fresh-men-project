@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改logback.xml" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="git添加logback.xml">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/DCTquantity.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -445,7 +448,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663121018976</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="git添加logback.xml">
+      <created>1663121092089</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1663121092089</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -460,7 +470,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="添加图2" />
     <MESSAGE value="添加setDCT检查输出，整合类“检查输出”" />
     <MESSAGE value="修改返回识别码" />
     <MESSAGE value="嗯" />
@@ -485,6 +494,7 @@
     <MESSAGE value="删除新添加的文件，依赖放至lib下" />
     <MESSAGE value="依赖放至lib下" />
     <MESSAGE value="修改logback.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改logback.xml" />
+    <MESSAGE value="git添加logback.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="git添加logback.xml" />
   </component>
 </project>
