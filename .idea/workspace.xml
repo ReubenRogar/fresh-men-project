@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="删除新添加的文件，依赖放至lib下" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="依赖放至lib下">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/JPEGs/JNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/JPEGs/JPEGs.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/JPEGs/SOF0.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/JPEGs/测试.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/DCTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/DCTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +63,7 @@
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.JPEGs">
+  <component name="RunManager" selected="应用程序.JPEGs (1)">
     <configuration name="ACTable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.ACTable" />
       <module name="First-Java" />
@@ -79,12 +90,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Encrypt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="加密.Encrypt" />
+    <configuration name="JPEGs (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.hitwh.JPEGs" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="加密.*" />
+          <option name="PATTERN" value="cn.hitwh.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -120,6 +131,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="应用程序.JPEGs (1)" />
         <item itemvalue="应用程序.JPEGs" />
         <item itemvalue="应用程序.OutputFormat" />
         <item itemvalue="应用程序.ACTable" />
@@ -430,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663070315708</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="依赖放至lib下">
+      <created>1663070501951</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1663070501951</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -445,7 +464,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="测试输出" />
     <MESSAGE value="添加图" />
     <MESSAGE value="添加图2" />
     <MESSAGE value="添加setDCT检查输出，整合类“检查输出”" />
@@ -470,6 +488,7 @@
     <MESSAGE value="包名修改" />
     <MESSAGE value="添加远程依赖" />
     <MESSAGE value="删除新添加的文件，依赖放至lib下" />
-    <option name="LAST_COMMIT_MESSAGE" value="删除新添加的文件，依赖放至lib下" />
+    <MESSAGE value="依赖放至lib下" />
+    <option name="LAST_COMMIT_MESSAGE" value="依赖放至lib下" />
   </component>
 </project>

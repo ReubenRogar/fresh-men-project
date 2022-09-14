@@ -111,7 +111,7 @@ public class JPEGs {
 
 
     public static void main(String[] args) {
-        String fileName = "1";
+        String fileName = "2";
         JPEGs jpegs = new JPEGs("E:/test/"+fileName+ ".jpg");
         jpegs.simpleEn("E:/test/"+fileName+ ".jpg");
     }
