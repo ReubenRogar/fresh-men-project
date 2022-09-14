@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改logback.xml实现控制台输出">
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="简化输出">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/DCTquantity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -471,7 +468,21 @@
       <option name="project" value="LOCAL" />
       <updated>1663122682839</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="简化输出">
+      <created>1663154702711</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1663154702711</updated>
+    </task>
+    <task id="LOCAL-00049" summary="简化输出">
+      <created>1663154813019</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1663154813019</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -486,7 +497,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="嗯" />
     <MESSAGE value="改outImage方法" />
     <MESSAGE value="emmm" />
     <MESSAGE value="1" />
@@ -511,6 +521,7 @@
     <MESSAGE value="git添加logback.xml" />
     <MESSAGE value="删除无用类DCTquantity" />
     <MESSAGE value="修改logback.xml实现控制台输出" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改logback.xml实现控制台输出" />
+    <MESSAGE value="简化输出" />
+    <option name="LAST_COMMIT_MESSAGE" value="简化输出" />
   </component>
 </project>

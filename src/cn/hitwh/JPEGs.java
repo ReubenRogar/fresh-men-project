@@ -168,6 +168,7 @@ public class JPEGs {
         System.arraycopy(image, start, target, 0, target.length);
         getTargetWithff00();
         getDCTOnlyDC();
+        this.changeBias(0);
         LOGGER.debug("Y:"+OutputFormat.PointsOut(yDC));
         LOGGER.debug("Cb:"+OutputFormat.PointsOut(CbDC));
         LOGGER.debug("Cr:"+OutputFormat.PointsOut(CrDC));
