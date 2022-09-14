@@ -5,12 +5,7 @@ package cn.hitwh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.stream.FileImageInputStream;
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
@@ -59,14 +54,14 @@ public class JPEGs {
         target = new byte[image.length - 2 - start];
         System.arraycopy(image, start, target, 0, target.length);
         getTargetWithff00();
+        getDCTOnlyDC();
+        LOGGER.debug("Y:"+OutputFormat.PointsOut(yDC));
+        LOGGER.debug("Cb:"+OutputFormat.PointsOut(CbDC));
+        LOGGER.debug("Cr:"+OutputFormat.PointsOut(CrDC));
     }
 
     public void simpleEn(String outFile){
         LOGGER.debug("simpleEnStart!");
-        getDCTOnlyDC();
-        LOGGER.debug("Y:"+yDC);
-        LOGGER.debug("Cb:"+CbDC);
-        LOGGER.debug("Cr:"+CrDC);
 
         simpleAct();
 
@@ -113,7 +108,6 @@ public class JPEGs {
     public static void main(String[] args) {
         String fileName = "2";
         JPEGs jpegs = new JPEGs("E:/test/"+fileName+ ".jpg");
-        jpegs.simpleEn("E:/test/"+fileName+ ".jpg");
     }
     /**
      * 仅异或DC系数
