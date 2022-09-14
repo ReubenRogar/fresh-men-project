@@ -219,8 +219,8 @@ public class JPEGs {
 
 
     public static void main(String[] args) {
-        String fileName = "1";
-        JPEGs jpegs = new JPEGs("E:/test/"+fileName+ ".jpg");
+        String fileName = "1.";
+        JPEGs jpegs = new JPEGs("测试用图片/"+fileName+ ".jpg");
     }
     /**
      * 仅异或DC系数
