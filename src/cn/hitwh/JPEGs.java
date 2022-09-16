@@ -5,25 +5,21 @@ package cn.hitwh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.stream.FileImageInputStream;
+
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.image.LookupOp;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
 
 public class JPEGs {
     // 直流亮度表
-
     private DCTable DCL;
-    // 直流亮度表
+    // 直流色度表
     private DCTable DCC;
-    // 直流亮度表
+    // 交流亮度表
     private ACTable ACL;
-    // 直流亮度表
+    // 交流色度表
     private ACTable ACC;
     //DCT 1*64数据
     private ArrayList<int[]> DCT = new ArrayList<>();
@@ -32,186 +28,57 @@ public class JPEGs {
     private ArrayList<Point> CrDC;
     private byte[] image;
     private byte[] target;
-    private int start;
-    private static int Heigh;//图片的高度
-    private static int Width;//图片的宽度
-    private static int Sampling;//图片的采样模式
+    private int startOfSOS;
+    private static int height;//图片的高度
+    private static int width;//图片的宽度
+    private static int sampling;//图片的采样模式
 
 
     //Logback框架
     public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
-
-    public byte[] image2byte(String path){
-        byte[] data = null;
-        FileImageInputStream input = null;
-        try {
-            input = new FileImageInputStream(new File(path));
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            int numBytesRead = 0;
-            while ((numBytesRead = input.read(buf)) != -1) {
-                output.write(buf, 0, numBytesRead);
-            }
-            data = output.toByteArray();
-            output.close();
-            input.close();
-        }
-        catch (FileNotFoundException ex1) {
-            ex1.printStackTrace();
-        }
-        catch (IOException ex1) {
-            ex1.printStackTrace();
-        }
-        return data;
-    }
-    public String byte2string(byte[] data){
-        if(data==null||data.length<=1) return "0x";
-        if(data.length>200000) return "0x";
-        StringBuffer sb = new StringBuffer();
-        int buf[] = new int[data.length];
-        //byte数组转化成十进制
-        for(int k=0;k<data.length;k++){
-            buf[k] = data[k]<0?(data[k]+256):(data[k]);
-        }
-        //十进制转化成十六进制
-        for(int k=0;k<buf.length;k++){
-            if(buf[k]<16) sb.append("0"+Integer.toHexString(buf[k]));
-            else sb.append(Integer.toHexString(buf[k]));
-        }
-        return "0x"+sb.toString().toUpperCase();
-    }
-    /**
-     * 读取SOF0段数据获取图片信息
-     */
-    public SOF0 translate(String Jhin) {
-        SOF0 s = new SOF0();
-        int offset = 0;
-        for (int i = 0; i < Jhin.length(); i++) {
-            if (Jhin.charAt(i) == 'F' && Jhin.charAt(i + 1) == 'F' && Jhin.charAt(i + 2) == 'C' && Jhin.charAt(i + 3) == '0') {
-                offset = i;
-                break;
-            }
-        }
-        offset += 4;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.SOF0length = 16 * 16 * 16 * (Jhin.charAt(offset) - 55);
-        else s.SOF0length = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.SOF0length += 16 * 16 * (Jhin.charAt(offset) - 55);
-        else s.SOF0length += 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.SOF0length += 16 * (Jhin.charAt(offset) - 55);
-        else s.SOF0length += 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.SOF0length += Jhin.charAt(offset) - 55;
-        else s.SOF0length += Jhin.charAt(offset) - 48;//SOF0长度
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numColor = 16 * (Jhin.charAt(offset) - 55);
-        else s.numColor = 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numColor += Jhin.charAt(offset) - 55;
-        else s.numColor += Jhin.charAt(offset) - 48;//颜色分量
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.hight = 16 * 16 * 16 * (Jhin.charAt(offset) - 55);
-        else s.hight = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.hight += 16 * 16 * (Jhin.charAt(offset) - 55);
-        else s.hight += 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.hight += 16 * (Jhin.charAt(offset) - 55);
-        else s.hight += 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.hight += Jhin.charAt(offset) - 55;
-        else s.hight += Jhin.charAt(offset) - 48;//得到高度
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.width = 16 * 16 * 16 * (Jhin.charAt(offset) - 55);
-        else s.width = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += 16 * 16 * (Jhin.charAt(offset) - 55);
-        else s.width += 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += 16 * (Jhin.charAt(offset) - 55);
-        else s.width += 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += Jhin.charAt(offset) - 55;
-        else s.width += Jhin.charAt(offset) - 48;//得到宽度
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numComponents = 16 * (Jhin.charAt(offset) - 55);
-        else s.numComponents = 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numComponents += Jhin.charAt(offset) - 55;
-        else s.numComponents += Jhin.charAt(offset) - 48;
-
-        for (int i = 0; i < 3; i++) {
-            offset += 2;
-            if (Jhin.charAt(offset) == '1') {
-                offset += 2;
-                s.ySample = Jhin.charAt(offset) - 48;//y的采样系数
-                offset += 2;
-                s.yTable = Jhin.charAt(offset) - 48;//得到y表号
-            }
-            if (Jhin.charAt(offset) == '2') {
-                offset += 2;
-                s.cbSample = Jhin.charAt(offset) - 48;//cb的采样系数
-                offset += 2;
-                s.cbTable = Jhin.charAt(offset) - 48;//得到cb表号
-            }
-            if (Jhin.charAt(offset) == '3') {
-                offset += 2;
-                s.crSample = Jhin.charAt(offset) - 48;//cr的采样系数
-                offset += 2;
-                s.crTable = Jhin.charAt(offset) - 48;//得到cr表号
-            }
-        }
-        if (s.ySample/s.cbSample==1) {
-            s.sampling = 444;
-        }
-            if (s.ySample/s.cbSample==1&&s.crSample!=0){
-                s.sampling=422;
-            }
-            else {
-                s.sampling=420;
-            }
-
-        return s;
-    }
-
-    /**使用时:
-     *      JPEGs jpeGs = new JPEGs();
-     *      jpeGs.translate(jpeGs.byte2string(jpeGs.image2byte("D://4.jpg")));
-     *      System.out.println(jpeGs.translate(jpeGs.byte2string(jpeGs.image2byte("D://4.jpg"))).width );
-     */
-
-
 
         /**
          * 构造器获取图片的huffman表和DCT数据
          */
     public JPEGs(String inFile){
         image = imageToByte(inFile);
+        //FF D8
+        if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
+        LOGGER.debug("get Huffman Table！");
         //getHuffmanTable(image);
         DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
         DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
         ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
         ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
-        LOGGER.debug("获取哈夫曼表！");
-        for (start = image.length - 1; start >= 0; start--) {
-            if (image[start] == -1 && image[start + 1] == -38) {
-                start += 2;
+
+        LOGGER.debug("start to get!");
+
+        for (int index = 0; index < image.length; index++) {
+            //FF C0
+            if(image[index] == -1 && image[index + 1] == -64){
+                LOGGER.debug("SOF0");
+                index += 5;
+                height = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
+                index += 2;
+                width = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
+                LOGGER.debug(height+ "*" + width);
+                index += 2;
+                if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
+                else if(image[index + 2] == 32 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;
+                else sampling = 444;
+                LOGGER.debug("sampling"+sampling);
+            }
+            //FF DA
+            else if (image[index] == -1 && image[index + 1] == -38) {
+                LOGGER.debug("SOS");
+                startOfSOS = 2 + index;
                 break;
             }
         }
-        LOGGER.debug("start to get!");
-        start += image[start] * 16 * 16 + image[start + 1];
-        target = new byte[image.length - 2 - start];
-        System.arraycopy(image, start, target, 0, target.length);
+
+        startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
+        target = new byte[image.length - 2 - startOfSOS];
+        System.arraycopy(image, startOfSOS, target, 0, target.length);
         getTargetWithff00();
         getDCTOnlyDC();
         this.changeBias(0);
@@ -256,25 +123,22 @@ public class JPEGs {
         LOGGER.debug("Cb:"+CbDC);
         LOGGER.debug("Cr:"+CrDC);
         target = str0b2Bytes(new String(sb));
-        byte[] temp = new byte[start+2+target.length];
-        System.arraycopy(image,0,temp,0,start);
+        byte[] temp = new byte[startOfSOS +2+target.length];
+        System.arraycopy(image,0,temp,0, startOfSOS);
         temp[temp.length-1] = -39;
         temp[temp.length-2] = -1;
-        System.arraycopy(target,0,temp,start,target.length);
+        System.arraycopy(target,0,temp, startOfSOS,target.length);
         //outputImage(outFile,temp);
     }
 
 
     public static void main(String[] args) {
-        String fileName = "1";
-        JPEGs jpegs = new JPEGs("E:/test/"+fileName+ ".jpg");
-        //处理图片数据过程
-        JPEGs jjp = new JPEGs("E:/test/"+fileName+ ".jpg");
-        jjp.translate(jjp.byte2string(jjp.image2byte("E:/test/"+fileName+ ".jpg")));
-        Heigh=jjp.translate(jjp.byte2string(jjp.image2byte("E:/test/"+fileName+ ".jpg"))).hight;
-        Width=jjp.translate(jjp.byte2string(jjp.image2byte("E:/test/"+fileName+ ".jpg"))).width;
-        Sampling=jjp.translate(jjp.byte2string(jjp.image2byte("E:/test/"+fileName+ ".jpg"))).sampling;
-
+        String fileName = "3";
+        try {
+            JPEGs jpegs = new JPEGs("E:/test/" + fileName + ".jpg");
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+        }
     }
     /**
      * 仅异或DC系数
