@@ -19,15 +19,14 @@ public class ACTable {
             codeWord = new ArrayList<>();
             byte[] length = new byte[16];
             System.arraycopy(image,0,length,0,length.length);
+            JPEGs.LOGGER.debug(ImageToCode.byteToString(image));
             for(int i = length.length;i < image.length;i++){
-                int temp;
-                if(image[i] < 0)temp = 256+image[i];
-                else temp = image[i];
+                int temp = JPEGs.byte2int(image[i]);
                 runSize.add(new Point(temp/16,temp%16));
             }
             int i = 0;
             long codeW = 0;
-            while(codeWord.size()<162){
+            while(codeWord.size()< image.length-16){
                 while(length[i] == 0){
                     if(codeWord.size()>0)codeW*=2;
                     i++;
@@ -44,7 +43,7 @@ public class ACTable {
 
     public void outputACTable(String filename){
         String ACTable = "";
-        for(int i = 0;i <162;i++){
+        for(int i = 0;i <runSize.size();i++){
             ACTable += runSize.get(i).x+"/"+runSize.get(i).y+"\s\s"+codeWord.get(i)+"\n";
         }
         ImageToCode.dataToFile(ACTable,"./测试用文档/"+filename+".txt");
@@ -108,7 +107,7 @@ public class ACTable {
 
         public int[] getRunSize(String code){
             int i = 0;
-            for(;i<162;i++){
+            for(;i<codeWord.size();i++){
                 if(code.startsWith(codeWord.get(i))){
                     break;
                 }
@@ -134,7 +133,7 @@ public class ACTable {
             for(i = 0;i < runSize.size();i++){
                 if(run == runSize.get(i).x&&size == runSize.get(i).y)break;
             }
-            if(i == 162)i = 0;
+            if(i == runSize.size())i = 0;
             result += codeWord.get(i);
             return result;
         }

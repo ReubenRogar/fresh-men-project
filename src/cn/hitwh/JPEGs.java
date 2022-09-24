@@ -42,14 +42,15 @@ public class JPEGs {
          */
     public JPEGs(String inFile){
         image = imageToByte(inFile);
+        ImageToCode.dataToFile(ImageToCode.byteToString(image),"E:/test/1.txt");
         //FF D8
         if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
-        //getHuffmanTable(image);
-        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
-        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
-        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
-        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
+        getHuffmanTable(image);
+//        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
+//        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
+//        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
+//        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
 
         LOGGER.debug("start to get!");
 
@@ -133,12 +134,8 @@ public class JPEGs {
 
 
     public static void main(String[] args) {
-        String fileName = "3";
-        try {
+        String fileName = "1";
             JPEGs jpegs = new JPEGs("E:/test/" + fileName + ".jpg");
-        }catch (Exception e){
-            LOGGER.error(e.getMessage());
-        }
     }
     /**
      * 仅异或DC系数
@@ -180,7 +177,7 @@ public class JPEGs {
 
 
     /**
-     * 提取DCT块
+     * 提取DCT数据
      */
     private void getDCTOnlyDC() {
         String code = "";
@@ -453,34 +450,39 @@ public class JPEGs {
         Point DC_chrominance = new Point();
         Point AC_chrominance = new Point();
         for(int i = 0 ;i < image.length;i++){
-            if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 0){
-                DC_luminance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 16){
-                DC_luminance.y = i-1;
-                AC_luminance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 1){
-                AC_luminance.y = i-1;
-                DC_chrominance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] ==  17){
-                DC_chrominance.y = i-1;
-                AC_chrominance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -38){
-                AC_chrominance.y = i-1;
-                break;
+            if(image[i] == -1 && image[i+1] == -60){
+                switch (image[i+4]){
+                    case 0:
+                        DC_luminance.x= i+5;
+                        DC_luminance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                    case 1:
+                        DC_chrominance.x= i+5;
+                        DC_chrominance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                    case 16:
+                        AC_luminance.x= i+5;
+                        AC_luminance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                    case 17:
+                        AC_chrominance.x= i+5;
+                        AC_chrominance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                }
             }
         }
-            byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x+1];
-            byte[] DC_C = new byte[DC_chrominance.y - DC_chrominance.x +1];
-            byte[] AC_L = new byte[AC_luminance.y - AC_luminance.x + 1];
-            byte[] AC_C = new byte[AC_chrominance.y - AC_chrominance.x+1];
+            byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x];
+            byte[] DC_C = new byte[DC_chrominance.y - DC_chrominance.x ];
+            byte[] AC_L = new byte[AC_luminance.y - AC_luminance.x];
+            byte[] AC_C = new byte[AC_chrominance.y - AC_chrominance.x];
             System.arraycopy(image,DC_luminance.x,DC_L,0,DC_L.length);
             System.arraycopy(image,DC_chrominance.x,DC_C,0,DC_C.length);
             System.arraycopy(image,AC_luminance.x,AC_L,0,AC_L.length);
             System.arraycopy(image,AC_chrominance.x,AC_C,0,AC_C.length);
-            DCC = new DCTable(DC_C);
-            DCL = new DCTable(DC_L);
-            ACC = new ACTable(AC_C);
-            ACL = new ACTable(AC_L);
+            DCC = new DCTable(DC_C);LOGGER.debug("DCC complate");
+            DCL = new DCTable(DC_L);LOGGER.debug("DCL complate");
+            ACC = new ACTable(AC_C);LOGGER.debug("ACC complate");
+            ACL = new ACTable(AC_L);LOGGER.debug("ACL complate");
             DCC.outputDCTable("DCC");
             DCL.outputDCTable("DCL");
             ACC.outputACTable("ACC");
@@ -654,5 +656,10 @@ public class JPEGs {
             }
         }
         target = temp;
+    }
+
+    public static int byte2int(byte b){
+        if(b < 0)return b+256;
+        else return b;
     }
 }
