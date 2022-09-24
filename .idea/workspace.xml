@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="简化输出">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="getHuffman方法修订" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,6 +105,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.hitwh.JPEGs" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.hitwh.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="OutputFormat" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.OutputFormat" />
       <module name="First-Java" />
@@ -132,27 +143,6 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="小改">
-      <created>1649840154462</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1649840154462</updated>
-    </task>
-    <task id="LOCAL-00002" summary="精简代码">
-      <created>1649841370837</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1649841370837</updated>
-    </task>
-    <task id="LOCAL-00003" summary="精简代码*改">
-      <created>1649841987538</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1649841987538</updated>
-    </task>
     <task active="true" id="Default" summary="默认任务">
       <changelist id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="精简代码*改" />
       <created>1649848766973</created>
@@ -482,7 +472,28 @@
       <option name="project" value="LOCAL" />
       <updated>1663154813019</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="去差分后输出日志">
+      <created>1663159489251</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1663159489251</updated>
+    </task>
+    <task id="LOCAL-00051" summary="修改获取图片基本信息至JPEGs的构造器内">
+      <created>1663291275422</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1663291275422</updated>
+    </task>
+    <task id="LOCAL-00052" summary="getHuffman方法修订">
+      <created>1663997826118</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1663997826119</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -497,9 +508,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="改outImage方法" />
-    <MESSAGE value="emmm" />
-    <MESSAGE value="1" />
     <MESSAGE value="输出2进制的全部数据" />
     <MESSAGE value="大无语" />
     <MESSAGE value="小开香槟" />
@@ -522,6 +530,9 @@
     <MESSAGE value="删除无用类DCTquantity" />
     <MESSAGE value="修改logback.xml实现控制台输出" />
     <MESSAGE value="简化输出" />
-    <option name="LAST_COMMIT_MESSAGE" value="简化输出" />
+    <MESSAGE value="去差分后输出日志" />
+    <MESSAGE value="修改获取图片基本信息至JPEGs的构造器内" />
+    <MESSAGE value="getHuffman方法修订" />
+    <option name="LAST_COMMIT_MESSAGE" value="getHuffman方法修订" />
   </component>
 </project>

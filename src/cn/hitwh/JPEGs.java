@@ -5,20 +5,21 @@ package cn.hitwh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import java.awt.*;
+import java.awt.image.LookupOp;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
 
 public class JPEGs {
     // 直流亮度表
-
     private DCTable DCL;
-    // 直流亮度表
+    // 直流色度表
     private DCTable DCC;
-    // 直流亮度表
+    // 交流亮度表
     private ACTable ACL;
-    // 直流亮度表
+    // 交流色度表
     private ACTable ACC;
     //DCT 1*64数据
     private ArrayList<int[]> DCT = new ArrayList<>();
@@ -27,145 +28,58 @@ public class JPEGs {
     private ArrayList<Point> CrDC;
     private byte[] image;
     private byte[] target;
-    private int start;
-    private int Heigh;//图片高度
-    private int Width;//图片宽度
-    private int sampling ;//采样系数比例的整数形，如（422 444）
+    private int startOfSOS;
+    private static int height;//图片的高度
+    private static int width;//图片的宽度
+    private static int sampling;//图片的采样模式
 
 
     //Logback框架
     public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
-
-    /**
-     * 读取SOF0段数据获取图片信息
-     */
-    public void translate(String Jhin) {
-        SOF0 s = new SOF0();
-        int offset = 0;
-        for (int i = 0; i < Jhin.length(); i++) {
-            if (Jhin.charAt(i) == 'f' && Jhin.charAt(i) == 'f' && Jhin.charAt(i) == 'c' && Jhin.charAt(i) == '0')
-                offset = i;
-            break;
-        }
-        offset += 4;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.SOF0length = 16 * 16 * 16 * (Jhin.charAt(offset) - 87);
-        else s.SOF0length = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.SOF0length += 16 * 16 * (Jhin.charAt(offset) - 87);
-        else s.SOF0length += 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.SOF0length += 16 * (Jhin.charAt(offset) - 87);
-        else s.SOF0length += 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.SOF0length += Jhin.charAt(offset) - 87;
-        else s.SOF0length += Jhin.charAt(offset) - 48;//SOF0长度
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numColor = 16 * (Jhin.charAt(offset) - 87);
-        else s.numColor = 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numColor += Jhin.charAt(offset) - 87;
-        else s.numColor += Jhin.charAt(offset) - 48;//颜色分量
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.hight = 16 * 16 * 16 * (Jhin.charAt(offset) - 87);
-        else s.hight = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.hight += 16 * 16 * (Jhin.charAt(offset) - 87);
-        else s.hight += 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.hight += 16 * (Jhin.charAt(offset) - 87);
-        else s.hight += 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') {
-            s.hight += Jhin.charAt(offset) - 87;
-        } else {
-            s.hight += Jhin.charAt(offset) - 48;//得到高度
-        }
-        Heigh = s.hight;//将高度数据存进heigh中
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z')
-            s.width = 16 * 16 * 16 * (Jhin.charAt(offset) - 87);
-        else s.width = 16 * 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += 16 * 16 * (Jhin.charAt(offset) - 87);
-        else s.width += 16 * 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += 16 * (Jhin.charAt(offset) - 87);
-        else s.width += 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.width += Jhin.charAt(offset) - 87;
-        else s.width += Jhin.charAt(offset) - 48;//得到宽度
-        Width = s.width;//将宽度数据存进width中
-
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numComponents = 16 * (Jhin.charAt(offset) - 87);
-        else s.numComponents = 16 * (Jhin.charAt(offset) - 48);
-        offset++;
-        if (Jhin.charAt(offset) >= 'a' && Jhin.charAt(offset) <= 'z') s.numComponents += Jhin.charAt(offset) - 87;
-        else s.numComponents += Jhin.charAt(offset) - 48;
-
-        for (int i = 0; i < 3; i++) {
-            offset += 2;
-            if (Jhin.charAt(offset) == '1') {
-                offset += 2;
-                s.ySample = Jhin.charAt(offset) - 48;//y的采样系数
-                offset += 2;
-                s.yTable = Jhin.charAt(offset) - 48;//得到y表号
-            }
-            if (Jhin.charAt(offset) == '2') {
-                offset += 2;
-                s.cbSample = Jhin.charAt(offset) - 48;//cb的采样系数
-                offset += 2;
-                s.cbTable = Jhin.charAt(offset) - 48;//得到cb表号
-            }
-            if (Jhin.charAt(offset) == '3') {
-                offset += 2;
-                s.crSample = Jhin.charAt(offset) - 48;//cr的采样系数
-                offset += 2;
-                s.crTable = Jhin.charAt(offset) - 48;//得到cr表号
-            }
-        }
-        if(s.ySample/s.cbSample==1){
-            sampling=444;
-        }
-        else if (s.ySample/s.cbSample==2&&s.crSample==0){
-            sampling=420;
-        }
-        else{
-            sampling=422;
-        }
-
-    }
-        /**
-         * 读取SOF0段数据获取图片信息结束
-         */
 
         /**
          * 构造器获取图片的huffman表和DCT数据
          */
     public JPEGs(String inFile){
         image = imageToByte(inFile);
-        //getHuffmanTable(image);
-        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
-        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
-        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
-        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
-        LOGGER.debug("获取哈夫曼表！");
-        for (start = image.length - 1; start >= 0; start--) {
-            if (image[start] == -1 && image[start + 1] == -38) {
-                start += 2;
+        ImageToCode.dataToFile(ImageToCode.byteToString(image),inFile+".txt");
+        //FF D8
+        if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
+        LOGGER.debug("get Huffman Table！");
+        getHuffmanTable(image);
+//        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
+//        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
+//        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
+//        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
+
+        LOGGER.debug("start to get!");
+
+        for (int index = 0; index < image.length; index++) {
+            //FF C0
+            if(image[index] == -1 && image[index + 1] == -64){
+                LOGGER.debug("SOF0");
+                index += 5;
+                height = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
+                index += 2;
+                width = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
+                LOGGER.debug(height+ "*" + width);
+                index += 2;
+                if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
+                else if(image[index + 2] == 32 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;
+                else sampling = 444;
+                LOGGER.debug("sampling"+sampling);
+            }
+            //FF DA
+            else if (image[index] == -1 && image[index + 1] == -38) {
+                LOGGER.debug("SOS");
+                startOfSOS = 2 + index;
                 break;
             }
         }
-        LOGGER.debug("start to get!");
-        start += image[start] * 16 * 16 + image[start + 1];
-        target = new byte[image.length - 2 - start];
-        System.arraycopy(image, start, target, 0, target.length);
+
+        startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
+        target = new byte[image.length - 2 - startOfSOS];
+        System.arraycopy(image, startOfSOS, target, 0, target.length);
         getTargetWithff00();
         getDCTOnlyDC();
         this.changeBias(0);
@@ -210,18 +124,18 @@ public class JPEGs {
         LOGGER.debug("Cb:"+CbDC);
         LOGGER.debug("Cr:"+CrDC);
         target = str0b2Bytes(new String(sb));
-        byte[] temp = new byte[start+2+target.length];
-        System.arraycopy(image,0,temp,0,start);
+        byte[] temp = new byte[startOfSOS +2+target.length];
+        System.arraycopy(image,0,temp,0, startOfSOS);
         temp[temp.length-1] = -39;
         temp[temp.length-2] = -1;
-        System.arraycopy(target,0,temp,start,target.length);
+        System.arraycopy(target,0,temp, startOfSOS,target.length);
         //outputImage(outFile,temp);
     }
 
 
     public static void main(String[] args) {
-        String fileName = "1.";
-        JPEGs jpegs = new JPEGs("测试用图片/"+fileName+ ".jpg");
+        String fileName = "1";
+            JPEGs jpegs = new JPEGs("E:/test/" + fileName + ".jpg");
     }
     /**
      * 仅异或DC系数
@@ -263,7 +177,7 @@ public class JPEGs {
 
 
     /**
-     * 提取DCT块
+     * 提取DCT数据
      */
     private void getDCTOnlyDC() {
         String code = "";
@@ -536,34 +450,39 @@ public class JPEGs {
         Point DC_chrominance = new Point();
         Point AC_chrominance = new Point();
         for(int i = 0 ;i < image.length;i++){
-            if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 0){
-                DC_luminance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 16){
-                DC_luminance.y = i-1;
-                AC_luminance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] == 1){
-                AC_luminance.y = i-1;
-                DC_chrominance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -60 && image[i+4] ==  17){
-                DC_chrominance.y = i-1;
-                AC_chrominance.x = i+5;
-            }else if(image[i] == -1 && image[i+1] == -38){
-                AC_chrominance.y = i-1;
-                break;
+            if(image[i] == -1 && image[i+1] == -60){
+                switch (image[i+4]){
+                    case 0:
+                        DC_luminance.x= i+5;
+                        DC_luminance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                    case 1:
+                        DC_chrominance.x= i+5;
+                        DC_chrominance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                    case 16:
+                        AC_luminance.x= i+5;
+                        AC_luminance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                    case 17:
+                        AC_chrominance.x= i+5;
+                        AC_chrominance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
+                        break;
+                }
             }
         }
-            byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x+1];
-            byte[] DC_C = new byte[DC_chrominance.y - DC_chrominance.x +1];
-            byte[] AC_L = new byte[AC_luminance.y - AC_luminance.x + 1];
-            byte[] AC_C = new byte[AC_chrominance.y - AC_chrominance.x+1];
+            byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x];
+            byte[] DC_C = new byte[DC_chrominance.y - DC_chrominance.x ];
+            byte[] AC_L = new byte[AC_luminance.y - AC_luminance.x];
+            byte[] AC_C = new byte[AC_chrominance.y - AC_chrominance.x];
             System.arraycopy(image,DC_luminance.x,DC_L,0,DC_L.length);
             System.arraycopy(image,DC_chrominance.x,DC_C,0,DC_C.length);
             System.arraycopy(image,AC_luminance.x,AC_L,0,AC_L.length);
             System.arraycopy(image,AC_chrominance.x,AC_C,0,AC_C.length);
-            DCC = new DCTable(DC_C);
-            DCL = new DCTable(DC_L);
-            ACC = new ACTable(AC_C);
-            ACL = new ACTable(AC_L);
+            DCC = new DCTable(DC_C);LOGGER.debug("DCC complate");
+            DCL = new DCTable(DC_L);LOGGER.debug("DCL complate");
+            ACC = new ACTable(AC_C);LOGGER.debug("ACC complate");
+            ACL = new ACTable(AC_L);LOGGER.debug("ACL complate");
             DCC.outputDCTable("DCC");
             DCL.outputDCTable("DCL");
             ACC.outputACTable("ACC");
@@ -737,5 +656,10 @@ public class JPEGs {
             }
         }
         target = temp;
+    }
+
+    public static int byte2int(byte b){
+        if(b < 0)return b+256;
+        else return b;
     }
 }

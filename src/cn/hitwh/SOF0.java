@@ -15,5 +15,6 @@ public class SOF0 {
     public int cbTable;
     public int crSample;
     public int crTable;
+    public int sampling;//采样模式
 
 }

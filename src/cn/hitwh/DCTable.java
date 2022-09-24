@@ -13,23 +13,28 @@ public class DCTable {
     private final String fileName;
 
     public DCTable(byte[] image) {
-        category = new int[12];
-        codeWord = new String[12];
+        category = new int[image.length-16];
+        codeWord = new String[image.length-16];
         fileName = "";
         byte[] length = new byte[16];
         System.arraycopy(image, 0, length, 0, length.length);
-        for (int i = 16; i < 12 + 16; i++) {
-            category[i - 16] = image[i] < 0 ? image[i] + 256 : image[i];
+//        JPEGs.LOGGER.debug(ImageToCode.byteToString(length));
+//        JPEGs.LOGGER.debug("num:"+(image.length-16));
+        for (int i = 16; i < image.length; i++) {
+            category[i - 16] = JPEGs.byte2int(image[i]);
         }
         int index = 0, i = 0;
         long code = 0;
-        while (index < 12) {
+        while (index < image.length-16) {
+            //JPEGs.LOGGER.debug("index:" + index+" "+"i:"+i);
             while (length[i] == 0) {
+                //JPEGs.LOGGER.debug("I:"+i);
                 if (index != 0) code *= 2;
                 i++;
             }
             for (int j = 0; j < length[i]; j++) {
                 codeWord[index++] = long2str0b(code, i + 1);
+                //JPEGs.LOGGER.debug(codeWord[index-1]);
                 code++;
             }
             i++;
@@ -39,7 +44,7 @@ public class DCTable {
 
     public void outputDCTable(String fileName) {
         String DCTable = "";
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < category.length; i++) {
             DCTable += category[i] + "\s\s" + codeWord[i] + "\n";
         }
         ImageToCode.dataToFile(DCTable, "./测试用文档/" + fileName + ".txt");
@@ -95,12 +100,12 @@ public class DCTable {
     public Point getCategory(String code) {
         Point categoryAndCodeWordLength = new Point();
         int i = 0;
-        for (; i < 12; i++) {
+        for (; i < codeWord.length; i++) {
             if (code.startsWith(codeWord[i])) {
                 break;
             }
         }
-        if (i < 12) {
+        if (i < codeWord.length) {
             JPEGs.LOGGER.info("DC{" + codeWord[i] + " 长度:" + category[i] + "}");
             categoryAndCodeWordLength.x = category[i];
             categoryAndCodeWordLength.y = codeWord[i].length();
