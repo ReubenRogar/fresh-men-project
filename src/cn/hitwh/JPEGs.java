@@ -42,7 +42,7 @@ public class JPEGs {
          */
     public JPEGs(String inFile){
         image = imageToByte(inFile);
-        ImageToCode.dataToFile(ImageToCode.byteToString(image),"E:/test/1.txt");
+        ImageToCode.dataToFile(ImageToCode.byteToString(image),inFile+".txt");
         //FF D8
         if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
