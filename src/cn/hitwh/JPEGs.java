@@ -134,7 +134,7 @@ public class JPEGs {
 
 
     public static void main(String[] args) {
-        String fileName = "5";
+        String fileName = "1";
             JPEGs jpegs = new JPEGs("E:/test/" + fileName + ".jpg");
     }
     /**
