@@ -132,11 +132,6 @@ public class JPEGs {
         //outputImage(outFile,temp);
     }
 
-
-    public static void main(String[] args) {
-        String fileName = "a" ;
-            JPEGs jpegs = new JPEGs("测试用图片/" + fileName + ".jpg");
-    }
     /**
      * 仅异或DC系数
      */
@@ -450,27 +445,63 @@ public class JPEGs {
         Point DC_chrominance = new Point();
         Point AC_chrominance = new Point();
         for(int i = 0 ;i < image.length;i++){
+            //FF C4
             if(image[i] == -1 && image[i+1] == -60){
-                switch (image[i+4]){
-                    case 0:
-                        DC_luminance.x= i+5;
-                        DC_luminance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
-                        break;
-                    case 1:
-                        DC_chrominance.x= i+5;
-                        DC_chrominance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
-                        break;
-                    case 16:
-                        AC_luminance.x= i+5;
-                        AC_luminance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
-                        break;
-                    case 17:
-                        AC_chrominance.x= i+5;
-                        AC_chrominance.y= i+5+byte2int(image[i+3])+16*16*byte2int(image[i+2])-3;
-                        break;
+                int count = 0;//明码计数
+                for(int j = 0;j < 16;j++){
+                    count += image[j+i+5];
+                }
+                if(count == byte2int(image[i+3])+16*16*byte2int(image[i+2])-3-16) {
+                    //一个DHT单独定义一个表
+                    switch (image[i + 4]) {
+                        case 0://00 第一DC表
+                            DC_luminance.x = i + 5;
+                            DC_luminance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            break;
+                        case 1://01 第二DC表
+                            DC_chrominance.x = i + 5;
+                            DC_chrominance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            break;
+                        case 16://10 第一AC表
+                            AC_luminance.x = i + 5;
+                            AC_luminance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            break;
+                        case 17://11 第二AC表
+                            AC_chrominance.x = i + 5;
+                            AC_chrominance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            break;
+                    }
+                }else{
+                    //一个DHT定义多个表
+                    i += 4;
+                    while (image[i] != -1){
+                        count = 0;
+                        for(int j = 0;j < 16;j++){
+                            count += image[j+i+1];
+                        }
+                        switch (image[i]){
+                            case 0://00 第一DC表
+                                DC_luminance.x = i + 1;
+                                DC_luminance.y = i + count;
+                                break;
+                            case 1://01 第二DC表
+                                DC_chrominance.x = i + 1;
+                                DC_chrominance.y = i + count;
+                                break;
+                            case 16://10 第一AC表
+                                AC_luminance.x = i + 1;
+                                AC_luminance.y = i + count;
+                                break;
+                            case 17://11 第二AC表
+                                AC_chrominance.x = i + 1;
+                                AC_chrominance.y = i + count;
+                                break;
+                        }//switch
+                        i += count + 1;
+                    }//while
                 }
             }
-        }
+        }//for
             byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x];
             byte[] DC_C = new byte[DC_chrominance.y - DC_chrominance.x ];
             byte[] AC_L = new byte[AC_luminance.y - AC_luminance.x];
