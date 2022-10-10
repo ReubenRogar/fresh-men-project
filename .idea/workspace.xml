@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改JPEGs::getHuffmanTable方法，添加对单一DHT定义多表的支持">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="更新.gitignore,删除部分测试过的图片">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -44,7 +48,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
-    <property name="project.structure.last.edited" value="库" />
+    <property name="project.structure.last.edited" value="模块" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -151,13 +155,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1649848766973</updated>
-    </task>
-    <task id="LOCAL-00005" summary="getDCT完成">
-      <created>1649861415034</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1649861415034</updated>
     </task>
     <task id="LOCAL-00006" summary="优化getDCT">
       <created>1649893862128</created>
@@ -495,7 +492,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665301507994</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="更新.gitignore,删除部分测试过的图片">
+      <created>1665301692380</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1665301692380</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -510,7 +514,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="大无语" />
     <MESSAGE value="小开香槟" />
     <MESSAGE value="就" />
     <MESSAGE value="大香槟" />
@@ -535,6 +538,7 @@
     <MESSAGE value="修改获取图片基本信息至JPEGs的构造器内" />
     <MESSAGE value="getHuffman方法修订" />
     <MESSAGE value="修改JPEGs::getHuffmanTable方法，添加对单一DHT定义多表的支持" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改JPEGs::getHuffmanTable方法，添加对单一DHT定义多表的支持" />
+    <MESSAGE value="更新.gitignore,删除部分测试过的图片" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新.gitignore,删除部分测试过的图片" />
   </component>
 </project>

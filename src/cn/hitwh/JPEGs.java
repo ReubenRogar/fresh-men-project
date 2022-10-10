@@ -1,13 +1,10 @@
 package cn.hitwh;
 
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.awt.*;
-import java.awt.image.LookupOp;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
