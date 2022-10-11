@@ -97,7 +97,8 @@ public class DCTable {
     }
 
     //得到DC类别（长度）
-    public Point getCategory(String code) {
+    public Point getCategory(StringBuffer codeS) {
+        String code = codeS.toString();
         Point categoryAndCodeWordLength = new Point();
         int i = 0;
         for (; i < codeWord.length; i++) {

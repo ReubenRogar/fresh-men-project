@@ -23,12 +23,12 @@ public class JPEGs {
     private ArrayList<Point> yDC;
     private ArrayList<Point> CbDC;
     private ArrayList<Point> CrDC;
-    private byte[] image;
+    final private byte[] image;
     private byte[] target;
     private int startOfSOS;
-    private static int height;//图片的高度
-    private static int width;//图片的宽度
-    private static int sampling;//图片的采样模式
+    private int height;//图片的高度
+    private int width;//图片的宽度
+    private int sampling;//图片的采样模式
 
 
     //Logback框架
@@ -62,7 +62,7 @@ public class JPEGs {
                 LOGGER.debug(height+ "*" + width);
                 index += 2;
                 if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
-                else if(image[index + 2] == 32 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;
+                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;
                 else sampling = 444;
                 LOGGER.debug("sampling"+sampling);
             }
@@ -137,12 +137,21 @@ public class JPEGs {
         String temp, key,result;
         double u = 3.79, x = 0.88;
         for(int o = 1;o <=3;o++) {
-            ArrayList<Point> DC = switch (o) {
-                case 1 -> yDC;
-                case 2 -> CbDC;
-                case 3 -> CrDC;
-                default -> null;
-            };
+            ArrayList<Point> DC;
+            switch (o) {
+                case 1 :
+                    DC = yDC;
+                    break;
+                case 2 :
+                    DC = CbDC;
+                    break;
+                case 3 :
+                    DC = CrDC;
+                    break;
+                default :
+                    DC = null;
+                    break;
+            }
             for (int i = 0; i < DC.size(); i++) {
                 if (DC.get(i).x!=0) {
                     temp = int2str0b(DC.get(i).x);
@@ -172,9 +181,9 @@ public class JPEGs {
      * 提取DCT数据
      */
     private void getDCTOnlyDC() {
-        String code = "";
+        StringBuffer code = new StringBuffer();
         int bytes = 0;//压缩数据byte数组的输入数
-        while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
+        while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
         int allStart = 0;//Dc系数在压缩数据中的位置
         DCTable dcTable;
         ACTable acTable;
@@ -207,7 +216,7 @@ public class JPEGs {
             }
 
             //读取DC系数
-            while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
+            while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0)return;
@@ -219,8 +228,8 @@ public class JPEGs {
 //测试
             LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1)+"allStart:"+allStart);
 
-            code = code.substring(pDC.x + pDC.y);
-            while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
+            code.delete(0,pDC.x + pDC.y);
+            while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
@@ -228,8 +237,8 @@ public class JPEGs {
                 pAC = acTable.getRunSize(code);
                 if(pAC[1] == 0){//Size为0
                     if(pAC[0] == 0){// 0/0 EOB
-                        code = code.substring(pAC[2]);
-                        while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
+                        code.delete(0,pAC[2]);
+                        while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
                         allStart += pAC[2];
                         break;
                     }else if(pAC[0] != 15){
@@ -242,8 +251,8 @@ public class JPEGs {
                 }
                 //Run个零+1个ac
                 index += pAC[0]+1;
-                code = code.substring(pAC[2]+pAC[1]);
-                while(code.length()<32&&bytes<target.length)code += byte2Str0b(target[bytes++]);
+                code.delete(0,pAC[2]+pAC[1]);
+                while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
                 allStart += pAC[2]+pAC[1];
                 //DCT块数据输入完毕
                 if(index == 64){
@@ -263,10 +272,10 @@ public class JPEGs {
      * 提取DCT块
      * @param code 二进制字符串
      */
-    public void getDCT(String code) {
+    public void getDCT(StringBuffer code) {
 //测试
         System.out.print("全部数据:");
-        OutputFormat.output8Str(code);
+        OutputFormat.output8Str(code.toString());
         int[] arr;//接收一个DCT块数据的数组
         DCTable dcTable;
         ACTable acTable;
@@ -301,10 +310,10 @@ public class JPEGs {
 //测试
             LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+arr[index-1]);
 
-            code = code.substring(pDC.x + pDC.y);
+            code.delete(0,pDC.x + pDC.y);
 //测试
             LOGGER.debug("剩余数据:");
-            OutputFormat.output8Str(code);
+            OutputFormat.output8Str(code.toString());
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
@@ -312,14 +321,14 @@ public class JPEGs {
                 pAC = acTable.getRunSize(code);
                 if(pAC[1] == 0){//Size为0
                     if(pAC[0] == 0){// 0/0 EOB
-                        code = code.substring(pAC[2]);
+                        code.delete(0,pAC[2]);
                         break;
                     }else if(pAC[0] == 16){// F/0 16个零
                         index+=16;
-                        code = code.substring(pAC[2]);
+                        code.delete(0,pAC[2]);
 //测试
                         LOGGER.debug("剩余数据:");
-                        OutputFormat.output8Str(code);
+                        OutputFormat.output8Str(code.toString());
                         continue;
                     }else{
                         LOGGER.debug("剩余填充数据");
@@ -335,10 +344,10 @@ public class JPEGs {
                     arr[index++] = str0b2int(code.substring(pAC[2], pAC[2] + pAC[1]));
 //测试
                 LOGGER.debug(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]+" index:"+(index-1));
-                code = code.substring(pAC[2]+pAC[1]);
+                code.delete(0,pAC[2]+pAC[1]);
 //测试
                 LOGGER.debug("剩余数据:");
-                OutputFormat.output8Str(code);
+                OutputFormat.output8Str(code.toString());
                 //DCT块数据输入完毕
                 if(index == 64){
                     break;
@@ -356,7 +365,7 @@ public class JPEGs {
             if(code.length() < 8)break;
             else {
                 while (code.length() % 8 != 0) {
-                    code = code.substring(1);
+                    code.delete(0,1);
                 }
             }
 
