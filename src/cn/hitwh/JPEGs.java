@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
+import static cn.hitwh.OutputFormat.outputArr;
 
 public class JPEGs {
     // 直流亮度表
@@ -19,10 +20,12 @@ public class JPEGs {
     // 交流色度表
     private ACTable ACC;
     //DCT 1*64数据
-    private ArrayList<int[]> DCT = new ArrayList<>();
     private ArrayList<Point> yDC;
     private ArrayList<Point> CbDC;
     private ArrayList<Point> CrDC;
+    private ArrayList<int[]> yDCT;
+    private ArrayList<int[]> CbDCT;
+    private ArrayList<int[]> CrDCT;
     final private byte[] image;
     private byte[] target;
     private int startOfSOS;
@@ -78,12 +81,34 @@ public class JPEGs {
         target = new byte[image.length - 2 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
         getTargetWithff00();
+
+
+    }
+
+    /**
+     * 获取dc系数并显示过程结果
+     */
+    public  void debugDC(){
         getDCTOnlyDC();
         this.changeBias(0);
         LOGGER.debug("Y:"+OutputFormat.PointsOut(yDC));
         LOGGER.debug("Cb:"+OutputFormat.PointsOut(CbDC));
         LOGGER.debug("Cr:"+OutputFormat.PointsOut(CrDC));
     }
+
+    /**
+     * 获取dct系数并显示过程结果
+     */
+    public  void debugDCT(){
+        getDCT();
+        LOGGER.debug("Y:");
+        LOGGER.debug(outputArr(yDCT));
+        LOGGER.debug("Cb:");
+        LOGGER.debug(outputArr(CbDCT));
+        LOGGER.debug("Cr:");
+        LOGGER.debug(outputArr(CrDCT));
+    }
+
 
     public void simpleEn(String outFile){
         LOGGER.debug("simpleEnStart!");
@@ -270,50 +295,57 @@ public class JPEGs {
 
     /**
      * 提取DCT块
-     * @param code 二进制字符串
      */
-    public void getDCT(StringBuffer code) {
-//测试
-        System.out.print("全部数据:");
-        OutputFormat.output8Str(code.toString());
-        int[] arr;//接收一个DCT块数据的数组
+    public void getDCT() {
+        var code = new StringBuffer();
+        int bytes = 0;//压缩数据byte数组的输入数
+        while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
+        int allStart = 0;//Dc系数在压缩数据中的位置
         DCTable dcTable;
         ACTable acTable;
+        yDCT = new ArrayList<>();
+        CrDCT = new ArrayList<>();
+        CbDCT = new ArrayList<>();
+        ArrayList<int[]> DCT;
         int flag = -1;//表区分标志
         //读DCT块
-//测试
         LOGGER.debug("----------------------getDCT------------------------");
         while(true) {
             //应用Huffman表
             flag++;
-            arr = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
-            int index = 0;
-            if (flag % 3 == 0) {
+            int index = 1;
+            if (flag % 6 < 4) {
                 LOGGER.debug("亮度");
                 dcTable = DCL;
                 acTable = ACL;
-
-            } else {
+                DCT = yDCT;
+            } else if(flag% 6 ==4){
                 LOGGER.debug("色度");
                 dcTable = DCC;
                 acTable = ACC;
-
-
+                DCT = CbDCT;
+            }else{
+                LOGGER.debug("色度");
+                dcTable = DCC;
+                acTable = ACC;
+                DCT = CrDCT;
             }
-
+            var dct=new int[64];
             //读取DC系数
+            while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
-
-            if (pDC.x == 0) index++;
-            else arr[index++] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
+            if(pDC.y == 0)return;
+            allStart += pDC.y;
+            if (pDC.x == 0)
+                dct[0] = 0;
+            else dct[0] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
+            allStart += pDC.x;
 //测试
-            LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+arr[index-1]);
+            LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+dct[0]+"allStart:"+allStart);
 
             code.delete(0,pDC.x + pDC.y);
-//测试
-            LOGGER.debug("剩余数据:");
-            OutputFormat.output8Str(code.toString());
+            while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
@@ -322,123 +354,104 @@ public class JPEGs {
                 if(pAC[1] == 0){//Size为0
                     if(pAC[0] == 0){// 0/0 EOB
                         code.delete(0,pAC[2]);
+                        while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
+                        allStart += pAC[2];
+                        DCT.add(dct);
                         break;
-                    }else if(pAC[0] == 16){// F/0 16个零
-                        index+=16;
-                        code.delete(0,pAC[2]);
-//测试
-                        LOGGER.debug("剩余数据:");
-                        OutputFormat.output8Str(code.toString());
-                        continue;
-                    }else{
+                    }else if(pAC[0] != 15){
                         LOGGER.debug("剩余填充数据");
-                        DCT.add(arr.clone());
-                        OutputFormat.outputArr(DCT);
+                        LOGGER.debug(code.substring(0, Math.min(code.length(), 100)));
                         LOGGER.debug("--------------------------------------------------------------------------");
                         return;
                     }
                 }
                 //Run个零
-                    index += pAC[0];
-                    OutputFormat.output8Str(code.substring(0,code.length()%8+8));
-                    arr[index++] = str0b2int(code.substring(pAC[2], pAC[2] + pAC[1]));
-//测试
-                LOGGER.debug(code.substring(pAC[2], pAC[2]+pAC[1])+":"+arr[index-1]+" index:"+(index-1));
+                index += pAC[0];
+                dct[index++] = str0b2int(code.substring(pAC[2],pAC[2]+pAC[1]));
                 code.delete(0,pAC[2]+pAC[1]);
-//测试
-                LOGGER.debug("剩余数据:");
-                OutputFormat.output8Str(code.toString());
+                while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
+                allStart += pAC[2]+pAC[1];
                 //DCT块数据输入完毕
                 if(index == 64){
+                    DCT.add(dct);
                     break;
                 }
                 if(code.isEmpty()){
-                    DCT.add(arr.clone());
-                    OutputFormat.outputArr(DCT);
                     LOGGER.debug("--------------------------------------------------------------------------");
                     return;
                 }
             }
-            DCT.add(arr.clone());
-            OutputFormat.outputArr(DCT);
             LOGGER.debug("--------------------------------------------------------------------------");
-            if(code.length() < 8)break;
-            else {
-                while (code.length() % 8 != 0) {
-                    code.delete(0,1);
-                }
-            }
-
-        }
+        }//while
     }
 
 
 
 
-    /**
-     * 1*64数组转二进制字符串
-     * @return DCT码
-     */
-    public String setDCT(){
-        String code = "";
-        String temp;
-        for(int i = DCT.size()-1;i > 0;i--){
-            DCT.get(i)[0] -= DCT.get(i - 1)[0];
-        }//去差分
-//测试
-        //LOGGER.debug("------------------------setDCT-------------------------");
-        int DCTs = 0,index = 1;
-        for (int[] ints : DCT) {//遍历1*64数据块
-            DCTable dcTable;
-            ACTable acTable;
-            if (DCTs % 3 == 0) {//亮度
-                dcTable = DCL;
-                acTable = ACL;
-//测试
-                //LOGGER.debug("亮度");
-            }else {//色度*2
-                dcTable = DCC;
-                acTable = ACC;
-//测试
-                //LOGGER.debug("色度");
-            }
-                if(ints[0]!= 0){
-                    temp = int2str0b(ints[0]);
-                    code += dcTable.getHuffmanCode(temp.length()) + temp;
-                }else{
-                    temp ="00";
-                    code += "00";
-                }
-//数据
-            //LOGGER.debug("DC:"+ints[0]+" "+temp);
-            //LOGGER.debug("数据:");
-            OutputFormat.outputStr8(code);
-
-                int lastNum = 0;
-                for (index = 1; index < 64; index++) {
-                    if (ints[index] != 0) {
-                        temp = int2str0b(ints[index]);
-//测试
-                        //LOGGER.debug("AC:"+ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
-                        code += acTable.getHuffmanCode(index - lastNum - 1, temp.length());
-                        code += temp;
-                        lastNum = index;
-                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
-                        code += acTable.getEOB();
-                    }
-                }
-                if(DCTs!=DCT.size()-1)while (code.length()%8!=0)code += "0";
-                else while (code.length()%8!=0)code += "1";
-//测试
-            //LOGGER.debug("一个dct块输入结束：");
-            //LOGGER.debug("数据:");
-            //OutputFormat.outputStr8(code);
-
-            DCTs++;
-        }
-        //LOGGER.debug(code.length());
-    return code;
-    }
+//    /**
+//     * 1*64数组转二进制字符串
+//     * @return DCT码
+//     */
+//    public String setDCT(){
+//        String code = "";
+//        String temp;
+//        for(int i = DCT.size()-1;i > 0;i--){
+//            DCT.get(i)[0] -= DCT.get(i - 1)[0];
+//        }//去差分
+////测试
+//        //LOGGER.debug("------------------------setDCT-------------------------");
+//        int DCTs = 0,index = 1;
+//        for (int[] ints : DCT) {//遍历1*64数据块
+//            DCTable dcTable;
+//            ACTable acTable;
+//            if (DCTs % 3 == 0) {//亮度
+//                dcTable = DCL;
+//                acTable = ACL;
+////测试
+//                //LOGGER.debug("亮度");
+//            }else {//色度*2
+//                dcTable = DCC;
+//                acTable = ACC;
+////测试
+//                //LOGGER.debug("色度");
+//            }
+//                if(ints[0]!= 0){
+//                    temp = int2str0b(ints[0]);
+//                    code += dcTable.getHuffmanCode(temp.length()) + temp;
+//                }else{
+//                    temp ="00";
+//                    code += "00";
+//                }
+////数据
+//            //LOGGER.debug("DC:"+ints[0]+" "+temp);
+//            //LOGGER.debug("数据:");
+//            OutputFormat.outputStr8(code);
+//
+//                int lastNum = 0;
+//                for (index = 1; index < 64; index++) {
+//                    if (ints[index] != 0) {
+//                        temp = int2str0b(ints[index]);
+////测试
+//                        //LOGGER.debug("AC:"+ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
+//                        code += acTable.getHuffmanCode(index - lastNum - 1, temp.length());
+//                        code += temp;
+//                        lastNum = index;
+//                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
+//                        code += acTable.getEOB();
+//                    }
+//                }
+//                if(DCTs!=DCT.size()-1)while (code.length()%8!=0)code += "0";
+//                else while (code.length()%8!=0)code += "1";
+////测试
+//            //LOGGER.debug("一个dct块输入结束：");
+//            //LOGGER.debug("数据:");
+//            //OutputFormat.outputStr8(code);
+//
+//            DCTs++;
+//        }
+//        //LOGGER.debug(code.length());
+//    return code;
+//    }
 
     /**
      * 获取图片中的huffman表

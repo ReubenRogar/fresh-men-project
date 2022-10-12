@@ -29,14 +29,17 @@ public class OutputFormat {
      * 输出二维数组信息
      * @param arr 目标数组
      */
-    public static void outputArr(ArrayList<int[]> arr){
+    public static String outputArr(ArrayList<int[]> arr){
+        var sb = new StringBuffer();
         for (int[] ints : arr) {
-            System.out.print("{");
+            sb.append("{");
             for (int anInt : ints) {
-                System.out.print(anInt+",");
+                sb.append(anInt+",");
             }
-            System.out.println("}");
+            sb.delete(sb.length()-1,sb.length());
+            sb.append("}\n");
         }
+        return sb.toString();
     }
 
     /**
