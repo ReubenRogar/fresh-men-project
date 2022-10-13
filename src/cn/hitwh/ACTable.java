@@ -19,7 +19,7 @@ public class ACTable {
             codeWord = new ArrayList<>();
             byte[] length = new byte[16];
             System.arraycopy(image,0,length,0,length.length);
-            JPEGs.LOGGER.debug(ImageToCode.byteToString(image));
+            //JPEGs.LOGGER.debug(ImageToCode.byteToString(image));
             for(int i = length.length;i < image.length;i++){
                 int temp = JPEGs.byte2int(image[i]);
                 runSize.add(new Point(temp/16,temp%16));
@@ -105,14 +105,20 @@ public class ACTable {
             }
         }
 
-        public int[] getRunSize(String code){
+    /**
+     * 获取run/size
+     * @param codeS 二进制数据
+     * @return 包含三个元素的数组，第一位为run，第二位为size，第三位为识别码长度
+     */
+    public int[] getRunSize(StringBuffer codeS){
+            String code = codeS.toString();
             int i = 0;
             for(;i<codeWord.size();i++){
                 if(code.startsWith(codeWord.get(i))){
                     break;
                 }
             }
-            if(i<162){
+            if(i<codeWord.size()){
                 JPEGs.LOGGER.info("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
                 return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
             }else{
