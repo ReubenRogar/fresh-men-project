@@ -493,7 +493,7 @@ public class JPEGs {
                 }else{
                     //一个DHT定义多个表
                     i += 4;
-                    while (image[i] != -1){
+                    while (image[i] != -1){//FF
                         count = 0;
                         for(int j = 0;j < 16;j++){
                             count += image[j+i+1];
@@ -501,24 +501,25 @@ public class JPEGs {
                         switch (image[i]){
                             case 0://00 第一DC表
                                 DC_luminance.x = i + 1;
-                                DC_luminance.y = i + count;
+                                DC_luminance.y = i + count + 16;
                                 break;
                             case 1://01 第二DC表
                                 DC_chrominance.x = i + 1;
-                                DC_chrominance.y = i + count;
+                                DC_chrominance.y = i + count + 16;
                                 break;
                             case 16://10 第一AC表
                                 AC_luminance.x = i + 1;
-                                AC_luminance.y = i + count;
+                                AC_luminance.y = i + count + 16;
                                 break;
                             case 17://11 第二AC表
                                 AC_chrominance.x = i + 1;
-                                AC_chrominance.y = i + count;
+                                AC_chrominance.y = i + count + 16;
                                 break;
                         }//switch
-                        i += count + 1;
+                        i += count + 17;
                     }//while
-                }
+                    break;
+                }//if else
             }
         }//for
             byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x];
