@@ -67,6 +67,7 @@ public class JPEGs {
                 index += 2;
                 if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
                 else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;
+                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 222;
                 else sampling = 444;
                 LOGGER.debug("sampling"+sampling);
             }
@@ -74,7 +75,6 @@ public class JPEGs {
             else if (image[index] == -1 && image[index + 1] == -38) {
                 LOGGER.debug("SOS");
                 startOfSOS = 2 + index;
-                break;
             }
         }
 
@@ -229,25 +229,54 @@ public class JPEGs {
             //应用Huffman表
             flag++;
             int index = 1;
-            switch (flag % 6) {
-                case 4:
-                    LOGGER.debug("色度");
-                    dcTable = DCC;
-                    acTable = ACC;
-                    DCT = CbDCT;
+            switch (sampling){
+                case 422:
+                    switch (flag % 6) {
+                        case 4:
+                            LOGGER.debug("色度");
+                            dcTable = DCC;
+                            acTable = ACC;
+                            DCT = CbDCT;
+                            break;
+                        case 5:
+                            LOGGER.debug("色度");
+                            dcTable = DCC;
+                            acTable = ACC;
+                            DCT = CrDCT;
+                            break;
+                        default:
+                            LOGGER.debug("亮度");
+                            dcTable = DCL;
+                            acTable = ACL;
+                            DCT = yDCT;
+                            break;
+                    }
                     break;
-                case 5:
-                    LOGGER.debug("色度");
-                    dcTable = DCC;
-                    acTable = ACC;
-                    DCT = CrDCT;
+                case 222:
+                    switch (flag % 3) {
+                        case 1:
+                            LOGGER.debug("色度");
+                            dcTable = DCC;
+                            acTable = ACC;
+                            DCT = CbDCT;
+                            break;
+                        case 2:
+                            LOGGER.debug("色度");
+                            dcTable = DCC;
+                            acTable = ACC;
+                            DCT = CrDCT;
+                            break;
+                        default:
+                            LOGGER.debug("亮度");
+                            dcTable = DCL;
+                            acTable = ACL;
+                            DCT = yDCT;
+                            break;
+                    }
                     break;
                 default:
-                    LOGGER.debug("亮度");
-                    dcTable = DCL;
-                    acTable = ACL;
-                    DCT = yDCT;
-                    break;
+                    LOGGER.debug("Wrong sampling!");
+                    return;
             }
             var dct=new int[64];
             //读取DC系数
@@ -256,6 +285,7 @@ public class JPEGs {
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0){
                 LOGGER.debug("读取位置："+bytes+" "+"总长："+target.length);
+                LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
                 return;
             }
             allStart += pDC.y;
@@ -622,6 +652,7 @@ public class JPEGs {
         byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
         int index = 0;
         for(int i = 0;i < target.length;i++){
+            if(target[i] == -1&&target[i+1] != 0)continue;
             temp[index++] = target[i];
             if(target[i] == -1&&target[i+1] == 0){
                 i++;
