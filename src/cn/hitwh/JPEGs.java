@@ -469,6 +469,7 @@ public class JPEGs {
                 }//if else
             }
         }//for
+            if(DC_luminance.x == 0&&DC_chrominance.y == 0)throw new JPEGWrongStructureException();
             byte[] DC_L = new byte[DC_luminance.y - DC_luminance.x];
             byte[] DC_C = new byte[DC_chrominance.y - DC_chrominance.x ];
             byte[] AC_L = new byte[AC_luminance.y - AC_luminance.x];
