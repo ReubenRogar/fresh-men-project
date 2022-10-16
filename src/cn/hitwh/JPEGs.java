@@ -46,7 +46,7 @@ public class JPEGs {
         //FF D8
         if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
-        getHuffmanTable(image);
+        getHuffmanTable();
 //        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
 //        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
 //        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
@@ -404,9 +404,8 @@ public class JPEGs {
 
     /**
      * 获取图片中的huffman表
-     * @param image 图片信息
      */
-    private void getHuffmanTable(byte[] image){
+    private void getHuffmanTable(){
         Point DC_luminance = new Point();
         Point AC_luminance = new Point();
         Point DC_chrominance = new Point();
