@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改getDCT()方法,整合两个debug方法debugDC()和debugDCT()，测试时先建立JPEGs对象然后调用这两个方法中的一个，注意：debugDCT输出的结果中dc系数未去差分">
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/OutputFormat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/OutputFormat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/SOF0.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/rc4.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/SOF0.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/rc4.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
@@ -40,23 +44,22 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="27k0Qxmuhu9Gj8ZWBo3npluXnvC" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
-    <property name="project.structure.last.edited" value="模块" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/programming_demo/freshman-year-project&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\programming_demo\freshman-year-project\src" />
@@ -160,13 +163,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1649848766973</updated>
-    </task>
-    <task id="LOCAL-00009" summary="测试准备">
-      <created>1649903868692</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1649903868692</updated>
+      <workItem from="1665654440123" duration="428000" />
+      <workItem from="1665757039756" duration="605000" />
+      <workItem from="1665823024637" duration="4900000" />
+      <workItem from="1665840344267" duration="596000" />
+      <workItem from="1665886751946" duration="882000" />
+      <workItem from="1665901831552" duration="4880000" />
     </task>
     <task id="LOCAL-00010" summary="测试失败：红图">
       <created>1649918730267</created>
@@ -504,8 +506,18 @@
       <option name="project" value="LOCAL" />
       <updated>1665548453183</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表">
+      <created>1665652721615</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1665652721615</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -519,7 +531,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="加密问题" />
     <MESSAGE value="解决FF 00bug" />
     <MESSAGE value="修改getDCTOnlyDC" />
     <MESSAGE value="deBug开始" />
@@ -544,32 +555,7 @@
     <MESSAGE value="更改依赖关系" />
     <MESSAGE value="String改用StringBuffer，添加程序健壮性和效率" />
     <MESSAGE value="修改getDCT()方法,整合两个debug方法debugDC()和debugDCT()，测试时先建立JPEGs对象然后调用这两个方法中的一个，注意：debugDCT输出的结果中dc系数未去差分" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改getDCT()方法,整合两个debug方法debugDC()和debugDCT()，测试时先建立JPEGs对象然后调用这两个方法中的一个，注意：debugDCT输出的结果中dc系数未去差分" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
-          <line>532</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
-          <line>533</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
-          <line>534</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
-          <line>535</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
   </component>
 </project>
