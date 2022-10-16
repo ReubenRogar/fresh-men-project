@@ -42,7 +42,7 @@ public class JPEGs {
          */
     public JPEGs(String inFile){
         image = imageToByte(inFile);
-        ImageToCode.dataToFile(ImageToCode.byteToString(image),inFile+".txt");
+
         //FF D8
         if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
@@ -59,6 +59,7 @@ public class JPEGs {
             if(image[index] == -1 && image[index + 1] == -64){
                 LOGGER.debug("SOF0");
                 index += 5;
+                LOGGER.debug(""+image[index]+" "+image[index+1]+"*"+image[index+2]+" "+image[index+3]);
                 height = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
                 index += 2;
                 width = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
@@ -80,6 +81,7 @@ public class JPEGs {
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
         target = new byte[image.length - 2 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
+        ImageToCode.dataToFile(ImageToCode.byteToString(target),inFile+".txt");
         getTargetWithff00();
 
 
@@ -110,94 +112,7 @@ public class JPEGs {
     }
 
 
-    public void simpleEn(String outFile){
-        LOGGER.debug("simpleEnStart!");
 
-        simpleAct();
-
-        StringBuilder sb = new StringBuilder();
-        int bytes = 0;
-        for(int i = 1;i <=CbDC.size()*6;i++){//加密放回
-            ArrayList<Point> DC;
-            int index;
-            switch (i % 6) {
-                case 5 -> {
-                    DC = CbDC;
-                    index = i / 6;
-                }
-                case 0 -> {
-                    DC = CrDC;
-                    index = i / 6 - 1;
-                }
-                default -> {
-                    DC = yDC;
-                    index = i / 6 * 4 + i % 6 - 1;
-                }
-            }
-            while(sb.length()<DC.get(index).y+16&&bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
-            if(DC.get(index).x != 0) {
-                String temp = int2str0b(DC.get(index).x);
-                sb.replace(DC.get(index).y, DC.get(index).y + temp.length(), temp);
-            }
-        }
-        while(bytes < target.length)sb.append(byte2Str0b(target[bytes++]));
-        while (sb.length()%8 == 0)sb.append("1");
-        LOGGER.debug("Y:"+yDC);
-        LOGGER.debug("Cb:"+CbDC);
-        LOGGER.debug("Cr:"+CrDC);
-        target = str0b2Bytes(new String(sb));
-        byte[] temp = new byte[startOfSOS +2+target.length];
-        System.arraycopy(image,0,temp,0, startOfSOS);
-        temp[temp.length-1] = -39;
-        temp[temp.length-2] = -1;
-        System.arraycopy(target,0,temp, startOfSOS,target.length);
-        //outputImage(outFile,temp);
-    }
-
-    /**
-     * 仅异或DC系数
-     */
-    private void simpleAct() {
-        int xs;
-        String temp, key,result;
-        double u = 3.79, x = 0.88;
-        for(int o = 1;o <=3;o++) {
-            ArrayList<Point> DC;
-            switch (o) {
-                case 1 :
-                    DC = yDC;
-                    break;
-                case 2 :
-                    DC = CbDC;
-                    break;
-                case 3 :
-                    DC = CrDC;
-                    break;
-                default :
-                    DC = null;
-                    break;
-            }
-            for (int i = 0; i < DC.size(); i++) {
-                if (DC.get(i).x!=0) {
-                    temp = int2str0b(DC.get(i).x);
-                    xs = (int) (Math.pow(2, temp.length() - 1) * (1 + x));
-                    x = x * u * (1 - x);
-                    key = int2str0b(xs);
-                    result = "" + temp.charAt(0);
-                    if (temp.length() != key.length()) {
-                        LOGGER.error("出错！");
-                        return;
-                    }
-                    for (int j = 1; j < temp.length(); j++) {
-                        if (temp.charAt(j) == key.charAt(j)) result += "0";
-                        else result += "1";
-                    }
-                    //System.out.println("temp:" + temp + " key:" + key + " result:" + result);
-                    DC.set(i, new Point(str0b2int(result), DC.get(i).y));
-                }
-            }
-        }
-    }
 
 
 
@@ -314,28 +229,35 @@ public class JPEGs {
             //应用Huffman表
             flag++;
             int index = 1;
-            if (flag % 6 < 4) {
-                LOGGER.debug("亮度");
-                dcTable = DCL;
-                acTable = ACL;
-                DCT = yDCT;
-            } else if(flag% 6 ==4){
-                LOGGER.debug("色度");
-                dcTable = DCC;
-                acTable = ACC;
-                DCT = CbDCT;
-            }else{
-                LOGGER.debug("色度");
-                dcTable = DCC;
-                acTable = ACC;
-                DCT = CrDCT;
+            switch (flag % 6) {
+                case 4:
+                    LOGGER.debug("色度");
+                    dcTable = DCC;
+                    acTable = ACC;
+                    DCT = CbDCT;
+                    break;
+                case 5:
+                    LOGGER.debug("色度");
+                    dcTable = DCC;
+                    acTable = ACC;
+                    DCT = CrDCT;
+                    break;
+                default:
+                    LOGGER.debug("亮度");
+                    dcTable = DCL;
+                    acTable = ACL;
+                    DCT = yDCT;
+                    break;
             }
             var dct=new int[64];
             //读取DC系数
             while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
             Point pDC;//  读取categroy
             pDC = dcTable.getCategory(code);
-            if(pDC.y == 0)return;
+            if(pDC.y == 0){
+                LOGGER.debug("读取位置："+bytes+" "+"总长："+target.length);
+                return;
+            }
             allStart += pDC.y;
             if (pDC.x == 0)
                 dct[0] = 0;
@@ -388,77 +310,73 @@ public class JPEGs {
 
 
 
-//    /**
-//     * 1*64数组转二进制字符串
-//     * @return DCT码
-//     */
-//    public String setDCT(){
-//        String code = "";
-//        String temp;
-//        for(int i = DCT.size()-1;i > 0;i--){
-//            DCT.get(i)[0] -= DCT.get(i - 1)[0];
-//        }//去差分
-////测试
-//        //LOGGER.debug("------------------------setDCT-------------------------");
-//        int DCTs = 0,index = 1;
-//        for (int[] ints : DCT) {//遍历1*64数据块
-//            DCTable dcTable;
-//            ACTable acTable;
-//            if (DCTs % 3 == 0) {//亮度
-//                dcTable = DCL;
-//                acTable = ACL;
-////测试
-//                //LOGGER.debug("亮度");
-//            }else {//色度*2
-//                dcTable = DCC;
-//                acTable = ACC;
-////测试
-//                //LOGGER.debug("色度");
-//            }
-//                if(ints[0]!= 0){
-//                    temp = int2str0b(ints[0]);
-//                    code += dcTable.getHuffmanCode(temp.length()) + temp;
-//                }else{
-//                    temp ="00";
-//                    code += "00";
-//                }
-////数据
-//            //LOGGER.debug("DC:"+ints[0]+" "+temp);
-//            //LOGGER.debug("数据:");
-//            OutputFormat.outputStr8(code);
-//
-//                int lastNum = 0;
-//                for (index = 1; index < 64; index++) {
-//                    if (ints[index] != 0) {
-//                        temp = int2str0b(ints[index]);
-////测试
-//                        //LOGGER.debug("AC:"+ints[index] +" " +acTable.getHuffmanCode(index - lastNum - 1, temp.length()));
-//                        code += acTable.getHuffmanCode(index - lastNum - 1, temp.length());
-//                        code += temp;
-//                        lastNum = index;
-//                    } else if (lastNum < 63 && index == 63 && !(DCTs == DCT.size()-1&&code.length()%8 == 0)) {
-//                        code += acTable.getEOB();
-//                    }
-//                }
-//                if(DCTs!=DCT.size()-1)while (code.length()%8!=0)code += "0";
-//                else while (code.length()%8!=0)code += "1";
-////测试
-//            //LOGGER.debug("一个dct块输入结束：");
-//            //LOGGER.debug("数据:");
-//            //OutputFormat.outputStr8(code);
-//
-//            DCTs++;
-//        }
-//        //LOGGER.debug(code.length());
-//    return code;
-//    }
+    /**
+     * 1*64数组转二进制字符串
+     */
+    void setDCT(){
+        var sb  = new StringBuffer();
+        DCTable dcTable;
+        ACTable acTable;
+        ArrayList<int[]> DCT;
+        int index = 0;
+        //set开始
+        LOGGER.debug("----------------------setDCT------------------------");
+        while(index < CbDCT.size()+CrDCT.size()+yDCT.size()){
+            int i;
+            switch (index%6){
+                case 4:
+                    //Cb
+                    dcTable = DCC;
+                    acTable = ACC;
+                    DCT = CbDCT;
+                    i = index/6;
+                    break;
+                case 5:
+                    //Cr
+                    dcTable = DCC;
+                    acTable = ACC;
+                    DCT = CrDCT;
+                    i = index/6;
+                    break;
+                default:
+                    //Y
+                    dcTable = DCL;
+                    acTable = ACL;
+                    DCT = yDCT;
+                    i = index/6*4+index%6;
+                    break;
+            }//switch
+            //DC
+            int[] dct = DCT.get(i);
+            String s = int2str0b(dct[0]);
+            sb.append(dcTable.getHuffmanCode(s.length()));
+            sb.append(s);
+            //DC end
+            //AC
+            i = 1;
+            int last = 1;
+            while(i < 64){
+                if(dct[i] != 0){
+                    s = int2str0b(dct[i]);
+                    sb.append(acTable.getHuffmanCode(i-last,s.length()));
+                    sb.append(s);
+                    last = i;
+                }//if
+                i++;
+            }//while
+            //ac系数不足63个，靠后全为0
+            if(last != 63)sb.append(acTable.getEOB());
+            //AC end
+        }//while
+        while(sb.length()%8!=0)sb.append('1');
+    }
+
 
     /**
      * 获取图片中的huffman表
      * @param image 图片信息
      */
-    private void
-    getHuffmanTable(byte[] image){
+    private void getHuffmanTable(byte[] image){
         Point DC_luminance = new Point();
         Point AC_luminance = new Point();
         Point DC_chrominance = new Point();
@@ -606,7 +524,7 @@ public class JPEGs {
         }
         return outStr;
     }
-    //把byte数组转二进制字符串
+    //把byte转二进制字符串
     public static String byte2Str0b(byte b){
         String[] binaryArray =
                 {
@@ -637,7 +555,7 @@ public class JPEGs {
             // Step 8 Apply compression
             for (int i = 0; i < bts.length; i++)
                 bts[i] = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
-                ArrayList<Byte> Bts = new ArrayList<>();
+            ArrayList<Byte> Bts = new ArrayList<>();
         for (int i = 0;i<bts.length;i++) {
             Bts.add(bts[i]);
             if(bts[i] == -1&&bts[i+1] != 0){
@@ -660,33 +578,33 @@ public class JPEGs {
         switch (x){
             case 0:
                 for(int i = 1;i <=3;i++){//去差分
-                    ArrayList<Point> DC = null;
+                    ArrayList<int[]> DC = null;
                     switch (i){
-                        case 1:DC = yDC;
+                        case 1:DC = yDCT;
                             break;
-                        case 2:DC = CbDC;
+                        case 2:DC = CbDCT;
                             break;
-                        case 3:DC = CrDC;
+                        case 3:DC = CrDCT;
                             break;
                     }
                     for(int j =0;j< DC.size()-1;j++){
-                        DC.get(j+1).x+=DC.get(j).x;
+                        DC.get(j+1)[0]+=DC.get(j)[0];
                     }
                 }
                 break;
             case 1:
                 for(int i = 1;i <=3;i++){//差分
-                    ArrayList<Point> DC = null;
+                    ArrayList<int[]> DC = null;
                     switch (i){
-                        case 1:DC = yDC;
+                        case 1:DC = yDCT;
                             break;
-                        case 2:DC = CbDC;
+                        case 2:DC = CbDCT;
                             break;
-                        case 3:DC = CrDC;
+                        case 3:DC = CrDCT;
                             break;
                     }
                     for(int j =DC.size()-1;j>0;j--){
-                        DC.get(j).x-=DC.get(j-1).x;
+                        DC.get(j)[0]-=DC.get(j-1)[0];
                     }
                 }
                 break;
@@ -697,6 +615,9 @@ public class JPEGs {
 
     }
 
+    /**
+     * 将数据中的FF 00转化为FF
+     */
     private void getTargetWithff00(){
         byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
         int index = 0;
