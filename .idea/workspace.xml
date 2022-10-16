@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -157,14 +160,7 @@
       <workItem from="1665840344267" duration="596000" />
       <workItem from="1665886751946" duration="882000" />
       <workItem from="1665901831552" duration="8674000" />
-      <workItem from="1665917987185" duration="2118000" />
-    </task>
-    <task id="LOCAL-00012" summary="完善DealWithImage类，红图测试失败">
-      <created>1650004067641</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1650004067641</updated>
+      <workItem from="1665917987185" duration="2820000" />
     </task>
     <task id="LOCAL-00013" summary="准备除bug">
       <created>1650005129338</created>
@@ -502,7 +498,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665920377434</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="添加对222支持">
+      <created>1665920766940</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1665920766940</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
