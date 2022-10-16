@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/SOF0.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/rc4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/SOF0.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/rc4.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
-    </list>
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,21 +156,8 @@
       <workItem from="1665823024637" duration="4900000" />
       <workItem from="1665840344267" duration="596000" />
       <workItem from="1665886751946" duration="882000" />
-      <workItem from="1665901831552" duration="4880000" />
-    </task>
-    <task id="LOCAL-00010" summary="测试失败：红图">
-      <created>1649918730267</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1649918730267</updated>
-    </task>
-    <task id="LOCAL-00011" summary="获取图片huffman表">
-      <created>1649991901844</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1649991901844</updated>
+      <workItem from="1665901831552" duration="8674000" />
+      <workItem from="1665917987185" duration="2118000" />
     </task>
     <task id="LOCAL-00012" summary="完善DealWithImage类，红图测试失败">
       <created>1650004067641</created>
@@ -513,7 +488,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665652721615</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="删除不必要的加密函数，完善setDCT()(未测试）">
+      <created>1665906845040</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1665906845040</updated>
+    </task>
+    <task id="LOCAL-00060" summary="添加对222支持">
+      <created>1665920377434</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1665920377434</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -531,8 +520,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="解决FF 00bug" />
-    <MESSAGE value="修改getDCTOnlyDC" />
     <MESSAGE value="deBug开始" />
     <MESSAGE value="老版本新上线" />
     <MESSAGE value="新加密密钥构建" />
@@ -556,6 +543,8 @@
     <MESSAGE value="String改用StringBuffer，添加程序健壮性和效率" />
     <MESSAGE value="修改getDCT()方法,整合两个debug方法debugDC()和debugDCT()，测试时先建立JPEGs对象然后调用这两个方法中的一个，注意：debugDCT输出的结果中dc系数未去差分" />
     <MESSAGE value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
+    <MESSAGE value="删除不必要的加密函数，完善setDCT()(未测试）" />
+    <MESSAGE value="添加对222支持" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加对222支持" />
   </component>
 </project>
