@@ -15,9 +15,6 @@ public class JPEGs {
     private DCTable DCC;// 交流亮度表
     private ACTable ACL;// 交流色度表
     private ACTable ACC;//DCT 1*64数据
-    private ArrayList<Point> yDC;
-    private ArrayList<Point> CbDC;
-    private ArrayList<Point> CrDC;
     private ArrayList<int[]> yDCT;//yDCT数据
     private ArrayList<int[]> CbDCT;//CbDCT数据
     private ArrayList<int[]> CrDCT;//CrDCT数据
@@ -146,7 +143,7 @@ public class JPEGs {
                 DCT = yDCT;
             }
             LOGGER.debug("NO."+DCT.size());
-            if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0)
+            if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size())
                 code.delete(0,code.length()%8);
             var dct=new int[64];
             //读取DC系数
