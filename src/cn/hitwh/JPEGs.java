@@ -282,6 +282,7 @@ public class JPEGs {
                     LOGGER.debug("Wrong sampling!");
                     return;
             }
+            LOGGER.debug("NO."+DCT.size());
             var dct=new int[64];
             //读取DC系数
             while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
@@ -473,7 +474,6 @@ public class JPEGs {
                         }//switch
                         i += count + 17;
                     }//while
-                    break;
                 }//if else
             }
         }//for
@@ -660,7 +660,10 @@ public class JPEGs {
         byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
         int index = 0;
         for(int i = 0;i < target.length;i++){
-            if(target[i] == -1&&target[i+1] != 0)continue;
+            if(target[i] == -1&&target[i+1] != 0){
+                i += 1;
+                continue;
+            }
             temp[index++] = target[i];
             if(target[i] == -1&&target[i+1] == 0){
                 i++;
