@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
-import static cn.hitwh.OutputFormat.outputArr;
 
 public class JPEGs {
     // 直流亮度表
@@ -44,7 +43,7 @@ public class JPEGs {
         image = imageToByte(inFile);
 
         //FF D8
-        if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
+        if(image[0] != -1 || image[1] != -40)throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
         getHuffmanTable();
 //        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
@@ -55,8 +54,8 @@ public class JPEGs {
         LOGGER.debug("start to get!");
 
         for (int index = 0; index < image.length; index++) {
-            //FF C0
-            if(image[index] == -1 && image[index + 1] == -64){
+            //FF C0或FF C2
+            if(image[index] == -1 && (image[index + 1] == -64 || image[index + 1] == -62)){
                 LOGGER.debug("SOF0");
                 index += 5;
                 LOGGER.debug(""+image[index]+" "+image[index+1]+"*"+image[index+2]+" "+image[index+3]);
@@ -81,7 +80,7 @@ public class JPEGs {
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
         target = new byte[image.length - 2 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
-        ImageToCode.dataToFile(ImageToCode.byteToString(target),inFile+".txt");
+        ImageToCode.dataToFile(ImageToCode.byteToString(image),inFile+".txt");
         getTargetWithff00();
 
 
@@ -103,12 +102,12 @@ public class JPEGs {
      */
     public  void debugDCT(){
         getDCT();
-        LOGGER.debug("Y:");
-        LOGGER.debug(outputArr(yDCT));
-        LOGGER.debug("Cb:");
-        LOGGER.debug(outputArr(CbDCT));
-        LOGGER.debug("Cr:");
-        LOGGER.debug(outputArr(CrDCT));
+//        LOGGER.debug("Y:");
+//        LOGGER.debug(outputArr(yDCT));
+//        LOGGER.debug("Cb:");
+//        LOGGER.debug(outputArr(CbDCT));
+//        LOGGER.debug("Cr:");
+//        LOGGER.debug(outputArr(CrDCT));
     }
 
 
@@ -448,19 +447,19 @@ public class JPEGs {
                         switch (image[i]){
                             case 0://00 第一DC表
                                 DC_luminance.x = i + 1;
-                                DC_luminance.y = i + count + 16;
+                                DC_luminance.y = i + count + 17;
                                 break;
                             case 1://01 第二DC表
                                 DC_chrominance.x = i + 1;
-                                DC_chrominance.y = i + count + 16;
+                                DC_chrominance.y = i + count + 17;
                                 break;
                             case 16://10 第一AC表
                                 AC_luminance.x = i + 1;
-                                AC_luminance.y = i + count + 16;
+                                AC_luminance.y = i + count + 17;
                                 break;
                             case 17://11 第二AC表
                                 AC_chrominance.x = i + 1;
-                                AC_chrominance.y = i + count + 16;
+                                AC_chrominance.y = i + count + 17;
                                 break;
                         }//switch
                         i += count + 17;

@@ -3,7 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,14 +168,8 @@
       <workItem from="1665840344267" duration="596000" />
       <workItem from="1665886751946" duration="882000" />
       <workItem from="1665901831552" duration="8674000" />
-      <workItem from="1665917987185" duration="2820000" />
-    </task>
-    <task id="LOCAL-00013" summary="准备除bug">
-      <created>1650005129338</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1650005129338</updated>
+      <workItem from="1665917987185" duration="6143000" />
+      <workItem from="1665964871506" duration="1170000" />
     </task>
     <task id="LOCAL-00014" summary="取出FF 00">
       <created>1650025793166</created>
@@ -505,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665920766940</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="删除测试图片">
+      <created>1665921362294</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1665921362295</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -523,7 +532,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="deBug开始" />
     <MESSAGE value="老版本新上线" />
     <MESSAGE value="新加密密钥构建" />
     <MESSAGE value="完成新加密密钥构建" />
@@ -548,6 +556,18 @@
     <MESSAGE value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
     <MESSAGE value="删除不必要的加密函数，完善setDCT()(未测试）" />
     <MESSAGE value="添加对222支持" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加对222支持" />
+    <MESSAGE value="删除测试图片" />
+    <option name="LAST_COMMIT_MESSAGE" value="删除测试图片" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
+          <line>462</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
