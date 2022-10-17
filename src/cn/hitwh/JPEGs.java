@@ -26,9 +26,9 @@ public class JPEGs {
     private int startOfSOS;//扫描行开始
     private int height;//图片的高度
     private int width;//图片的宽度
-    private int sampling;//图片的采样模式
+    private int samplingRatio;//图片的采样模式
 
-    private int DDReset;//FF DD段定义的扫描行复位间隔
+    private int DDReset = 0;//FF DD段定义的扫描行复位间隔
 
 
     //Logback框架
@@ -44,7 +44,7 @@ public class JPEGs {
         if(image[0] != -1 || image[1] != -40)throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
         getHuffmanTable();
-        LOGGER.debug("start to get!");
+        LOGGER.debug("get Huffman Table successfully!");
 
         for (int index = 0; index < image.length; index++) {
             //FF C0或FF C2
@@ -58,14 +58,15 @@ public class JPEGs {
                 LOGGER.debug(height+ "*" + width);
                 index += 2;
                 if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
-                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 420;//22 11 11
-                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 444;//11 11 11
-                else if((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;//12/21 11 11
+                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17) samplingRatio = 4;//22 11 11  420
+                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17) samplingRatio = 1;//11 11 11  444
+                else if((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)
+                    samplingRatio = 2;//12/21 11 11  422
                 else {
                     LOGGER.debug(image[index + 2] + " " + image[index + 5] + " "+image[index + 8]);
                     throw new JPEGWrongStructureException("Unusual sampling!");
                 }
-                LOGGER.debug("sampling"+sampling);
+                LOGGER.debug("sampling"+ samplingRatio);
             }
             //FF DA
             else if (image[index] == -1 && image[index + 1] == -38) {
@@ -92,17 +93,6 @@ public class JPEGs {
     }
 
     /**
-     * 获取dc系数并显示过程结果
-     */
-    public  void debugDC(){
-        getDCTOnlyDC();
-        this.changeBias(0);
-        LOGGER.debug("Y:"+OutputFormat.PointsOut(yDC));
-        LOGGER.debug("Cb:"+OutputFormat.PointsOut(CbDC));
-        LOGGER.debug("Cr:"+OutputFormat.PointsOut(CrDC));
-    }
-
-    /**
      * 获取dct系数并显示过程结果
      */
     public  void debugDCT(){
@@ -114,103 +104,6 @@ public class JPEGs {
 //        LOGGER.debug("Cr:");
 //        LOGGER.debug(outputArr(CrDCT));
     }
-
-
-
-
-
-
-
-    /**
-     * 提取DCT数据
-     */
-    private void getDCTOnlyDC() {
-        StringBuffer code = new StringBuffer();
-        int bytes = 0;//压缩数据byte数组的输入数
-        while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-        int allStart = 0;//Dc系数在压缩数据中的位置
-        DCTable dcTable;
-        ACTable acTable;
-        yDC = new ArrayList<>();
-        CrDC = new ArrayList<>();
-        CbDC = new ArrayList<>();
-        ArrayList<Point> DC;
-        int flag = -1;//表区分标志
-        //读DCT块
-        LOGGER.debug("----------------------getDCT------------------------");
-        while(true) {
-            //应用Huffman表
-            flag++;
-            int index = 1;
-            if (flag % 6 < 4) {
-                LOGGER.debug("亮度");
-                dcTable = DCL;
-                acTable = ACL;
-                DC = yDC;
-            } else if(flag% 6 ==4){
-                LOGGER.debug("色度");
-                dcTable = DCC;
-                acTable = ACC;
-                DC = CbDC;
-            }else{
-                LOGGER.debug("色度");
-                dcTable = DCC;
-                acTable = ACC;
-                DC = CrDC;
-            }
-
-            //读取DC系数
-            while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-            Point pDC;//  读取categroy
-            pDC = dcTable.getCategory(code);
-            if(pDC.y == 0)return;
-            allStart += pDC.y;
-            if (pDC.x == 0)
-                DC.add(new Point(0,allStart));
-            else DC.add(new Point(str0b2int(code.substring(pDC.y, pDC.x + pDC.y)),allStart));//byte转int(DC)
-            allStart += pDC.x;
-//测试
-            LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+DC.get(DC.size()-1)+"allStart:"+allStart);
-
-            code.delete(0,pDC.x + pDC.y);
-            while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-            //读取AC系数
-            int[] pAC;//用于读取run/size
-            //读取AC哈夫曼码
-            while(true) {
-                pAC = acTable.getRunSize(code);
-                if(pAC[1] == 0){//Size为0
-                    if(pAC[0] == 0){// 0/0 EOB
-                        code.delete(0,pAC[2]);
-                        while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-                        allStart += pAC[2];
-                        break;
-                    }else if(pAC[0] != 15){
-                        LOGGER.debug("剩余填充数据");
-                        LOGGER.debug(code.substring(0, Math.min(code.length(), 100)));
-                        LOGGER.debug(DC.toString());
-                        LOGGER.debug("--------------------------------------------------------------------------");
-                        return;
-                    }
-                }
-                //Run个零+1个ac
-                index += pAC[0]+1;
-                code.delete(0,pAC[2]+pAC[1]);
-                while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-                allStart += pAC[2]+pAC[1];
-                //DCT块数据输入完毕
-                if(index == 64){
-                    break;
-                }
-                if(code.isEmpty()){
-                    LOGGER.debug("--------------------------------------------------------------------------");
-                    return;
-                }
-            }
-            LOGGER.debug("--------------------------------------------------------------------------");
-        }
-    }
-
 
     /**
      * 提取DCT块
@@ -233,56 +126,28 @@ public class JPEGs {
             //应用Huffman表
             flag++;
             int index = 1;
-            switch (sampling){
-                case 420:
-                    switch (flag % 6) {
-                        case 4:
-                            LOGGER.debug("色度");
-                            dcTable = DCC;
-                            acTable = ACC;
-                            DCT = CbDCT;
-                            break;
-                        case 5:
-                            LOGGER.debug("色度");
-                            dcTable = DCC;
-                            acTable = ACC;
-                            DCT = CrDCT;
-                            break;
-                        default:
-                            LOGGER.debug("亮度");
-                            dcTable = DCL;
-                            acTable = ACL;
-                            DCT = yDCT;
-                            break;
-                    }
-                    break;
-                case 444:
-                    switch (flag % 3) {
-                        case 1:
-                            LOGGER.debug("色度");
-                            dcTable = DCC;
-                            acTable = ACC;
-                            DCT = CbDCT;
-                            break;
-                        case 2:
-                            LOGGER.debug("色度");
-                            dcTable = DCC;
-                            acTable = ACC;
-                            DCT = CrDCT;
-                            break;
-                        default:
-                            LOGGER.debug("亮度");
-                            dcTable = DCL;
-                            acTable = ACL;
-                            DCT = yDCT;
-                            break;
-                    }
-                    break;
-                default:
-                    LOGGER.debug("Wrong sampling!");
-                    return;
+            if(samplingRatio == 0){
+                throw new JPEGWrongStructureException("Unusual sampling!");
+            }
+            if (flag % (samplingRatio + 2) == samplingRatio) {
+                LOGGER.debug("色度");
+                dcTable = DCC;
+                acTable = ACC;
+                DCT = CbDCT;
+            } else if (flag % (samplingRatio + 2) == samplingRatio + 1){
+                LOGGER.debug("色度");
+                dcTable = DCC;
+                acTable = ACC;
+                DCT = CrDCT;
+            }else{
+                LOGGER.debug("亮度");
+                dcTable = DCL;
+                acTable = ACL;
+                DCT = yDCT;
             }
             LOGGER.debug("NO."+DCT.size());
+            if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0)
+                code.delete(0,code.length()%8);
             var dct=new int[64];
             //读取DC系数
             while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
