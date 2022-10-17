@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="添加.gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/DCTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/DCTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/12.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/12N.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/18.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/18N.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/2N.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/3N.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/4N.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/128粉图.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/实验红图图.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/蓝紫DCT.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/计算蓝紫DCT.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +66,12 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/programming_demo/freshman-year-project&quot;
+    &quot;last_opened_file_path&quot;: &quot;E:/programming_demo/freshman-year-project&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -160,14 +184,9 @@
       <workItem from="1665886751946" duration="882000" />
       <workItem from="1665901831552" duration="8674000" />
       <workItem from="1665917987185" duration="6143000" />
-      <workItem from="1665964871506" duration="2056000" />
-    </task>
-    <task id="LOCAL-00015" summary="修改获取categroy">
-      <created>1650027482030</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1650027482030</updated>
+      <workItem from="1665964871506" duration="4167000" />
+      <workItem from="1665971895774" duration="4627000" />
+      <workItem from="1665987516897" duration="3886000" />
     </task>
     <task id="LOCAL-00016" summary="测试输出">
       <created>1650082766525</created>
@@ -505,7 +524,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665966650009</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="添加.gitignore">
+      <created>1665967684852</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1665967684852</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -523,7 +549,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="新加密密钥构建" />
     <MESSAGE value="完成新加密密钥构建" />
     <MESSAGE value="类名规范，Logback输出日志到本地" />
     <MESSAGE value="包名修改" />
@@ -548,17 +573,7 @@
     <MESSAGE value="添加对222支持" />
     <MESSAGE value="删除测试图片" />
     <MESSAGE value=" 修改getHuffmanTable(),解决在单一DHT多字段的情况下读取缺位的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value=" 修改getHuffmanTable(),解决在单一DHT多字段的情况下读取缺位的问题" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
-          <line>470</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="添加.gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加.gitignore" />
   </component>
 </project>

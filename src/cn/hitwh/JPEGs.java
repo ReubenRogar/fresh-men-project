@@ -11,26 +11,24 @@ import static cn.hitwh.ImageToCode.imageToByte;
 
 public class JPEGs {
     // 直流亮度表
-    private DCTable DCL;
-    // 直流色度表
-    private DCTable DCC;
-    // 交流亮度表
-    private ACTable ACL;
-    // 交流色度表
-    private ACTable ACC;
-    //DCT 1*64数据
+    private DCTable DCL;// 直流色度表
+    private DCTable DCC;// 交流亮度表
+    private ACTable ACL;// 交流色度表
+    private ACTable ACC;//DCT 1*64数据
     private ArrayList<Point> yDC;
     private ArrayList<Point> CbDC;
     private ArrayList<Point> CrDC;
-    private ArrayList<int[]> yDCT;
-    private ArrayList<int[]> CbDCT;
-    private ArrayList<int[]> CrDCT;
-    final private byte[] image;
-    private byte[] target;
-    private int startOfSOS;
+    private ArrayList<int[]> yDCT;//yDCT数据
+    private ArrayList<int[]> CbDCT;//CbDCT数据
+    private ArrayList<int[]> CrDCT;//CrDCT数据
+    final private byte[] image;//图片所有数据
+    private byte[] target;//压缩数据
+    private int startOfSOS;//扫描行开始
     private int height;//图片的高度
     private int width;//图片的宽度
     private int sampling;//图片的采样模式
+
+    private int DDReset;//FF DD段定义的扫描行复位间隔
 
 
     //Logback框架
@@ -46,11 +44,6 @@ public class JPEGs {
         if(image[0] != -1 || image[1] != -40)throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
         getHuffmanTable();
-//        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
-//        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
-//        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
-//        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
-
         LOGGER.debug("start to get!");
 
         for (int index = 0; index < image.length; index++) {
@@ -65,15 +58,27 @@ public class JPEGs {
                 LOGGER.debug(height+ "*" + width);
                 index += 2;
                 if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
-                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;
-                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 222;
-                else sampling = 444;
+                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 420;//22 11 11
+                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 444;//11 11 11
+                else if((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;//12/21 11 11
+                else {
+                    LOGGER.debug(image[index + 2] + " " + image[index + 5] + " "+image[index + 8]);
+                    throw new JPEGWrongStructureException("Unusual sampling!");
+                }
                 LOGGER.debug("sampling"+sampling);
             }
             //FF DA
             else if (image[index] == -1 && image[index + 1] == -38) {
                 LOGGER.debug("SOS");
                 startOfSOS = 2 + index;
+            }
+            //FF DD
+            else if (image[index] == -1 && image[index + 1] == -35){
+                LOGGER.debug("DRI");
+                index += 4;
+                DDReset = (image[index] >= 0 ? image[index] : image[index]+256)*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
+                LOGGER.debug(image[index]+" "+image[index+1]);
+                LOGGER.debug("DDReset:"+DDReset);
             }
         }
 
@@ -229,7 +234,7 @@ public class JPEGs {
             flag++;
             int index = 1;
             switch (sampling){
-                case 422:
+                case 420:
                     switch (flag % 6) {
                         case 4:
                             LOGGER.debug("色度");
@@ -251,7 +256,7 @@ public class JPEGs {
                             break;
                     }
                     break;
-                case 222:
+                case 444:
                     switch (flag % 3) {
                         case 1:
                             LOGGER.debug("色度");
@@ -318,6 +323,10 @@ public class JPEGs {
                 }
                 //Run个零
                 index += pAC[0];
+                if(index >= 64){
+                    LOGGER.debug("读取位置："+bytes+" "+"总长："+target.length);
+                    LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
+                }
                 dct[index++] = str0b2int(code.substring(pAC[2],pAC[2]+pAC[1]));
                 code.delete(0,pAC[2]+pAC[1]);
                 while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
