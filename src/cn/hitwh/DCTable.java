@@ -1,7 +1,6 @@
 package cn.hitwh;
 
 import java.awt.*;
-import java.io.*;
 
 public class DCTable {
     /**
@@ -10,12 +9,10 @@ public class DCTable {
 
     private final int[] category;
     private final String[] codeWord;
-    private final String fileName;
 
     public DCTable(byte[] image) {
         category = new int[image.length-16];
         codeWord = new String[image.length-16];
-        fileName = "";
         byte[] length = new byte[16];
         System.arraycopy(image, 0, length, 0, length.length);
 //        JPEGs.LOGGER.debug(ImageToCode.byteToString(length));
@@ -43,58 +40,27 @@ public class DCTable {
     }
 
     public void outputDCTable(String fileName) {
-        String DCTable = "";
+        var DCTable = new StringBuilder();
         for (int i = 0; i < category.length; i++) {
-            DCTable += category[i] + "\s\s" + codeWord[i] + "\n";
+            DCTable.append(category[i] + "\s\s" + codeWord[i] + "\n");
         }
-        ImageToCode.dataToFile(DCTable, "./测试用文档/" + fileName + ".txt");
+        ImageToCode.dataToFile(DCTable.toString(), "./测试用文档/" + fileName + ".txt");
     }
 
     public static String long2str0b(long code, int length) {
-        String result = "";
+        var result = new StringBuilder();
         while (code > 0) {
-            result = ((code % 2 == 1) ? "1" : "0") + result;
+            result.insert(0,(code % 2 == 1) ? "1" : "0");
             code /= 2;
         }
         while (result.length() < length) {
-            result = "0" + result;
+            result.insert(0,"0");
         }
-        return result;
+        return result.toString();
     }
 
 
-    public DCTable(String fileName) {
-        category = new int[12];
-        codeWord = new String[12];
-        this.fileName = fileName;
-        init();
-    }
 
-    //取表数据
-    private void init() {
-        File file = new File(fileName);
-        if (file.exists()) {
-            try {
-                FileReader fileReader = new FileReader(file);
-                BufferedReader br = new BufferedReader(fileReader);
-                String lineContent;
-                int index = 0;
-                while ((lineContent = br.readLine()) != null) {
-                    String[] ss = lineContent.split("\\s\\s");
-                    category[index] = Byte.parseByte(ss[0]);
-                    codeWord[index++] = ss[1];
-                }
-                br.close();
-                fileReader.close();
-            } catch (FileNotFoundException e) {
-                JPEGs.LOGGER.error("-----------[INFORMATION] File does not exist! -----------");
-                e.printStackTrace();
-            } catch (IOException e) {
-                JPEGs.LOGGER.error("-----------[INFORMATION] Io exception! -----------");
-                e.printStackTrace();
-            }
-        }
-    }
 
     //得到DC类别（长度）
     public Point getCategory(StringBuffer codeS) {

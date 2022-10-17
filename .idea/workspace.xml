@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +53,12 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/programming_demo/freshman-year-project&quot;
+    &quot;last_opened_file_path&quot;: &quot;E:/programming_demo/freshman-year-project&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -160,35 +170,12 @@
       <workItem from="1665840344267" duration="596000" />
       <workItem from="1665886751946" duration="882000" />
       <workItem from="1665901831552" duration="8674000" />
-      <workItem from="1665917987185" duration="2820000" />
-    </task>
-    <task id="LOCAL-00013" summary="准备除bug">
-      <created>1650005129338</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1650005129338</updated>
-    </task>
-    <task id="LOCAL-00014" summary="取出FF 00">
-      <created>1650025793166</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1650025793166</updated>
-    </task>
-    <task id="LOCAL-00015" summary="修改获取categroy">
-      <created>1650027482030</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1650027482030</updated>
-    </task>
-    <task id="LOCAL-00016" summary="测试输出">
-      <created>1650082766525</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1650082766525</updated>
+      <workItem from="1665917987185" duration="6143000" />
+      <workItem from="1665964871506" duration="4167000" />
+      <workItem from="1665971895774" duration="4627000" />
+      <workItem from="1665987516897" duration="4002000" />
+      <workItem from="1665994109728" duration="26000" />
+      <workItem from="1666015306755" duration="1708000" />
     </task>
     <task id="LOCAL-00017" summary="添加图">
       <created>1650082886453</created>
@@ -505,7 +492,35 @@
       <option name="project" value="LOCAL" />
       <updated>1665920766940</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="删除测试图片">
+      <created>1665921362294</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1665921362295</updated>
+    </task>
+    <task id="LOCAL-00063" summary=" 修改getHuffmanTable(),解决在单一DHT多字段的情况下读取缺位的问题">
+      <created>1665966650009</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1665966650009</updated>
+    </task>
+    <task id="LOCAL-00064" summary="添加.gitignore">
+      <created>1665967684852</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1665967684852</updated>
+    </task>
+    <task id="LOCAL-00065" summary="添加对444支持，纠正4：1：1为420，简化ACTable和DCTable">
+      <created>1665992445270</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1665992445271</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -523,10 +538,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="deBug开始" />
-    <MESSAGE value="老版本新上线" />
-    <MESSAGE value="新加密密钥构建" />
-    <MESSAGE value="完成新加密密钥构建" />
     <MESSAGE value="类名规范，Logback输出日志到本地" />
     <MESSAGE value="包名修改" />
     <MESSAGE value="添加远程依赖" />
@@ -548,6 +559,21 @@
     <MESSAGE value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
     <MESSAGE value="删除不必要的加密函数，完善setDCT()(未测试）" />
     <MESSAGE value="添加对222支持" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加对222支持" />
+    <MESSAGE value="删除测试图片" />
+    <MESSAGE value=" 修改getHuffmanTable(),解决在单一DHT多字段的情况下读取缺位的问题" />
+    <MESSAGE value="添加.gitignore" />
+    <MESSAGE value="添加对444支持，纠正4：1：1为420，简化ACTable和DCTable" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加对444支持，纠正4：1：1为420，简化ACTable和DCTable" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
+          <line>487</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

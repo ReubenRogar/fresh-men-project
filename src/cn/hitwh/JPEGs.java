@@ -8,30 +8,27 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static cn.hitwh.ImageToCode.imageToByte;
-import static cn.hitwh.OutputFormat.outputArr;
 
 public class JPEGs {
     // 直流亮度表
-    private DCTable DCL;
-    // 直流色度表
-    private DCTable DCC;
-    // 交流亮度表
-    private ACTable ACL;
-    // 交流色度表
-    private ACTable ACC;
-    //DCT 1*64数据
+    private DCTable DCL;// 直流色度表
+    private DCTable DCC;// 交流亮度表
+    private ACTable ACL;// 交流色度表
+    private ACTable ACC;//DCT 1*64数据
     private ArrayList<Point> yDC;
     private ArrayList<Point> CbDC;
     private ArrayList<Point> CrDC;
-    private ArrayList<int[]> yDCT;
-    private ArrayList<int[]> CbDCT;
-    private ArrayList<int[]> CrDCT;
-    final private byte[] image;
-    private byte[] target;
-    private int startOfSOS;
+    private ArrayList<int[]> yDCT;//yDCT数据
+    private ArrayList<int[]> CbDCT;//CbDCT数据
+    private ArrayList<int[]> CrDCT;//CrDCT数据
+    final private byte[] image;//图片所有数据
+    private byte[] target;//压缩数据
+    private int startOfSOS;//扫描行开始
     private int height;//图片的高度
     private int width;//图片的宽度
     private int sampling;//图片的采样模式
+
+    private int DDReset;//FF DD段定义的扫描行复位间隔
 
 
     //Logback框架
@@ -44,19 +41,14 @@ public class JPEGs {
         image = imageToByte(inFile);
 
         //FF D8
-        if(image[0] != -1 || image[1] != -40 )throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
+        if(image[0] != -1 || image[1] != -40)throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
         getHuffmanTable();
-//        DCC = new DCTable("./HuffmanTable/DC_chrominance.txt");
-//        DCL = new DCTable("./HuffmanTable/DC_luminance.txt");
-//        ACC = new ACTable("./HuffmanTable/AC_chrominance.txt");
-//        ACL = new ACTable("./HuffmanTable/AC_luminance.txt");
-
         LOGGER.debug("start to get!");
 
         for (int index = 0; index < image.length; index++) {
-            //FF C0
-            if(image[index] == -1 && image[index + 1] == -64){
+            //FF C0或FF C2
+            if(image[index] == -1 && (image[index + 1] == -64 || image[index + 1] == -62)){
                 LOGGER.debug("SOF0");
                 index += 5;
                 LOGGER.debug(""+image[index]+" "+image[index+1]+"*"+image[index+2]+" "+image[index+3]);
@@ -66,9 +58,13 @@ public class JPEGs {
                 LOGGER.debug(height+ "*" + width);
                 index += 2;
                 if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
-                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;
-                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 222;
-                else sampling = 444;
+                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 420;//22 11 11
+                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)sampling = 444;//11 11 11
+                else if((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)sampling = 422;//12/21 11 11
+                else {
+                    LOGGER.debug(image[index + 2] + " " + image[index + 5] + " "+image[index + 8]);
+                    throw new JPEGWrongStructureException("Unusual sampling!");
+                }
                 LOGGER.debug("sampling"+sampling);
             }
             //FF DA
@@ -76,12 +72,20 @@ public class JPEGs {
                 LOGGER.debug("SOS");
                 startOfSOS = 2 + index;
             }
+            //FF DD
+            else if (image[index] == -1 && image[index + 1] == -35){
+                LOGGER.debug("DRI");
+                index += 4;
+                DDReset = (image[index] >= 0 ? image[index] : image[index]+256)*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
+                LOGGER.debug(image[index]+" "+image[index+1]);
+                LOGGER.debug("DDReset:"+DDReset);
+            }
         }
 
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
         target = new byte[image.length - 2 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
-        ImageToCode.dataToFile(ImageToCode.byteToString(target),inFile+".txt");
+        ImageToCode.dataToFile(ImageToCode.byteToString(image),inFile+".txt");
         getTargetWithff00();
 
 
@@ -103,12 +107,12 @@ public class JPEGs {
      */
     public  void debugDCT(){
         getDCT();
-        LOGGER.debug("Y:");
-        LOGGER.debug(outputArr(yDCT));
-        LOGGER.debug("Cb:");
-        LOGGER.debug(outputArr(CbDCT));
-        LOGGER.debug("Cr:");
-        LOGGER.debug(outputArr(CrDCT));
+//        LOGGER.debug("Y:");
+//        LOGGER.debug(outputArr(yDCT));
+//        LOGGER.debug("Cb:");
+//        LOGGER.debug(outputArr(CbDCT));
+//        LOGGER.debug("Cr:");
+//        LOGGER.debug(outputArr(CrDCT));
     }
 
 
@@ -230,7 +234,7 @@ public class JPEGs {
             flag++;
             int index = 1;
             switch (sampling){
-                case 422:
+                case 420:
                     switch (flag % 6) {
                         case 4:
                             LOGGER.debug("色度");
@@ -252,7 +256,7 @@ public class JPEGs {
                             break;
                     }
                     break;
-                case 222:
+                case 444:
                     switch (flag % 3) {
                         case 1:
                             LOGGER.debug("色度");
@@ -278,6 +282,7 @@ public class JPEGs {
                     LOGGER.debug("Wrong sampling!");
                     return;
             }
+            LOGGER.debug("NO."+DCT.size());
             var dct=new int[64];
             //读取DC系数
             while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
@@ -319,6 +324,10 @@ public class JPEGs {
                 }
                 //Run个零
                 index += pAC[0];
+                if(index >= 64){
+                    LOGGER.debug("读取位置："+bytes+" "+"总长："+target.length);
+                    LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
+                }
                 dct[index++] = str0b2int(code.substring(pAC[2],pAC[2]+pAC[1]));
                 code.delete(0,pAC[2]+pAC[1]);
                 while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
@@ -448,24 +457,23 @@ public class JPEGs {
                         switch (image[i]){
                             case 0://00 第一DC表
                                 DC_luminance.x = i + 1;
-                                DC_luminance.y = i + count + 16;
+                                DC_luminance.y = i + count + 17;
                                 break;
                             case 1://01 第二DC表
                                 DC_chrominance.x = i + 1;
-                                DC_chrominance.y = i + count + 16;
+                                DC_chrominance.y = i + count + 17;
                                 break;
                             case 16://10 第一AC表
                                 AC_luminance.x = i + 1;
-                                AC_luminance.y = i + count + 16;
+                                AC_luminance.y = i + count + 17;
                                 break;
                             case 17://11 第二AC表
                                 AC_chrominance.x = i + 1;
-                                AC_chrominance.y = i + count + 16;
+                                AC_chrominance.y = i + count + 17;
                                 break;
                         }//switch
                         i += count + 17;
                     }//while
-                    break;
                 }//if else
             }
         }//for
@@ -652,7 +660,10 @@ public class JPEGs {
         byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
         int index = 0;
         for(int i = 0;i < target.length;i++){
-            if(target[i] == -1&&target[i+1] != 0)continue;
+            if(target[i] == -1&&target[i+1] != 0){
+                i += 1;
+                continue;
+            }
             temp[index++] = target[i];
             if(target[i] == -1&&target[i+1] == 0){
                 i++;

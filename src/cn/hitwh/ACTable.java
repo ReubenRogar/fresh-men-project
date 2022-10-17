@@ -1,7 +1,6 @@
 package cn.hitwh;
 
 import java.awt.*;
-import java.io.*;
 import java.util.ArrayList;
 
 public class ACTable {
@@ -11,10 +10,8 @@ public class ACTable {
 
         private final ArrayList<Point> runSize;
         private final ArrayList<String> codeWord;
-        private final String fileName;
 
         public ACTable(byte[] image){
-            fileName = "";
             runSize = new ArrayList<>();
             codeWord = new ArrayList<>();
             byte[] length = new byte[16];
@@ -42,68 +39,23 @@ public class ACTable {
 
 
     public void outputACTable(String filename){
-        String ACTable = "";
+        var ACTable = new StringBuilder();
         for(int i = 0;i <runSize.size();i++){
-            ACTable += runSize.get(i).x+"/"+runSize.get(i).y+"\s\s"+codeWord.get(i)+"\n";
+            ACTable.append(runSize.get(i).x+"/"+runSize.get(i).y+"\s\s"+codeWord.get(i)+"\n");
         }
-        ImageToCode.dataToFile(ACTable,"./测试用文档/"+filename+".txt");
+        ImageToCode.dataToFile(ACTable.toString(),"./测试用文档/"+filename+".txt");
     }
     public static String long2str0b(long code,int length){
-        String result = "";
+        var result = new StringBuilder();
         while(code > 0){
-            result = ((code%2 == 1)?"1":"0") +result;
+            result.insert(0,(code%2 == 1)?"1":"0");
             code /= 2;
         }
         while(result.length() < length){
-            result = "0" +result;
+            result.insert(0,"0");
         }
-        return result;
+        return result.toString();
     }
-
-        public ACTable(String fileName) {
-            runSize = new ArrayList<>();
-            codeWord = new ArrayList<>();
-            this.fileName = fileName;
-            init();
-        }
-
-    private Point handleRS(String s) {
-        int x, y;
-        String[] ss = s.split("/");
-        if (ss[0].charAt(0) >= 'A')
-            x = ss[0].charAt(0) - 'A' + 10;
-        else
-            x = ss[0].charAt(0) - '0';
-        if (ss[1].charAt(0) >= 'A')
-            y = ss[1].charAt(0) - 'A' + 10;
-        else
-            y = ss[1].charAt(0) - '0';
-        return (new Point(x, y));
-    }
-
-        private void init() {
-            File file = new File(fileName);
-            if (file.exists()) {
-                try {
-                    FileReader fileReader = new FileReader(file);
-                    BufferedReader br = new BufferedReader(fileReader);
-                    String lineContent;
-                    while ((lineContent = br.readLine()) != null) {
-                        String[] ss = lineContent.split("\\s\\s");
-                        runSize.add(handleRS(ss[0]));
-                        codeWord.add(ss[1]);
-                    }
-                    br.close();
-                    fileReader.close();
-                } catch (FileNotFoundException e) {
-                    JPEGs.LOGGER.error("-----------[INFORMATION] File does not exist! -----------");
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    JPEGs.LOGGER.error("-----------[INFORMATION] Io exception! -----------");
-                    e.printStackTrace();
-                }
-            }
-        }
 
     /**
      * 获取run/size
@@ -129,10 +81,10 @@ public class ACTable {
 
         public String getHuffmanCode(int run,int size){
             int i = 0;
-            String result = "";
+            var result = new StringBuilder();
             if(run > 16){
                 for(;i < run / 16;i++){
-                    result += getHuffmanCode(16,0);
+                    result.append(getHuffmanCode(16,0));
                 }
                 run %= 16;
             }
@@ -140,8 +92,8 @@ public class ACTable {
                 if(run == runSize.get(i).x&&size == runSize.get(i).y)break;
             }
             if(i == runSize.size())i = 0;
-            result += codeWord.get(i);
-            return result;
+            result.append(codeWord.get(i));
+            return result.toString();
         }
 
         public String getEOB(){
