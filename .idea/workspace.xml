@@ -3,11 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/OutputFormat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/OutputFormat.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用图片/1.1N.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/1.1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,19 +51,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/programming_demo/freshman-year-project&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/programming_demo/freshman-year-project",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "库",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\programming_demo\freshman-year-project\src" />
@@ -177,14 +181,9 @@
       <workItem from="1666015306755" duration="4390000" />
       <workItem from="1666019765635" duration="431000" />
       <workItem from="1666049690667" duration="669000" />
-      <workItem from="1666078798520" duration="3932000" />
-    </task>
-    <task id="LOCAL-00020" summary="修改返回识别码">
-      <created>1650094300292</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1650094300292</updated>
+      <workItem from="1666078798520" duration="4082000" />
+      <workItem from="1666097385141" duration="376000" />
+      <workItem from="1666097805132" duration="1202000" />
     </task>
     <task id="LOCAL-00021" summary="嗯">
       <created>1650096147385</created>
@@ -522,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666049874948</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="修改countFF00将FF 00和FF D？去除">
+      <created>1666096138498</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1666096138498</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -540,7 +546,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="删除新添加的文件，依赖放至lib下" />
     <MESSAGE value="依赖放至lib下" />
     <MESSAGE value="修改logback.xml" />
     <MESSAGE value="git添加logback.xml" />
@@ -565,6 +570,7 @@
     <MESSAGE value="修改getHuffmanTable对单DHT处理" />
     <MESSAGE value="修改应用sampling系数办法" />
     <MESSAGE value="修改跳过RST处理" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改跳过RST处理" />
+    <MESSAGE value="修改countFF00将FF 00和FF D？去除" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改countFF00将FF 00和FF D？去除" />
   </component>
 </project>

@@ -37,7 +37,7 @@ public class JPEGs {
     public JPEGs(String inFile) {
 
         image = imageToByte(inFile);
-
+        ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
         //FF D8
         if (image[0] != -1 || image[1] != -40)
             throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
@@ -88,7 +88,7 @@ public class JPEGs {
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
         target = new byte[image.length - 2 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
-        ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
+
         getTargetWithff00();
         ImageToCode.dataToFile(ImageToCode.byteToString(target), inFile + "target.txt");
 
