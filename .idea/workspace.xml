@@ -4,11 +4,10 @@
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/1.1N.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/1.1.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,28 +174,10 @@
       <workItem from="1665971895774" duration="4627000" />
       <workItem from="1665987516897" duration="4002000" />
       <workItem from="1665994109728" duration="26000" />
-      <workItem from="1666015306755" duration="1708000" />
-    </task>
-    <task id="LOCAL-00017" summary="添加图">
-      <created>1650082886453</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1650082886453</updated>
-    </task>
-    <task id="LOCAL-00018" summary="添加图2">
-      <created>1650083790784</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1650083790784</updated>
-    </task>
-    <task id="LOCAL-00019" summary="添加setDCT检查输出，整合类“检查输出”">
-      <created>1650089660603</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1650089660603</updated>
+      <workItem from="1666015306755" duration="4390000" />
+      <workItem from="1666019765635" duration="431000" />
+      <workItem from="1666049690667" duration="669000" />
+      <workItem from="1666078798520" duration="3932000" />
     </task>
     <task id="LOCAL-00020" summary="修改返回识别码">
       <created>1650094300292</created>
@@ -520,7 +501,28 @@
       <option name="project" value="LOCAL" />
       <updated>1665992445271</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="修改getHuffmanTable对单DHT处理">
+      <created>1666017126788</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1666017126788</updated>
+    </task>
+    <task id="LOCAL-00067" summary="修改应用sampling系数办法">
+      <created>1666019724133</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1666019724133</updated>
+    </task>
+    <task id="LOCAL-00068" summary="修改跳过RST处理">
+      <created>1666049874948</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1666049874948</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -538,9 +540,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="类名规范，Logback输出日志到本地" />
-    <MESSAGE value="包名修改" />
-    <MESSAGE value="添加远程依赖" />
     <MESSAGE value="删除新添加的文件，依赖放至lib下" />
     <MESSAGE value="依赖放至lib下" />
     <MESSAGE value="修改logback.xml" />
@@ -563,17 +562,9 @@
     <MESSAGE value=" 修改getHuffmanTable(),解决在单一DHT多字段的情况下读取缺位的问题" />
     <MESSAGE value="添加.gitignore" />
     <MESSAGE value="添加对444支持，纠正4：1：1为420，简化ACTable和DCTable" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加对444支持，纠正4：1：1为420，简化ACTable和DCTable" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
-          <line>487</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="修改getHuffmanTable对单DHT处理" />
+    <MESSAGE value="修改应用sampling系数办法" />
+    <MESSAGE value="修改跳过RST处理" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改跳过RST处理" />
   </component>
 </project>
