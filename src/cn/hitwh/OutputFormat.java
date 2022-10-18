@@ -48,8 +48,12 @@ public class OutputFormat {
     public static int countFF00(byte[] target){
         int count = 0;
         for(int i = 0;i < target.length;i++){
-            if(target[i] == -1&&target[i+1] == 0){
-                count++;
+            if(target[i] == -1) {
+                if (target[i + 1] == 0) {
+                    count++;
+                }else{
+                    count += 2;
+                }
             }
         }
         return count;

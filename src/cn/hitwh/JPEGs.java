@@ -31,39 +31,44 @@ public class JPEGs {
     //Logback框架
     public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
 
-        /**
-         * 构造器获取图片的huffman表和DCT数据
-         */
-    public JPEGs(String inFile){
+    /**
+     * 构造器获取图片的huffman表和DCT数据
+     */
+    public JPEGs(String inFile) {
+
         image = imageToByte(inFile);
 
         //FF D8
-        if(image[0] != -1 || image[1] != -40)throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
+        if (image[0] != -1 || image[1] != -40)
+            throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
         LOGGER.debug("get Huffman Table！");
         getHuffmanTable();
         LOGGER.debug("get Huffman Table successfully!");
 
         for (int index = 0; index < image.length; index++) {
             //FF C0或FF C2
-            if(image[index] == -1 && (image[index + 1] == -64 || image[index + 1] == -62)){
+            if (image[index] == -1 && (image[index + 1] == -64 || image[index + 1] == -62)) {
                 LOGGER.debug("SOF0");
                 index += 5;
-                LOGGER.debug(""+image[index]+" "+image[index+1]+"*"+image[index+2]+" "+image[index+3]);
-                height = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
+                LOGGER.debug("" + image[index] + " " + image[index + 1] + "*" + image[index + 2] + " " + image[index + 3]);
+                height = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
                 index += 2;
-                width = (image[index] < 0 ? image[index]+256 : image[index])*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
-                LOGGER.debug(height+ "*" + width);
+                width = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
+                LOGGER.debug(height + "*" + width);
                 index += 2;
-                if(image[index] != 3)LOGGER.error("The image isn't the type of yCbCr and has "+ image[index] + " sets");
-                else if(image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17) samplingRatio = 4;//22 11 11  420
-                else if(image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17) samplingRatio = 1;//11 11 11  444
-                else if((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)
+                if (image[index] != 3)
+                    LOGGER.error("The image isn't the type of yCbCr and has " + image[index] + " sets");
+                else if (image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)
+                    samplingRatio = 4;//22 11 11  420
+                else if (image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)
+                    samplingRatio = 1;//11 11 11  444
+                else if ((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)
                     samplingRatio = 2;//12/21 11 11  422
                 else {
-                    LOGGER.debug(image[index + 2] + " " + image[index + 5] + " "+image[index + 8]);
+                    LOGGER.debug(image[index + 2] + " " + image[index + 5] + " " + image[index + 8]);
                     throw new JPEGWrongStructureException("Unusual sampling!");
                 }
-                LOGGER.debug("sampling"+ samplingRatio);
+                LOGGER.debug("sampling" + samplingRatio);
             }
             //FF DA
             else if (image[index] == -1 && image[index + 1] == -38) {
@@ -71,21 +76,21 @@ public class JPEGs {
                 startOfSOS = 2 + index;
             }
             //FF DD
-            else if (image[index] == -1 && image[index + 1] == -35){
+            else if (image[index] == -1 && image[index + 1] == -35) {
                 LOGGER.debug("DRI");
                 index += 4;
-                DDReset = (image[index] >= 0 ? image[index] : image[index]+256)*16*16 + (image[index+1] < 0 ? image[index+1]+256 : image[index+1]);
-                LOGGER.debug(image[index]+" "+image[index+1]);
-                LOGGER.debug("DDReset:"+DDReset);
+                DDReset = (image[index] >= 0 ? image[index] : image[index] + 256) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
+                LOGGER.debug(image[index] + " " + image[index + 1]);
+                LOGGER.debug("DDReset:" + DDReset);
             }
         }
 
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
         target = new byte[image.length - 2 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
-        ImageToCode.dataToFile(ImageToCode.byteToString(image),inFile+".txt");
+        ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
         getTargetWithff00();
-
+        ImageToCode.dataToFile(ImageToCode.byteToString(target), inFile + "target.txt");
 
     }
 
@@ -148,7 +153,7 @@ public class JPEGs {
             var dct=new int[64];
             //读取DC系数
             while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-            Point pDC;//  读取categroy
+            Point pDC;//  读取category
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0){
                 LOGGER.debug("读取位置："+bytes+" "+"总长："+target.length);
@@ -180,6 +185,8 @@ public class JPEGs {
                     }else if(pAC[0] != 15){
                         LOGGER.debug("剩余填充数据");
                         LOGGER.debug(code.substring(0, Math.min(code.length(), 100)));
+                        LOGGER.debug("读取位置："+bytes+" "+"总长："+target.length);
+                        LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
                         LOGGER.debug("--------------------------------------------------------------------------");
                         return;
                     }

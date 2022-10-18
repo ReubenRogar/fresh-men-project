@@ -75,7 +75,7 @@ public class ACTable {
                 return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
             }else{
                 JPEGs.LOGGER.error("无法识别的哈夫曼表:"+code);
-                return new int[]{0,0,0};
+                return new int[]{-1,0,0};
             }
         }
 
