@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/OutputFormat.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/OutputFormat.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/OutputFormat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
@@ -55,10 +51,11 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "E:/programming_demo/freshman-year-project",
+    "last_opened_file_path": "E:/programming_demo/freshman-year-project/lib/logback-core-1.2.11.jar",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "库",
+    "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel"
@@ -183,14 +180,7 @@
       <workItem from="1666049690667" duration="669000" />
       <workItem from="1666078798520" duration="4082000" />
       <workItem from="1666097385141" duration="376000" />
-      <workItem from="1666097805132" duration="1202000" />
-    </task>
-    <task id="LOCAL-00021" summary="嗯">
-      <created>1650096147385</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1650096147385</updated>
+      <workItem from="1666097805132" duration="2579000" />
     </task>
     <task id="LOCAL-00022" summary="改outImage方法">
       <created>1650112477548</created>
@@ -528,7 +518,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666096138498</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="添加注释">
+      <created>1666099232393</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1666099232394</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -546,7 +543,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="依赖放至lib下" />
     <MESSAGE value="修改logback.xml" />
     <MESSAGE value="git添加logback.xml" />
     <MESSAGE value="删除无用类DCTquantity" />
@@ -571,6 +567,7 @@
     <MESSAGE value="修改应用sampling系数办法" />
     <MESSAGE value="修改跳过RST处理" />
     <MESSAGE value="修改countFF00将FF 00和FF D？去除" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改countFF00将FF 00和FF D？去除" />
+    <MESSAGE value="添加注释" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加注释" />
   </component>
 </project>

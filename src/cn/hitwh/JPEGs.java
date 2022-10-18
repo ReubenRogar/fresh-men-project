@@ -21,6 +21,7 @@ public class JPEGs {
     final private byte[] image;//图片所有数据
     private byte[] target;//压缩数据
     private int startOfSOS;//扫描行开始
+    private int endOfImage;//图像结尾
     private int height;//图片的高度
     private int width;//图片的宽度
     private int samplingRatio;//图片的采样模式
@@ -83,10 +84,15 @@ public class JPEGs {
                 LOGGER.debug(image[index] + " " + image[index + 1]);
                 LOGGER.debug("DDReset:" + DDReset);
             }
+            //FF D9
+            else if(image[index] == -1 && image[index+1] == -39){
+                LOGGER.debug("EOF");
+                endOfImage = index-1;
+            }
         }
 
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
-        target = new byte[image.length - 2 - startOfSOS];
+        target = new byte[endOfImage + 1 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
 
         getTargetWithff00();
@@ -529,11 +535,13 @@ public class JPEGs {
         byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
         int index = 0;
         for(int i = 0;i < target.length;i++){
+            //FF D_
             if(target[i] == -1&&target[i+1] != 0){
-                i += 1;
+                i ++;
                 continue;
             }
             temp[index++] = target[i];
+            //FF 00
             if(target[i] == -1&&target[i+1] == 0){
                 i++;
             }
