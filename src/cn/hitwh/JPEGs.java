@@ -50,8 +50,9 @@ public class JPEGs {
             //FF C0或FF C2
             if (image[index] == -1 && (image[index + 1] == -64 || image[index + 1] == -62)) {
                 LOGGER.debug("SOF0");
+                DDReset = 0;
+                LOGGER.debug("DDReset reset");
                 index += 5;
-                LOGGER.debug("" + image[index] + " " + image[index + 1] + "*" + image[index + 2] + " " + image[index + 3]);
                 height = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
                 index += 2;
                 width = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
@@ -324,31 +325,33 @@ public class JPEGs {
                 }else{
                     //一个DHT定义多个表
                     i += 4;
-                    while (image[i] != -1){//FF
-                        count = 0;
-                        for(int j = 0;j < 16;j++){
-                            count += image[j+i+1];
-                        }
-                        switch (image[i]){
-                            case 0://00 第一DC表
-                                DC_luminance.x = i + 1;
-                                DC_luminance.y = i + count + 17;
-                                break;
-                            case 1://01 第二DC表
-                                DC_chrominance.x = i + 1;
-                                DC_chrominance.y = i + count + 17;
-                                break;
-                            case 16://10 第一AC表
-                                AC_luminance.x = i + 1;
-                                AC_luminance.y = i + count + 17;
-                                break;
-                            case 17://11 第二AC表
-                                AC_chrominance.x = i + 1;
-                                AC_chrominance.y = i + count + 17;
-                                break;
-                        }//switch
-                        i += count + 17;
-                    }//while
+                    if(image[i] == 0 || image[i] == 1 || image[i] == 16 || image[i] == 17) {
+                        while (image[i] != -1) {//FF
+                            count = 0;
+                            for (int j = 0; j < 16; j++) {
+                                count += image[j + i + 1];
+                            }
+                            switch (image[i]) {
+                                case 0://00 第一DC表
+                                    DC_luminance.x = i + 1;
+                                    DC_luminance.y = i + count + 17;
+                                    break;
+                                case 1://01 第二DC表
+                                    DC_chrominance.x = i + 1;
+                                    DC_chrominance.y = i + count + 17;
+                                    break;
+                                case 16://10 第一AC表
+                                    AC_luminance.x = i + 1;
+                                    AC_luminance.y = i + count + 17;
+                                    break;
+                                case 17://11 第二AC表
+                                    AC_chrominance.x = i + 1;
+                                    AC_chrominance.y = i + count + 17;
+                                    break;
+                            }//switch
+                            i += count + 17;
+                        }//while
+                    }//if
                 }//if else
             }
         }//for
