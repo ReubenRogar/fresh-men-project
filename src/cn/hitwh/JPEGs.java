@@ -21,6 +21,7 @@ public class JPEGs {
     final private byte[] image;//图片所有数据
     private byte[] target;//压缩数据
     private int startOfSOS;//扫描行开始
+    private int endOfImage;//图像结尾
     private int height;//图片的高度
     private int width;//图片的宽度
     private int samplingRatio;//图片的采样模式
@@ -37,7 +38,7 @@ public class JPEGs {
     public JPEGs(String inFile) {
 
         image = imageToByte(inFile);
-
+        ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
         //FF D8
         if (image[0] != -1 || image[1] != -40)
             throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
@@ -49,8 +50,9 @@ public class JPEGs {
             //FF C0或FF C2
             if (image[index] == -1 && (image[index + 1] == -64 || image[index + 1] == -62)) {
                 LOGGER.debug("SOF0");
+                DDReset = 0;
+                LOGGER.debug("DDReset reset");
                 index += 5;
-                LOGGER.debug("" + image[index] + " " + image[index + 1] + "*" + image[index + 2] + " " + image[index + 3]);
                 height = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
                 index += 2;
                 width = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
@@ -83,12 +85,17 @@ public class JPEGs {
                 LOGGER.debug(image[index] + " " + image[index + 1]);
                 LOGGER.debug("DDReset:" + DDReset);
             }
+            //FF D9
+            else if(image[index] == -1 && image[index+1] == -39){
+                LOGGER.debug("EOF");
+                endOfImage = index-1;
+            }
         }
 
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
-        target = new byte[image.length - 2 - startOfSOS];
+        target = new byte[endOfImage + 1 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
-        ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
+
         getTargetWithff00();
         ImageToCode.dataToFile(ImageToCode.byteToString(target), inFile + "target.txt");
 
@@ -318,31 +325,33 @@ public class JPEGs {
                 }else{
                     //一个DHT定义多个表
                     i += 4;
-                    while (image[i] != -1){//FF
-                        count = 0;
-                        for(int j = 0;j < 16;j++){
-                            count += image[j+i+1];
-                        }
-                        switch (image[i]){
-                            case 0://00 第一DC表
-                                DC_luminance.x = i + 1;
-                                DC_luminance.y = i + count + 17;
-                                break;
-                            case 1://01 第二DC表
-                                DC_chrominance.x = i + 1;
-                                DC_chrominance.y = i + count + 17;
-                                break;
-                            case 16://10 第一AC表
-                                AC_luminance.x = i + 1;
-                                AC_luminance.y = i + count + 17;
-                                break;
-                            case 17://11 第二AC表
-                                AC_chrominance.x = i + 1;
-                                AC_chrominance.y = i + count + 17;
-                                break;
-                        }//switch
-                        i += count + 17;
-                    }//while
+                    if(image[i] == 0 || image[i] == 1 || image[i] == 16 || image[i] == 17) {
+                        while (image[i] != -1) {//FF
+                            count = 0;
+                            for (int j = 0; j < 16; j++) {
+                                count += image[j + i + 1];
+                            }
+                            switch (image[i]) {
+                                case 0://00 第一DC表
+                                    DC_luminance.x = i + 1;
+                                    DC_luminance.y = i + count + 17;
+                                    break;
+                                case 1://01 第二DC表
+                                    DC_chrominance.x = i + 1;
+                                    DC_chrominance.y = i + count + 17;
+                                    break;
+                                case 16://10 第一AC表
+                                    AC_luminance.x = i + 1;
+                                    AC_luminance.y = i + count + 17;
+                                    break;
+                                case 17://11 第二AC表
+                                    AC_chrominance.x = i + 1;
+                                    AC_chrominance.y = i + count + 17;
+                                    break;
+                            }//switch
+                            i += count + 17;
+                        }//while
+                    }//if
                 }//if else
             }
         }//for
@@ -529,11 +538,13 @@ public class JPEGs {
         byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
         int index = 0;
         for(int i = 0;i < target.length;i++){
+            //FF D_
             if(target[i] == -1&&target[i+1] != 0){
-                i += 1;
+                i ++;
                 continue;
             }
             temp[index++] = target[i];
+            //FF 00
             if(target[i] == -1&&target[i+1] == 0){
                 i++;
             }
