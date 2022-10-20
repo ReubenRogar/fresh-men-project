@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/ACTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/DCTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/DCTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/First-Java/cn/hitwh/JPEGs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/ACTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/DCTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/cjh5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/23.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用图片/cjh8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/测试用图片/24.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,14 +54,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
-    <property name="project.structure.last.edited" value="库" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/programming_demo/personal-practice&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\programming_demo\freshman-year-project\src" />
@@ -169,14 +189,12 @@
       <workItem from="1666097385141" duration="376000" />
       <workItem from="1666097805132" duration="5295000" />
       <workItem from="1666103163939" duration="263000" />
-      <workItem from="1666144790446" duration="4005000" />
-    </task>
-    <task id="LOCAL-00024" summary="1">
-      <created>1650284487201</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1650284487201</updated>
+      <workItem from="1666144790446" duration="4372000" />
+      <workItem from="1666171110411" duration="1211000" />
+      <workItem from="1666247214933" duration="2510000" />
+      <workItem from="1666252856712" duration="6744000" />
+      <workItem from="1666261515395" duration="721000" />
+      <workItem from="1666272924390" duration="4137000" />
     </task>
     <task id="LOCAL-00025" summary="输出2进制的全部数据">
       <created>1650287848189</created>
@@ -514,7 +532,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666101671371</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="清除因DRI多段引起的rst混乱">
+      <created>1666149573089</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1666149573089</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -532,7 +557,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="删除无用类DCTquantity" />
     <MESSAGE value="修改logback.xml实现控制台输出" />
     <MESSAGE value="简化输出" />
     <MESSAGE value="去差分后输出日志" />
@@ -557,17 +581,7 @@
     <MESSAGE value="添加注释" />
     <MESSAGE value="修改target数组长度" />
     <MESSAGE value="修改图片名称" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改图片名称" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/cn/hitwh/JPEGs.java</url>
-          <line>301</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="清除因DRI多段引起的rst混乱" />
+    <option name="LAST_COMMIT_MESSAGE" value="清除因DRI多段引起的rst混乱" />
   </component>
 </project>

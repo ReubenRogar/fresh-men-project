@@ -89,6 +89,11 @@ public class DCTable {
         for (; i < category.length; i++) {
             if (length == category[i]) break;
         }
+        if(i == category.length){
+            JPEGs.LOGGER.debug("length:"+length);
+            throw new JPEGWrongStructureException("Wrong length!");
+        }
+        JPEGs.LOGGER.debug("DC{"+ codeWord[i]+" 长度:"+length+"}");
         return codeWord[i];
     }
 

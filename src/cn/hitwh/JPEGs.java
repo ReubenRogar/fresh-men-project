@@ -112,6 +112,9 @@ public class JPEGs {
 //        LOGGER.debug(outputArr(CbDCT));
 //        LOGGER.debug("Cr:");
 //        LOGGER.debug(outputArr(CrDCT));
+        setDCT();
+        System.arraycopy(target,0,image,startOfSOS,target.length);
+        ImageToCode.outputImage("测试用图片/测试.jpg",image);
     }
 
     /**
@@ -155,8 +158,12 @@ public class JPEGs {
                 DCT = yDCT;
             }
             LOGGER.debug("NO."+DCT.size());
-            if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size())
-                code.delete(0,code.length()%8);
+            //RST间隔
+            if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size()) {
+                LOGGER.debug(code.substring(0,code.length()%8));
+                allStart+=code.length()%8;
+                code.delete(0, code.length() % 8);
+            }
             var dct=new int[64];
             //读取DC系数
             while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
@@ -229,7 +236,7 @@ public class JPEGs {
      * 1*64数组转二进制字符串
      */
     void setDCT(){
-        var sb  = new StringBuffer();
+        var sb  = new StringBuilder();
         DCTable dcTable;
         ACTable acTable;
         ArrayList<int[]> DCT;
@@ -238,42 +245,48 @@ public class JPEGs {
         LOGGER.debug("----------------------setDCT------------------------");
         while(index < CbDCT.size()+CrDCT.size()+yDCT.size()){
             int i;
-            switch (index%6){
-                case 4:
-                    //Cb
-                    dcTable = DCC;
-                    acTable = ACC;
-                    DCT = CbDCT;
-                    i = index/6;
-                    break;
-                case 5:
-                    //Cr
-                    dcTable = DCC;
-                    acTable = ACC;
-                    DCT = CrDCT;
-                    i = index/6;
-                    break;
-                default:
-                    //Y
-                    dcTable = DCL;
-                    acTable = ACL;
-                    DCT = yDCT;
-                    i = index/6*4+index%6;
-                    break;
-            }//switch
+            if (index % (samplingRatio + 2) == samplingRatio) {
+                LOGGER.debug("色度");
+                dcTable = DCC;
+                acTable = ACC;
+                DCT = CbDCT;
+                i = index/(samplingRatio+2);
+            } else if (index % (samplingRatio + 2) == samplingRatio + 1){
+                LOGGER.debug("色度");
+                dcTable = DCC;
+                acTable = ACC;
+                DCT = CrDCT;
+                i = index/(samplingRatio+2);
+            }else{
+                LOGGER.debug("亮度");
+                dcTable = DCL;
+                acTable = ACL;
+                DCT = yDCT;
+                i = index/(samplingRatio+2)*samplingRatio + index%(samplingRatio+2);
+            }
+            LOGGER.debug("NO."+i);
+            //RST间隔
+            if(DDReset != 0 && index%((samplingRatio+2)*DDReset) == 0){
+                while (sb.length()%8 != 0)sb.append('1');
+                sb.append("11111111");
+                sb.append(byte2Str0b((byte)(index/((samplingRatio+2)*DDReset)%8-209)));
+                LOGGER.debug("FF "+(index/((samplingRatio+2)*DDReset)%8));
+            }
             //DC
             int[] dct = DCT.get(i);
             String s = int2str0b(dct[0]);
             sb.append(dcTable.getHuffmanCode(s.length()));
             sb.append(s);
+            LOGGER.debug(s+":"+dct[0]);
+            LOGGER.debug("allStart:"+sb.length());
             //DC end
             //AC
             i = 1;
-            int last = 1;
+            int last = 0;
             while(i < 64){
                 if(dct[i] != 0){
                     s = int2str0b(dct[i]);
-                    sb.append(acTable.getHuffmanCode(i-last,s.length()));
+                    sb.append(acTable.getHuffmanCode(i-last-1,s.length()));
                     sb.append(s);
                     last = i;
                 }//if
@@ -282,8 +295,13 @@ public class JPEGs {
             //ac系数不足63个，靠后全为0
             if(last != 63)sb.append(acTable.getEOB());
             //AC end
+            index++;
+            LOGGER.debug("--------------------------------------------------------------------------");
         }//while
         while(sb.length()%8!=0)sb.append('1');
+        LOGGER.debug("before:"+(endOfImage - startOfSOS+1)+" sb.length:"+sb.length());
+        target = str0b2Bytes(sb.toString());
+        LOGGER.debug("after:"+target.length);
     }
 
 
@@ -462,26 +480,25 @@ public class JPEGs {
     //二进制字符串转byte数组
     public static byte[] str0b2Bytes(String input){
             StringBuilder in = new StringBuilder(input);
-            // 注：这里in.length() 不可在for循环内调用，因为长度在变化
             int remainder = in.length() % 8;
             if (remainder > 0)
                 for (int i = 0; i < 8 - remainder; i++)
-                    in.append("0");
-            byte[] bts = new byte[in.length() / 8];
-            // Step 8 Apply compression
-            for (int i = 0; i < bts.length; i++)
-                bts[i] = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
+                    in.append("1");
+            remainder = in.length()/8;
             ArrayList<Byte> Bts = new ArrayList<>();
-        for (int i = 0;i<bts.length;i++) {
-            Bts.add(bts[i]);
-            if(bts[i] == -1&&bts[i+1] != 0){
-                Bts.add((byte)0);
+            // Step 8 Apply compression
+            for (int i = 0; i < remainder; i++) {
+                byte b = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
+                Bts.add(b);
+                if(Bts.size()>1)
+                if(Bts.get(Bts.size()-2) == -1 && (b <-48 || b>-41)){
+                    //非RST标识
+                    Bts.add(Bts.size()-1,(byte)(0));
+                }
             }
-        }
-        bts = new byte[Bts.size()];
-        for (int i =0;i <Bts.size();i++){
-            bts[i] = Bts.get(i);
-        }
+            byte[] bts = new byte[Bts.size()];
+            for(int i = 0;i < bts.length;i++)
+                bts[i] = Bts.get(i);
             return bts;
         }
 
