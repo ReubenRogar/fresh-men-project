@@ -1,7 +1,6 @@
-package RC4;
+package cn.hitwh.Encrypt;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 public class RC4Util {
 

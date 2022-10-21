@@ -1,4 +1,6 @@
-package cn.hitwh;
+package cn.hitwh.Encrypt;
+
+import cn.hitwh.JPEG.JPEGs;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

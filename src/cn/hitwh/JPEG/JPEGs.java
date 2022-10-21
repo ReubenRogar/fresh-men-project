@@ -1,4 +1,4 @@
-package cn.hitwh;
+package cn.hitwh.JPEG;
 
 
 import com.google.common.primitives.Bytes;
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static cn.hitwh.ImageToCode.imageToByte;
+import static cn.hitwh.JPEG.ImageToCode.imageToByte;
 
 public class JPEGs {
     // 直流亮度表
@@ -570,7 +570,7 @@ public class JPEGs {
      * 将数据中的FF 00转化为FF
      */
     private void getTargetWithff00(){
-        byte[] temp = new byte[target.length - OutputFormat.countFF00(target)];
+        var temp = new ArrayList<Byte>();
         int index = 0;
         for(int i = 0;i < target.length;i++){
             //FF D_
@@ -578,13 +578,13 @@ public class JPEGs {
                 i ++;
                 continue;
             }
-            temp[index++] = target[i];
+            temp.add(target[i]);
             //FF 00
             if(target[i] == -1&&target[i+1] == 0){
                 i++;
             }
         }
-        target = temp;
+        target = Bytes.toArray(temp);
     }
 
     public static int byte2int(byte b){

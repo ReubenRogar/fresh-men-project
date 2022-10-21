@@ -1,4 +1,4 @@
-package cn.hitwh;
+package cn.hitwh.JPEG;
 
 public class JPEGWrongStructureException extends RuntimeException {
     public JPEGWrongStructureException() {

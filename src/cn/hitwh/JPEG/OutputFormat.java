@@ -1,4 +1,4 @@
-package cn.hitwh;
+package cn.hitwh.JPEG;
 
 import java.awt.*;
 import java.util.ArrayList;

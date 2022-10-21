@@ -1,4 +1,4 @@
-package RC4;
+package cn.hitwh.Encrypt;
 
 import java.io.UnsupportedEncodingException;
 
