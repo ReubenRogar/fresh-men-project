@@ -1,6 +1,7 @@
 package cn.hitwh;
 
 
+import com.google.common.primitives.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -236,7 +237,8 @@ public class JPEGs {
      * 1*64数组转二进制字符串
      */
     void setDCT(){
-        var sb  = new StringBuilder();
+        var bytes = new ArrayList<Byte>();
+        var sb  = new StringBuilder(8);
         DCTable dcTable;
         ACTable acTable;
         ArrayList<int[]> DCT;
@@ -265,12 +267,24 @@ public class JPEGs {
                 i = index/(samplingRatio+2)*samplingRatio + index%(samplingRatio+2);
             }
             LOGGER.debug("NO."+i);
+            //二进制转byte同时检查FF
+            while(sb.length() >= 32){
+                bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
+                sb.delete(0,8);
+                //FF
+                if(bytes.get(bytes.size()-1) == -1){
+                   bytes.add((byte)0);
+                }
+            }
             //RST间隔
-            if(DDReset != 0 && index%((samplingRatio+2)*DDReset) == 0){
+            if(DDReset != 0 && index != 0 && index%((samplingRatio+2)*DDReset) == 0){
                 while (sb.length()%8 != 0)sb.append('1');
-                sb.append("11111111");
-                sb.append(byte2Str0b((byte)(index/((samplingRatio+2)*DDReset)%8-209)));
-                LOGGER.debug("FF "+(index/((samplingRatio+2)*DDReset)%8));
+                while(sb.length() > 0){
+                    bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
+                    sb.delete(0,8);
+                }
+                bytes.add((byte)-1);bytes.add((byte)((index/((samplingRatio+2)*DDReset)-1)%8));
+                LOGGER.debug("FF D"+((index/((samplingRatio+2)*DDReset)-1)%8));
             }
             //DC
             int[] dct = DCT.get(i);
@@ -299,8 +313,12 @@ public class JPEGs {
             LOGGER.debug("--------------------------------------------------------------------------");
         }//while
         while(sb.length()%8!=0)sb.append('1');
-        LOGGER.debug("before:"+(endOfImage - startOfSOS+1)+" sb.length:"+sb.length());
-        target = str0b2Bytes(sb.toString());
+        while(sb.length() != 0){
+            bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
+            sb.delete(0,8);
+        }
+        LOGGER.debug("before:"+(endOfImage - startOfSOS+1));
+        target = Bytes.toArray(bytes);
         LOGGER.debug("after:"+target.length);
     }
 
@@ -382,10 +400,10 @@ public class JPEGs {
             System.arraycopy(image,DC_chrominance.x,DC_C,0,DC_C.length);
             System.arraycopy(image,AC_luminance.x,AC_L,0,AC_L.length);
             System.arraycopy(image,AC_chrominance.x,AC_C,0,AC_C.length);
-            DCC = new DCTable(DC_C);LOGGER.debug("DCC complate");
-            DCL = new DCTable(DC_L);LOGGER.debug("DCL complate");
-            ACC = new ACTable(AC_C);LOGGER.debug("ACC complate");
-            ACL = new ACTable(AC_L);LOGGER.debug("ACL complate");
+            DCC = new DCTable(DC_C);LOGGER.debug("DCC complete");
+            DCL = new DCTable(DC_L);LOGGER.debug("DCL complete");
+            ACC = new ACTable(AC_C);LOGGER.debug("ACC complete");
+            ACL = new ACTable(AC_L);LOGGER.debug("ACL complete");
             DCC.outputDCTable("DCC");
             DCL.outputDCTable("DCL");
             ACC.outputACTable("ACC");
@@ -419,7 +437,7 @@ public class JPEGs {
      * @return 遵循0开头为负二进制字符串
      */
     public static String int2str0b(int s){
-        StringBuilder s1 = new StringBuilder("");
+        StringBuilder s1 = new StringBuilder();
         if(s < 0){
             s= -s;
             do{
@@ -447,7 +465,7 @@ public class JPEGs {
                 };
 
         String outStr = "";
-        int i =0;
+        int i;
         for (int j = 0;j <bytes.length;j++) {
             byte b = bytes[j];
             i = (b&0xF0) >> 4;
@@ -469,7 +487,7 @@ public class JPEGs {
                 };
 
         String outStr = "";
-        int i =0;
+        int i;
             i = (b&0xF0) >> 4;
             outStr+=binaryArray[i];
             i=b&0x0F;
@@ -490,10 +508,11 @@ public class JPEGs {
             for (int i = 0; i < remainder; i++) {
                 byte b = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
                 Bts.add(b);
-                if(Bts.size()>1)
-                if(Bts.get(Bts.size()-2) == -1 && (b <-48 || b>-41)){
-                    //非RST标识
-                    Bts.add(Bts.size()-1,(byte)(0));
+                if (Bts.size() > 1) {
+                    if (Bts.get(Bts.size() - 2) == -1 && (b < -48 || b > -41)) {
+                        //非RST标识
+                        Bts.add(Bts.size() - 1, (byte) (0));
+                    }
                 }
             }
             byte[] bts = new byte[Bts.size()];
@@ -505,7 +524,6 @@ public class JPEGs {
     /**
      * 去差分
      * @param x 去差分还是差分
-     * @return 去差分后数组
      */
     public void changeBias(int x){
         switch (x){
