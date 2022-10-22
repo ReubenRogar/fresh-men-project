@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/OutputFormat.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,14 +179,7 @@
       <workItem from="1666272924390" duration="4872000" />
       <workItem from="1666342286434" duration="5651000" />
       <workItem from="1666354946264" duration="5426000" />
-      <workItem from="1666397262663" duration="2867000" />
-    </task>
-    <task id="LOCAL-00029" summary="就">
-      <created>1650377684648</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1650377684648</updated>
+      <workItem from="1666397262663" duration="3252000" />
     </task>
     <task id="LOCAL-00030" summary="大香槟">
       <created>1650415682545</created>
@@ -526,7 +517,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666359529827</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="修改setDCT()，纠正因RST放置和FF带00问题导致的错误">
+      <created>1666403454729</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1666403454730</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="getHuffman方法修订" />
     <MESSAGE value="修改JPEGs::getHuffmanTable方法，添加对单一DHT定义多表的支持" />
     <MESSAGE value="更新.gitignore,删除部分测试过的图片" />
     <MESSAGE value="更改依赖关系" />
@@ -569,6 +566,7 @@
     <MESSAGE value="修改setDCT（）" />
     <MESSAGE value="修改类名" />
     <MESSAGE value="修改项目结构" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改项目结构" />
+    <MESSAGE value="修改setDCT()，纠正因RST放置和FF带00问题导致的错误" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改setDCT()，纠正因RST放置和FF带00问题导致的错误" />
   </component>
 </project>
