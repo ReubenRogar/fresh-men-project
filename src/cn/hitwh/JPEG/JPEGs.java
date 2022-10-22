@@ -11,11 +11,17 @@ import java.util.ArrayList;
 import static cn.hitwh.JPEG.ImageToCode.imageToByte;
 
 public class JPEGs {
+    //图片名称
+    private final String name;
     // 直流亮度表
-    private DCTable DCL;// 直流色度表
-    private DCTable DCC;// 交流亮度表
-    private ACTable ACL;// 交流色度表
-    private ACTable ACC;//DCT 1*64数据
+    private DCTable DCL;
+    // 直流色度表
+    private DCTable DCC;
+    // 交流亮度表
+    private ACTable ACL;
+    // 交流色度表
+    private ACTable ACC;
+    //DCT 1*64数据
     private ArrayList<int[]> yDCT;//yDCT数据
     private ArrayList<int[]> CbDCT;//CbDCT数据
     private ArrayList<int[]> CrDCT;//CrDCT数据
@@ -37,8 +43,8 @@ public class JPEGs {
      * 构造器获取图片的huffman表和DCT数据
      */
     public JPEGs(String inFile) {
-
-        image = imageToByte(inFile);
+        name = inFile;
+        image = imageToByte(name);
         ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
         //FF D8
         if (image[0] != -1 || image[1] != -40)
@@ -96,9 +102,9 @@ public class JPEGs {
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
         target = new byte[endOfImage + 1 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
-
+        ImageToCode.dataToFile(ImageToCode.byteToString(target), inFile + "target1.txt");
         getTargetWithff00();
-        ImageToCode.dataToFile(ImageToCode.byteToString(target), inFile + "target.txt");
+
 
     }
 
@@ -268,7 +274,7 @@ public class JPEGs {
             }
             LOGGER.debug("NO."+i);
             //二进制转byte同时检查FF
-            while(sb.length() >= 32){
+            while(sb.length() >= 8){
                 bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
                 sb.delete(0,8);
                 //FF
@@ -282,8 +288,12 @@ public class JPEGs {
                 while(sb.length() > 0){
                     bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
                     sb.delete(0,8);
+                    //FF
+                    if(bytes.get(bytes.size()-1) == -1){
+                        bytes.add((byte)0);
+                    }
                 }
-                bytes.add((byte)-1);bytes.add((byte)((index/((samplingRatio+2)*DDReset)-1)%8));
+                bytes.add((byte)-1);bytes.add((byte)((index/((samplingRatio+2)*DDReset)-1)%8-48));
                 LOGGER.debug("FF D"+((index/((samplingRatio+2)*DDReset)-1)%8));
             }
             //DC
@@ -316,10 +326,15 @@ public class JPEGs {
         while(sb.length() != 0){
             bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
             sb.delete(0,8);
+            //FF
+            if(bytes.get(bytes.size()-1) == -1){
+                bytes.add((byte)0);
+            }
         }
         LOGGER.debug("before:"+(endOfImage - startOfSOS+1));
         target = Bytes.toArray(bytes);
         LOGGER.debug("after:"+target.length);
+        ImageToCode.dataToFile(ImageToCode.byteToString(target), name + "target2.txt");
     }
 
 
