@@ -1,11 +1,13 @@
-package cn.hitwh;
+package cn.hitwh.Encrypt;
+
+import cn.hitwh.JPEG.JPEGs;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-public class Encrypt {
+public class NewTypeEncrypt {
     private ArrayList<int[]> DCTs;
     private KeyXU originKey;
     private KeyXU finalKey;
@@ -16,7 +18,7 @@ public class Encrypt {
      * @param k 初始密钥
      * @throws NoSuchAlgorithmException
      */
-    public Encrypt(ArrayList<int[]> d, KeyXU k) throws NoSuchAlgorithmException {
+    public NewTypeEncrypt(ArrayList<int[]> d, KeyXU k) throws NoSuchAlgorithmException {
         DCTs = d;
         originKey = k;
 
@@ -74,8 +76,4 @@ public class Encrypt {
         finalKey = new KeyXU(  Double.valueOf(""+ originKey.x+addXKey),Double.valueOf(""+ originKey.y+addUKey));
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        
-        System.out.println();
-    }
 }

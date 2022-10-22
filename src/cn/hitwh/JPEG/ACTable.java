@@ -1,4 +1,4 @@
-package cn.hitwh;
+package cn.hitwh.JPEG;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -82,17 +82,22 @@ public class ACTable {
         public String getHuffmanCode(int run,int size){
             int i = 0;
             var result = new StringBuilder();
-            if(run > 16){
+            if(run >= 16){
                 for(;i < run / 16;i++){
-                    result.append(getHuffmanCode(16,0));
+                    result.append(getHuffmanCode(15,0));
                 }
                 run %= 16;
             }
             for(i = 0;i < runSize.size();i++){
                 if(run == runSize.get(i).x&&size == runSize.get(i).y)break;
             }
-            if(i == runSize.size())i = 0;
+            if(i == runSize.size()){
+                JPEGs.LOGGER.debug("run:"+run+" size:"+size);
+                throw new JPEGWrongStructureException("Wrong Run/Size!");
+            }
+
             result.append(codeWord.get(i));
+            JPEGs.LOGGER.debug("AC{"+result+"前零数:"+run+"长度:"+size+"}");
             return result.toString();
         }
 
