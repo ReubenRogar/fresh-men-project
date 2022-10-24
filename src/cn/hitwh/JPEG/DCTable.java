@@ -18,7 +18,7 @@ public class DCTable {
 //        JPEGs.LOGGER.debug(ImageToCode.byteToString(length));
 //        JPEGs.LOGGER.debug("num:"+(image.length-16));
         for (int i = 16; i < image.length; i++) {
-            category[i - 16] = JPEGs.byte2int(image[i]);
+            category[i - 16] = image[i]&0xFF;
         }
         int index = 0, i = 0;
         long code = 0;

@@ -54,49 +54,54 @@ public class JPEGs {
         LOGGER.debug("get Huffman Table successfully!");
 
         for (int index = 0; index < image.length; index++) {
+            if(image[index] == -1){
             //FF C0或FF C2
-            if (image[index] == -1 && (image[index + 1] == -64 || image[index + 1] == -62)) {
-                LOGGER.debug("SOF0");
-                DDReset = 0;
-                LOGGER.debug("DDReset reset");
-                index += 5;
-                height = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
-                index += 2;
-                width = (image[index] < 0 ? image[index] + 256 : image[index]) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
-                LOGGER.debug(height + "*" + width);
-                index += 2;
-                if (image[index] != 3)
-                    LOGGER.error("The image isn't the type of yCbCr and has " + image[index] + " sets");
-                else if (image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)
-                    samplingRatio = 4;//22 11 11  420
-                else if (image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)
-                    samplingRatio = 1;//11 11 11  444
-                else if ((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)
-                    samplingRatio = 2;//12/21 11 11  422
-                else {
-                    LOGGER.debug(image[index + 2] + " " + image[index + 5] + " " + image[index + 8]);
-                    throw new JPEGWrongStructureException("Unusual sampling!");
+                switch (image[index + 1]) {
+                    case -64:
+                        case -62:
+                        LOGGER.debug("SOF0");
+                        DDReset = 0;
+                        LOGGER.debug("DDReset reset");
+                        index += 5;
+                        height = (image[index] & 0xFF) * 16 * 16 + (image[index + 1] & 0xFF);
+                        index += 2;
+                        width = (image[index] & 0xFF) * 16 * 16 + (image[index + 1] & 0xFF);
+                        LOGGER.debug(height + "*" + width);
+                        index += 2;
+                        if (image[index] != 3)
+                            LOGGER.error("The image isn't the type of yCbCr and has " + image[index] + " sets");
+                        else if (image[index + 2] == 34 && image[index + 5] == 17 && image[index + 8] == 17)
+                            samplingRatio = 4;//22 11 11  420
+                        else if (image[index + 2] == 17 && image[index + 5] == 17 && image[index + 8] == 17)
+                            samplingRatio = 1;//11 11 11  444
+                        else if ((image[index + 2] == 18 || image[index + 2] == 33) && image[index + 5] == 17 && image[index + 8] == 17)
+                            samplingRatio = 2;//12/21 11 11  422
+                        else {
+                            LOGGER.debug(image[index + 2] + " " + image[index + 5] + " " + image[index + 8]);
+                            throw new JPEGWrongStructureException("Unusual sampling!");
+                        }
+                        LOGGER.debug("sampling" + samplingRatio);
+                    break;
+                    //FF DA
+                    case -38:
+                        LOGGER.debug("SOS");
+                        startOfSOS = 2 + index;
+                    break;
+                    //FF DD
+                    case -35:
+                        LOGGER.debug("DRI");
+                        index += 4;
+                        DDReset = (image[index] & 0xFF) * 16 * 16 + (image[index + 1] & 0xFF);
+                        LOGGER.debug(image[index] + " " + image[index + 1]);
+                        LOGGER.debug("DDReset:" + DDReset);
+                    break;
+                    //FF D9
+                    case -39:
+                        LOGGER.debug("EOF");
+                        endOfImage = index - 1;
+                        break;
+                    }
                 }
-                LOGGER.debug("sampling" + samplingRatio);
-            }
-            //FF DA
-            else if (image[index] == -1 && image[index + 1] == -38) {
-                LOGGER.debug("SOS");
-                startOfSOS = 2 + index;
-            }
-            //FF DD
-            else if (image[index] == -1 && image[index + 1] == -35) {
-                LOGGER.debug("DRI");
-                index += 4;
-                DDReset = (image[index] >= 0 ? image[index] : image[index] + 256) * 16 * 16 + (image[index + 1] < 0 ? image[index + 1] + 256 : image[index + 1]);
-                LOGGER.debug(image[index] + " " + image[index + 1]);
-                LOGGER.debug("DDReset:" + DDReset);
-            }
-            //FF D9
-            else if(image[index] == -1 && image[index+1] == -39){
-                LOGGER.debug("EOF");
-                endOfImage = index-1;
-            }
         }
 
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
@@ -138,7 +143,6 @@ public class JPEGs {
     public void getDCT() {
         var code = new StringBuffer();
         int bytes = 0;//压缩数据byte数组的输入数
-        while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
         int allStart = 0;//Dc系数在压缩数据中的位置
         DCTable dcTable;
         ACTable acTable;
@@ -198,11 +202,12 @@ public class JPEGs {
             LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+dct[0]+"allStart:"+allStart);
 
             code.delete(0,pDC.x + pDC.y);
-            while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
+
             //读取AC系数
             int[] pAC;//用于读取run/size
             //读取AC哈夫曼码
             while(true) {
+                while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
                 pAC = acTable.getRunSize(code);
                 if(pAC[1] == 0){//Size为0
                     if(pAC[0] == 0){// 0/0 EOB
@@ -228,7 +233,6 @@ public class JPEGs {
                 }
                 dct[index++] = str0b2int(code.substring(pAC[2],pAC[2]+pAC[1]));
                 code.delete(0,pAC[2]+pAC[1]);
-                while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
                 allStart += pAC[2]+pAC[1];
                 //DCT块数据输入完毕
                 if(index == 64){
@@ -361,24 +365,24 @@ public class JPEGs {
                 for(int j = 0;j < 16;j++){
                     count += image[j+i+5];
                 }
-                if(count == byte2int(image[i+3])+16*16*byte2int(image[i+2])-3-16) {
+                if(count == (image[i+3]&0xFF)+16*16*((image[i+2])&0xFF)-3-16){
                     //一个DHT单独定义一个表
                     switch (image[i + 4]) {
                         case 0://00 第一DC表
                             DC_luminance.x = i + 5;
-                            DC_luminance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            DC_luminance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
                         case 1://01 第二DC表
                             DC_chrominance.x = i + 5;
-                            DC_chrominance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            DC_chrominance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
                         case 16://10 第一AC表
                             AC_luminance.x = i + 5;
-                            AC_luminance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            AC_luminance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
                         case 17://11 第二AC表
                             AC_chrominance.x = i + 5;
-                            AC_chrominance.y = i + 5 + byte2int(image[i + 3]) + 16 * 16 * byte2int(image[i + 2]) - 3;
+                            AC_chrominance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
                     }
                 }else{
@@ -477,72 +481,11 @@ public class JPEGs {
     }
 
 
-    //把byte数组转二进制字符串
-    public static String bytes2Str0b(byte[] bytes){
-        String[] binaryArray =
-                {
-                        "0000","0001","0010","0011",
-                        "0100","0101","0110","0111",
-                        "1000","1001","1010","1011",
-                        "1100","1101","1110","1111"
-                };
-
-        String outStr = "";
-        int i;
-        for (int j = 0;j <bytes.length;j++) {
-            byte b = bytes[j];
-            i = (b&0xF0) >> 4;
-            outStr+=binaryArray[i];
-            i=b&0x0F;
-            outStr+=binaryArray[i];
-            if(b == -1)j++;
-        }
-        return outStr;
-    }
     //把byte转二进制字符串
     public static String byte2Str0b(byte b){
-        String[] binaryArray =
-                {
-                        "0000","0001","0010","0011",
-                        "0100","0101","0110","0111",
-                        "1000","1001","1010","1011",
-                        "1100","1101","1110","1111"
-                };
-
-        String outStr = "";
-        int i;
-            i = (b&0xF0) >> 4;
-            outStr+=binaryArray[i];
-            i=b&0x0F;
-            outStr+=binaryArray[i];
-        return outStr;
+        return Integer.toBinaryString((b & 0xFF) + 0x100).substring(1);
     }
 
-    //二进制字符串转byte数组
-    public static byte[] str0b2Bytes(String input){
-            StringBuilder in = new StringBuilder(input);
-            int remainder = in.length() % 8;
-            if (remainder > 0)
-                for (int i = 0; i < 8 - remainder; i++)
-                    in.append("1");
-            remainder = in.length()/8;
-            ArrayList<Byte> Bts = new ArrayList<>();
-            // Step 8 Apply compression
-            for (int i = 0; i < remainder; i++) {
-                byte b = (byte) Integer.parseInt(in.substring(i * 8, i * 8 + 8), 2);
-                Bts.add(b);
-                if (Bts.size() > 1) {
-                    if (Bts.get(Bts.size() - 2) == -1 && (b < -48 || b > -41)) {
-                        //非RST标识
-                        Bts.add(Bts.size() - 1, (byte) (0));
-                    }
-                }
-            }
-            byte[] bts = new byte[Bts.size()];
-            for(int i = 0;i < bts.length;i++)
-                bts[i] = Bts.get(i);
-            return bts;
-        }
 
     /**
      * 去差分
@@ -610,8 +553,4 @@ public class JPEGs {
         target = Bytes.toArray(temp);
     }
 
-    public static int byte2int(byte b){
-        if(b < 0)return b+256;
-        else return b;
-    }
 }

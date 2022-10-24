@@ -18,7 +18,7 @@ public class ACTable {
             System.arraycopy(image,0,length,0,length.length);
             //JPEGs.LOGGER.debug(ImageToCode.byteToString(image));
             for(int i = length.length;i < image.length;i++){
-                int temp = JPEGs.byte2int(image[i]);
+                int temp = image[i]&0xFF;
                 runSize.add(new Point(temp/16,temp%16));
             }
             int i = 0;
