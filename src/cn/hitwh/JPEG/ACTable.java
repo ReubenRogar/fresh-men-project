@@ -39,14 +39,14 @@ public class ACTable {
 
 
     public void outputACTable(String filename){
-        var ACTable = new StringBuilder();
+        StringBuilder ACTable = new StringBuilder();
         for(int i = 0;i <runSize.size();i++){
             ACTable.append(runSize.get(i).x+"/"+runSize.get(i).y+"\s\s"+codeWord.get(i)+"\n");
         }
         ImageToCode.dataToFile(ACTable.toString(),"./测试用文档/"+filename+".txt");
     }
     public static String long2str0b(long code,int length){
-        var result = new StringBuilder();
+        StringBuilder result = new StringBuilder();
         while(code > 0){
             result.insert(0,(code%2 == 1)?"1":"0");
             code /= 2;
@@ -71,7 +71,7 @@ public class ACTable {
                 }
             }
             if(i<codeWord.size()){
-                JPEGs.LOGGER.info("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
+//                JPEGs.LOGGER.info("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
                 return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
             }else{
                 JPEGs.LOGGER.error("无法识别的哈夫曼表:"+code);
@@ -97,7 +97,7 @@ public class ACTable {
             }
 
             result.append(codeWord.get(i));
-            JPEGs.LOGGER.debug("AC{"+result+"前零数:"+run+"长度:"+size+"}");
+//            JPEGs.LOGGER.debug("AC{"+result+"前零数:"+run+"长度:"+size+"}");
             return result.toString();
         }
 

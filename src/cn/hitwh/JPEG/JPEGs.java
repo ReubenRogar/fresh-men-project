@@ -1,11 +1,14 @@
 package cn.hitwh.JPEG;
 
 
+import cn.hitwh.Encrypt.KeyXU;
+import cn.hitwh.Encrypt.NewTypeEncrypt;
 import com.google.common.primitives.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import static cn.hitwh.JPEG.ImageToCode.imageToByte;
@@ -25,7 +28,7 @@ public class JPEGs {
     private ArrayList<int[]> yDCT;//yDCT数据
     private ArrayList<int[]> CbDCT;//CbDCT数据
     private ArrayList<int[]> CrDCT;//CrDCT数据
-    final private byte[] image;//图片所有数据
+    private byte[] image;//图片所有数据
     private byte[] target;//压缩数据
     private int startOfSOS;//扫描行开始
     private int endOfImage;//图像结尾
@@ -116,14 +119,50 @@ public class JPEGs {
     /**
      * 获取dct系数并显示过程结果
      */
-    public  void debugDCT(){
+    public  void encryptDCT() throws NoSuchAlgorithmException {
         getDCT();
-//        LOGGER.debug("Y:");
-//        LOGGER.debug(outputArr(yDCT));
-//        LOGGER.debug("Cb:");
-//        LOGGER.debug(outputArr(CbDCT));
-//        LOGGER.debug("Cr:");
-//        LOGGER.debug(outputArr(CrDCT));
+        LOGGER.debug("Y:");
+        LOGGER.debug(outputArr(yDCT));
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("Cb:");
+        LOGGER.debug(outputArr(CbDCT));
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("Cr:");
+        LOGGER.debug(outputArr(CrDCT));
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+            NewTypeEncrypt nte = new NewTypeEncrypt(yDCT, new KeyXU(0.6, 3.9));
+            KeyXU key = nte.getFinalKey();
+            LOGGER.debug("size:"+yDCT.size());
+            LOGGER.debug(key.x + " " + key.u);
+
+        LOGGER.debug("Y:");
+        LOGGER.debug(outputArr(yDCT));
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("Cb:");
+        LOGGER.debug(outputArr(CbDCT));
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("Cr:");
+        LOGGER.debug(outputArr(CrDCT));
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+
         setDCT();
         if(target.length == endOfImage - startOfSOS + 1)
         System.arraycopy(target,0,image,startOfSOS,target.length);
@@ -133,8 +172,22 @@ public class JPEGs {
             System.arraycopy(image,0,bytes,0,startOfSOS);
             System.arraycopy(target,0,bytes,startOfSOS,target.length);
             System.arraycopy(image,endOfImage+1,bytes,startOfSOS + target.length,image.length-1-endOfImage);
+            image = bytes;
         }
         ImageToCode.outputImage("测试用图片/测试.jpg",image);
+    }
+
+    public String outputArr(ArrayList<int[]> DCT) {
+            StringBuilder sb = new StringBuilder();
+        for (int id = 0;id < DCT.size();id++) {
+            int[] ints = DCT.get(id);
+            sb.append("id = "+id+" {");
+           for (int i = 0;i < 64;i++){
+               sb.append(ints[i]+",");
+           }
+           sb.append("}\n");
+        }
+        return sb.toString();
     }
 
     /**
@@ -161,22 +214,22 @@ public class JPEGs {
                 throw new JPEGWrongStructureException("Unusual sampling!");
             }
             if (flag % (samplingRatio + 2) == samplingRatio) {
-                LOGGER.debug("色度");
+//                LOGGER.debug("色度");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CbDCT;
             } else if (flag % (samplingRatio + 2) == samplingRatio + 1){
-                LOGGER.debug("色度");
+//                LOGGER.debug("色度");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CrDCT;
             }else{
-                LOGGER.debug("亮度");
+//                LOGGER.debug("亮度");
                 dcTable = DCL;
                 acTable = ACL;
                 DCT = yDCT;
             }
-            LOGGER.debug("NO."+DCT.size());
+//            LOGGER.debug("NO."+DCT.size());
             //RST间隔
             if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size()) {
                 LOGGER.debug(code.substring(0,code.length()%8));
@@ -199,7 +252,7 @@ public class JPEGs {
             else dct[0] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
             allStart += pDC.x;
 //测试
-            LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+dct[0]+"allStart:"+allStart);
+//            LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+dct[0]+"allStart:"+allStart);
 
             code.delete(0,pDC.x + pDC.y);
 
@@ -244,7 +297,7 @@ public class JPEGs {
                     return;
                 }
             }
-            LOGGER.debug("--------------------------------------------------------------------------");
+//            LOGGER.debug("--------------------------------------------------------------------------");
         }//while
     }
 
@@ -266,25 +319,25 @@ public class JPEGs {
         while(index < CbDCT.size()+CrDCT.size()+yDCT.size()){
             int i;
             if (index % (samplingRatio + 2) == samplingRatio) {
-                LOGGER.debug("色度");
+//                LOGGER.debug("色度");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CbDCT;
                 i = index/(samplingRatio+2);
             } else if (index % (samplingRatio + 2) == samplingRatio + 1){
-                LOGGER.debug("色度");
+//                LOGGER.debug("色度");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CrDCT;
                 i = index/(samplingRatio+2);
             }else{
-                LOGGER.debug("亮度");
+//                LOGGER.debug("亮度");
                 dcTable = DCL;
                 acTable = ACL;
                 DCT = yDCT;
                 i = index/(samplingRatio+2)*samplingRatio + index%(samplingRatio+2);
             }
-            LOGGER.debug("NO."+i);
+//            LOGGER.debug("NO."+i);
             //二进制转byte同时检查FF
             while(sb.length() >= 8){
                 bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
@@ -313,8 +366,8 @@ public class JPEGs {
             String s = int2str0b(dct[0]);
             sb.append(dcTable.getHuffmanCode(s.length()));
             sb.append(s);
-            LOGGER.debug(s+":"+dct[0]);
-            LOGGER.debug("allStart:"+sb.length());
+//            LOGGER.debug(s+":"+dct[0]);
+//            LOGGER.debug("allStart:"+sb.length());
             //DC end
             //AC
             i = 1;
@@ -332,7 +385,7 @@ public class JPEGs {
             if(last != 63)sb.append(acTable.getEOB());
             //AC end
             index++;
-            LOGGER.debug("--------------------------------------------------------------------------");
+//            LOGGER.debug("--------------------------------------------------------------------------");
         }//while
         while(sb.length()%8!=0)sb.append('1');
         while(sb.length() != 0){
@@ -536,8 +589,7 @@ public class JPEGs {
      * 将数据中的FF 00转化为FF
      */
     private void getTargetWithff00(){
-        var temp = new ArrayList<Byte>();
-        int index = 0;
+        ArrayList<Byte> temp = new ArrayList<>();
         for(int i = 0;i < target.length;i++){
             //FF D_
             if(target[i] == -1&&target[i+1] != 0){

@@ -2,10 +2,10 @@ package cn.hitwh.Encrypt;
 
 public class KeyXU {
     public double x;
-    public double y;
+    public double u;
 
     public KeyXU(double x,double y){
         this.x = x;
-        this.y = y;
+        this.u = u;
     }
 }

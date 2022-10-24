@@ -21,8 +21,6 @@ public class NewTypeEncrypt {
         originKey = k;
 
         int[] mount = new int[64];
-        for(int i = 0;i <64;i++)
-            mount[i] = 0;
         int[] dct;
         for (int i = 0;i < DCTs.size();i++){
             dct = DCTs.get(i);
@@ -34,7 +32,7 @@ public class NewTypeEncrypt {
         }
         String feature = "";
         for(int i = 0;i < 64;i++) {
-            feature += "" + i + mount[i];
+            feature += "" + i + ""+mount[i];
         }
         MessageDigest digest = MessageDigest.getInstance("SHA-512");
         byte[] encodedHash = digest.digest(feature.getBytes(StandardCharsets.UTF_8));
@@ -71,7 +69,7 @@ public class NewTypeEncrypt {
             hashFeature = hashFeature.substring(9);
             addUKey += ""+count;
         }
-        finalKey = new KeyXU(  Double.valueOf(""+ originKey.x+addXKey),Double.valueOf(""+ originKey.y+addUKey));
+        finalKey = new KeyXU(  Double.valueOf(""+ originKey.x+addXKey),Double.valueOf(""+ originKey.u+addUKey));
     }
 
 
@@ -96,5 +94,23 @@ public class NewTypeEncrypt {
             if(b == -1)j++;
         }
         return outStr;
+    }
+
+    public KeyXU getFinalKey() {
+        return finalKey;
+    }
+
+    public void DCCGroupScrambling(ArrayList<int[]> dct){
+        double[] scrambles = new double[dct.size()];
+        scrambles[0] = finalKey.x;
+        for(int i = 1;i < scrambles.length;i++){
+           scrambles[i] = finalKey.u * scrambles[i-1]*(1-scrambles[i-1]);//x(n+1) = u * x(n) * (1 - x(n))
+        }
+        int start = 0,end = 0;
+        while (dct.get(start)[0] == 0)start++;
+        end = start + 1;
+        while(start != dct.size() -1 && end != dct.size() -1){
+            while(dct.get(end)[0] *dct.get(end)[0] > 0)end++;
+        }
     }
 }

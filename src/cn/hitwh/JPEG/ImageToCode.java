@@ -8,7 +8,7 @@ public class ImageToCode {
     public static byte[] imageToByte(String path) {
         byte[] data = null;
         
-        try (FileInputStream input = new FileInputStream(new File(path));
+        try (FileInputStream input = new FileInputStream(path);
              ByteArrayOutputStream output = new ByteArrayOutputStream()) {
             
             byte[] buf = new byte[1024];
