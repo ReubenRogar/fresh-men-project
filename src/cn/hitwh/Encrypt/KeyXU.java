@@ -1,4 +1,4 @@
-package cn.hitwh;
+package cn.hitwh.Encrypt;
 
 public class KeyXU {
     public double x;

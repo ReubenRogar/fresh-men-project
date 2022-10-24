@@ -7,10 +7,22 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="gita" exported="" />
+    <orderEntry type="library" exported="" name="logback-classic-1.2.11" level="project" />
+    <orderEntry type="library" exported="" name="logback-core-1.2.11" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-api-1.7.32" level="project" />
+    <orderEntry type="library" exported="" name="guava-31.1-jre" level="project" />
     <orderEntry type="library" exported="" name="ch.qos.logback.classic" level="project" />
-    <orderEntry type="module" module-name="gita" />
-    <orderEntry type="library" name="logback-classic-1.2.11" level="project" />
-    <orderEntry type="library" name="logback-core-1.2.11" level="project" />
+    <orderEntry type="library" exported="" name="google.common.html.types.proto" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/guava-31.1-jre.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="slf4j-api-1.7.32" level="project" />
   </component>
 </module>

@@ -1,4 +1,4 @@
-package cn.hitwh;
+package cn.hitwh.JPEG;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class DCTable {
 //        JPEGs.LOGGER.debug(ImageToCode.byteToString(length));
 //        JPEGs.LOGGER.debug("num:"+(image.length-16));
         for (int i = 16; i < image.length; i++) {
-            category[i - 16] = JPEGs.byte2int(image[i]);
+            category[i - 16] = image[i]&0xFF;
         }
         int index = 0, i = 0;
         long code = 0;
@@ -89,6 +89,11 @@ public class DCTable {
         for (; i < category.length; i++) {
             if (length == category[i]) break;
         }
+        if(i == category.length){
+            JPEGs.LOGGER.debug("length:"+length);
+            throw new JPEGWrongStructureException("Wrong length!");
+        }
+        JPEGs.LOGGER.debug("DC{"+ codeWord[i]+" 长度:"+length+"}");
         return codeWord[i];
     }
 

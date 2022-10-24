@@ -1,11 +1,11 @@
-package cn.hitwh;
+package cn.hitwh.Encrypt;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-public class Encrypt {
+public class NewTypeEncrypt {
     private ArrayList<int[]> DCTs;
     private KeyXU originKey;
     private KeyXU finalKey;
@@ -16,7 +16,7 @@ public class Encrypt {
      * @param k 初始密钥
      * @throws NoSuchAlgorithmException
      */
-    public Encrypt(ArrayList<int[]> d, KeyXU k) throws NoSuchAlgorithmException {
+    public NewTypeEncrypt(ArrayList<int[]> d, KeyXU k) throws NoSuchAlgorithmException {
         DCTs = d;
         originKey = k;
 
@@ -38,7 +38,7 @@ public class Encrypt {
         }
         MessageDigest digest = MessageDigest.getInstance("SHA-512");
         byte[] encodedHash = digest.digest(feature.getBytes(StandardCharsets.UTF_8));
-        String hashFeature = JPEGs.bytes2Str0b(encodedHash);
+        String hashFeature = bytes2Str0b(encodedHash);
         int count;
         String addXKey = "",addUKey = "";
         //前半加密x
@@ -74,8 +74,27 @@ public class Encrypt {
         finalKey = new KeyXU(  Double.valueOf(""+ originKey.x+addXKey),Double.valueOf(""+ originKey.y+addUKey));
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        
-        System.out.println();
+
+    //把byte数组转二进制字符串
+    public static String bytes2Str0b(byte[] bytes){
+        String[] binaryArray =
+                {
+                        "0000","0001","0010","0011",
+                        "0100","0101","0110","0111",
+                        "1000","1001","1010","1011",
+                        "1100","1101","1110","1111"
+                };
+
+        String outStr = "";
+        int i;
+        for (int j = 0;j <bytes.length;j++) {
+            byte b = bytes[j];
+            i = (b&0xF0) >> 4;
+            outStr+=binaryArray[i];
+            i=b&0x0F;
+            outStr+=binaryArray[i];
+            if(b == -1)j++;
+        }
+        return outStr;
     }
 }
