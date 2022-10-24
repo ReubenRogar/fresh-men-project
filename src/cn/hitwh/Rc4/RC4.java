@@ -1,4 +1,4 @@
-package Rc4;
+package cn.hitwh.Rc4;
 
 public class RC4
 {
@@ -17,14 +17,14 @@ public class RC4
 		for (i = 0; i < 256; i++)
 		{
 			j = (j + s[i] + k[i]) % 256;
-			//½»»»s[i]ºÍs[j]
+			//ï¿½ï¿½ï¿½ï¿½s[i]ï¿½ï¿½s[j]
 			tmp = s[i];
 			s[i] = s[j]; 
 			s[j] = tmp;
 		}
 	}
 
-	//¼Ó½âÃÜ
+	//ï¿½Ó½ï¿½ï¿½ï¿½
 	public static void rc4_crypt(int[] s, int[] Data, int Len)
 	{
 		int i = 0;
@@ -37,7 +37,7 @@ public class RC4
 		{
 			i = (i + 1) % 256;
 			j = (j + s[i]) % 256;
-			//½»»»s[x]ºÍs[y]
+			//ï¿½ï¿½ï¿½ï¿½s[x]ï¿½ï¿½s[y]
 			tmp = s[i];
 			s[i] = s[j];
 			s[j] = tmp;
