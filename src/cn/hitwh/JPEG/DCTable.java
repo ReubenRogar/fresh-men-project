@@ -18,7 +18,7 @@ public class DCTable {
 //        JPEGs.LOGGER.debug(ImageToCode.byteToString(length));
 //        JPEGs.LOGGER.debug("num:"+(image.length-16));
         for (int i = 16; i < image.length; i++) {
-            category[i - 16] = JPEGs.byte2int(image[i]);
+            category[i - 16] = image[i]&0xFF;
         }
         int index = 0, i = 0;
         long code = 0;
@@ -40,7 +40,7 @@ public class DCTable {
     }
 
     public void outputDCTable(String fileName) {
-        var DCTable = new StringBuilder();
+        StringBuilder DCTable = new StringBuilder();
         for (int i = 0; i < category.length; i++) {
             DCTable.append(category[i] + "\s\s" + codeWord[i] + "\n");
         }
@@ -48,7 +48,7 @@ public class DCTable {
     }
 
     public static String long2str0b(long code, int length) {
-        var result = new StringBuilder();
+        StringBuilder result = new StringBuilder();
         while (code > 0) {
             result.insert(0,(code % 2 == 1) ? "1" : "0");
             code /= 2;
@@ -73,7 +73,7 @@ public class DCTable {
             }
         }
         if (i < codeWord.length) {
-            JPEGs.LOGGER.info("DC{" + codeWord[i] + " 长度:" + category[i] + "}");
+//            JPEGs.LOGGER.info("DC{" + codeWord[i] + " 长度:" + category[i] + "}");
             categoryAndCodeWordLength.x = category[i];
             categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;
@@ -93,7 +93,7 @@ public class DCTable {
             JPEGs.LOGGER.debug("length:"+length);
             throw new JPEGWrongStructureException("Wrong length!");
         }
-        JPEGs.LOGGER.debug("DC{"+ codeWord[i]+" 长度:"+length+"}");
+//        JPEGs.LOGGER.debug("DC{"+ codeWord[i]+" 长度:"+length+"}");
         return codeWord[i];
     }
 

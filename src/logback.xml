@@ -23,9 +23,9 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--通过指定压缩文件名称，来确定分割文件方式-->
-            <fileNamePattern>C:/code/itheima-data2-%d{yyyy-MM-dd}.log%i.gz</fileNamePattern>
+            <fileNamePattern>C:/code/itheima-data2-%d{yyyy-MM-dd}.log%i.txt</fileNamePattern>
             <!--文件拆分大小-->
-            <maxFileSize>1MB</maxFileSize>
+            <maxFileSize>3MB</maxFileSize>
         </rollingPolicy>
     </appender>
 
