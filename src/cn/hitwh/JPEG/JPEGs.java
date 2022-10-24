@@ -177,6 +177,24 @@ public class JPEGs {
         ImageToCode.outputImage("测试用图片/测试.jpg",image);
     }
 
+   void debugDCT(){
+       getDCT();
+
+       //加密
+
+       setDCT();
+       if(target.length == endOfImage - startOfSOS + 1)
+           System.arraycopy(target,0,image,startOfSOS,target.length);
+       else{
+           //压缩数据变动
+           byte[] bytes = new byte[image.length - endOfImage+startOfSOS-1 +target.length];
+           System.arraycopy(image,0,bytes,0,startOfSOS);
+           System.arraycopy(target,0,bytes,startOfSOS,target.length);
+           System.arraycopy(image,endOfImage+1,bytes,startOfSOS + target.length,image.length-1-endOfImage);
+           image = bytes;
+       }
+       ImageToCode.outputImage("测试用图片/测试.jpg",image);
+    }
     public String outputArr(ArrayList<int[]> DCT) {
             StringBuilder sb = new StringBuilder();
         for (int id = 0;id < DCT.size();id++) {
