@@ -3,6 +3,7 @@ package cn.hitwh.JPEG;
 
 import cn.hitwh.Encrypt.KeyXU;
 import cn.hitwh.Encrypt.NewTypeEncrypt;
+import cn.hitwh.Rc4.RC4;
 import com.google.common.primitives.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static cn.hitwh.JPEG.ImageToCode.imageToByte;
 
@@ -211,6 +213,47 @@ public class JPEGs {
     /**
      * 提取DCT块
      */
+     public static void rc4(int[] d) {
+            int[] s = new int[256];
+            String key;
+            System.out.println("input the key:");
+            Scanner in = new Scanner(System.in);
+            key = in.next();
+            int[] intKey = new int[d.length];
+            if(key.length()<=d.length) {
+                int i = 0;
+                for (; i < key.length(); i++) {
+                    intKey[i] = key.charAt(i);
+                }
+                for(int j = i+1 ;j<d.length;j++){
+                    intKey[j] = intKey[j-i-1];
+                }
+            }
+            if(key.length()>d.length){
+                for (int i = 0; i < d.length; i++) {
+                    intKey[i] = key.charAt(i);
+                }
+            }
+            System.out.print("init data:");
+            for (int j : d) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+            RC4.rc4_init(s, intKey, d.length );//s为RC4算法置乱箱；intKey为密钥数组；d为传入的加密数组
+            RC4.rc4_crypt(s,d,d.length );
+            System.out.print("after en: ");
+            for (int j : d) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+            RC4.rc4_init(s, intKey, d.length);
+            RC4.rc4_crypt(s,d,d.length);
+            System.out.print("en 2: ");
+            for (int j : d) {
+                System.out.print(j + " ");
+            }
+        }
+
     public void getDCT() {
         var code = new StringBuffer();
         int bytes = 0;//压缩数据byte数组的输入数
@@ -622,5 +665,8 @@ public class JPEGs {
         }
         target = Bytes.toArray(temp);
     }
-
+    public static void main(String args[]){
+        int[] d = {2,2,7,9,79};
+        rc4(d);//调用rc4方法
+    }
 }

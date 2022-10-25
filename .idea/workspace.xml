@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="添加对222支持">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/KeyXU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/KeyXU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ACTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ImageToCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ImageToCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/First-Java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/First-Java.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +25,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -55,11 +45,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/slf4j-api-1.7.32.jar" />
+    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\programming_demo\freshman-year-project\lib" />
@@ -71,7 +64,33 @@
       <recent name="cn.hitwh.JPEG" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.Client">
+  <component name="RunManager" selected="应用程序.cn.hitwh.JPEG.JPEGs">
+    <configuration name="A" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.hitwh.Rc4.A" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.hitwh.Rc4.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Client (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.hitwh.JPEG.Client" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.hitwh.JPEG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cn.hitwh.Client" />
       <module name="First-Java" />
@@ -86,37 +105,11 @@
       </method>
     </configuration>
     <configuration name="JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="加密.JPEGs" />
-      <module name="First-Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="加密.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cn.hitwh.JPEGs" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cn.hitwh.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OutputFormat" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="加密.OutputFormat" />
-      <module name="First-Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="加密.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -152,11 +145,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.Client" />
-        <item itemvalue="应用程序.myrc4" />
         <item itemvalue="应用程序.cn.hitwh.JPEG.JPEGs" />
-        <item itemvalue="应用程序.JPEGs" />
-        <item itemvalue="应用程序.OutputFormat" />
+        <item itemvalue="应用程序.A" />
+        <item itemvalue="应用程序.Client (1)" />
+        <item itemvalue="应用程序.myrc4" />
+        <item itemvalue="应用程序.Client" />
       </list>
     </recent_temporary>
   </component>
@@ -195,10 +188,14 @@
       <workItem from="1666342286434" duration="5651000" />
       <workItem from="1666354946264" duration="5426000" />
       <workItem from="1666397262663" duration="3252000" />
-      <workItem from="1666581314254" duration="2048000" />
-      <workItem from="1666592218244" duration="5391000" />
-      <workItem from="1666600053951" duration="3494000" />
-      <workItem from="1666615073354" duration="2011000" />
+      <workItem from="1666581314254" duration="1193000" />
+    </task>
+    <task id="LOCAL-00030" summary="大香槟">
+      <created>1650415682545</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1650415682545</updated>
     </task>
     <task id="LOCAL-00031" summary="加密问题">
       <created>1650441382420</created>
@@ -536,14 +533,7 @@
       <option name="project" value="LOCAL" />
       <updated>1666403454730</updated>
     </task>
-    <task id="LOCAL-00079" summary="优化代码">
-      <created>1666582771762</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1666582771762</updated>
-    </task>
-    <option name="localTasksCounter" value="80" />
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -561,6 +551,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="修改JPEGs::getHuffmanTable方法，添加对单一DHT定义多表的支持" />
     <MESSAGE value="更新.gitignore,删除部分测试过的图片" />
     <MESSAGE value="更改依赖关系" />
     <MESSAGE value="String改用StringBuffer，添加程序健壮性和效率" />
@@ -585,7 +576,6 @@
     <MESSAGE value="修改类名" />
     <MESSAGE value="修改项目结构" />
     <MESSAGE value="修改setDCT()，纠正因RST放置和FF带00问题导致的错误" />
-    <MESSAGE value="优化代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改setDCT()，纠正因RST放置和FF带00问题导致的错误" />
   </component>
 </project>
