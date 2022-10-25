@@ -204,7 +204,7 @@ public class JPEGs {
         ImageToCode.outputImage("测试用图片/测试.jpg",image);
     }
 
-   void debugDCT(){
+   public void debugDCT(){
        getDCT();
 
        //加密
@@ -247,7 +247,7 @@ public class JPEGs {
 
 
     public void getDCT() {
-        var code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         int bytes = 0;//压缩数据byte数组的输入数
         DCTable dcTable;
         ACTable acTable;

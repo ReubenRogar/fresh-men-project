@@ -65,7 +65,7 @@ public class DCTable {
 
 
     //得到DC类别（长度）
-    public Point getCategory(StringBuffer codeS) {
+    public Point getCategory(StringBuilder codeS) {
         String code = codeS.toString();
         Point categoryAndCodeWordLength = new Point();
         int i = 0;
@@ -95,7 +95,6 @@ public class DCTable {
             JPEGs.LOGGER.debug("length:"+length);
             throw new JPEGWrongStructureException("Wrong length!");
         }
-//        JPEGs.LOGGER.debug("DC{"+ codeWord[i]+" 长度:"+length+"}");
         return codeWord[i];
     }
 

@@ -62,7 +62,7 @@ public class ACTable {
      * @param codeS 二进制数据
      * @return 包含三个元素的数组，第一位为run，第二位为size，第三位为识别码长度
      */
-    public int[] getRunSize(StringBuffer codeS){
+    public int[] getRunSize(StringBuilder codeS){
             String code = codeS.toString();
             int i = 0;
             for(;i<codeWord.size();i++){

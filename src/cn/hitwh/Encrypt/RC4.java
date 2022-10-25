@@ -62,24 +62,24 @@ public class RC4 {
                 intKey[i] = key.charAt(i);
             }
         }
-        System.out.print("init data:");
-        for (int j : d) {
-            System.out.print(j + " ");
-        }
-        System.out.println();
+//        System.out.print("init data:");
+//        for (int j : d) {
+//            System.out.print(j + " ");
+//        }
+//        System.out.println();
         RC4.rc4_init(s, intKey, d.length );//s为RC4算法置乱箱；intKey为密钥数组；d为传入的加密数组
         RC4.rc4_crypt(s,d,d.length );
-        System.out.print("after en: ");
-        for (int j : d) {
-            System.out.print(j + " ");
-        }
-        System.out.println();
-        RC4.rc4_init(s, intKey, d.length);
-        RC4.rc4_crypt(s,d,d.length);
-        System.out.print("en 2: ");
-        for (int j : d) {
-            System.out.print(j + " ");
-        }
+//        System.out.print("after en: ");
+//        for (int j : d) {
+//            System.out.print(j + " ");
+//        }
+//        System.out.println();
+//        RC4.rc4_init(s, intKey, d.length);
+//        RC4.rc4_crypt(s,d,d.length);
+//        System.out.print("en 2: ");
+//        for (int j : d) {
+//            System.out.print(j + " ");
+//        }
     }
     
 }

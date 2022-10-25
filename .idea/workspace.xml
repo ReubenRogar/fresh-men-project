@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/RC4Util.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/myrc4.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ACTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/RC4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/RC4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Rc4/A.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Rc4/RC4.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
@@ -203,14 +197,7 @@
       <workItem from="1666623392244" duration="459000" />
       <workItem from="1666624983312" duration="1854000" />
       <workItem from="1666678831282" duration="5293000" />
-      <workItem from="1666694843515" duration="9973000" />
-    </task>
-    <task id="LOCAL-00034" summary="修改getDCTOnlyDC">
-      <created>1650460189756</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1650460189756</updated>
+      <workItem from="1666694843515" duration="10412000" />
     </task>
     <task id="LOCAL-00035" summary="deBug开始">
       <created>1650510840458</created>
@@ -548,7 +535,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666700971397</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="代码精简，减少警告">
+      <created>1666706338950</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1666706338950</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +560,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="修改getDCT()方法,整合两个debug方法debugDC()和debugDCT()，测试时先建立JPEGs对象然后调用这两个方法中的一个，注意：debugDCT输出的结果中dc系数未去差分" />
     <MESSAGE value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
     <MESSAGE value="删除不必要的加密函数，完善setDCT()(未测试）" />
     <MESSAGE value="添加对222支持" />
@@ -591,6 +584,7 @@
     <MESSAGE value="修改NewTypeEncrypt()" />
     <MESSAGE value="修改JPEGs" />
     <MESSAGE value="完善NewTypeEncrypt类" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善NewTypeEncrypt类" />
+    <MESSAGE value="代码精简，减少警告" />
+    <option name="LAST_COMMIT_MESSAGE" value="代码精简，减少警告" />
   </component>
 </project>
