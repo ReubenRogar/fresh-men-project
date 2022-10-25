@@ -4,7 +4,7 @@ package cn.hitwh.JPEG;
 import java.io.*;
 
 public class ImageToCode {
-    //å›¾ç‰‡åˆ°byteæ•°ç»„
+    //Í¼Æ¬µ½byteÊý×é
     public static byte[] imageToByte(String path) {
         byte[] data = null;
         
@@ -25,19 +25,19 @@ public class ImageToCode {
     }
 
 
-    //byteæ•°ç»„åˆ°16è¿›åˆ¶å­—ç¬¦ä¸²
+    //byteÊý×éµ½16½øÖÆ×Ö·û´®
     public static String byteToString(byte[] data) {
         
         if (data == null || data.length <= 1) return "0x";
         StringBuilder sb = new StringBuilder();
         int[] buf = new int[data.length];
         
-        //byteæ•°ç»„è½¬åŒ–æˆåè¿›åˆ¶
+        //byteÊý×é×ª»¯³ÉÊ®½øÖÆ
         for (int i = 0; i < data.length; i++) {
             buf[i] = data[i] < 0 ? (data[i] + 256) : (data[i]);
         }
         
-        //åè¿›åˆ¶è½¬åŒ–æˆåå…­è¿›åˆ¶
+        //Ê®½øÖÆ×ª»¯³ÉÊ®Áù½øÖÆ
         for (int i = 0; i < buf.length; i++) {
             if (buf[i] < 16) {
                 sb.append("0").append(Integer.toHexString(buf[i])).append(" ");
@@ -60,7 +60,7 @@ public class ImageToCode {
         }
     }
 
-    //byteæ•°ç»„åˆ°å›¾ç‰‡
+    //byteÊý×éµ½Í¼Æ¬
     public static void outputImage(String fileName, byte[] matrix) {
         FileOutputStream outSTr;
         BufferedOutputStream Buff;

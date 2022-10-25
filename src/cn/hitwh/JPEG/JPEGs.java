@@ -14,36 +14,36 @@ import java.util.ArrayList;
 import static cn.hitwh.JPEG.ImageToCode.imageToByte;
 
 public class JPEGs {
-    //å›¾ç‰‡åç§°
+    //Í¼Æ¬Ãû³Æ
     private final String name;
-    // ç›´æµäº®åº¦è¡¨
+    // Ö±Á÷ÁÁ¶È±í
     private DCTable DCL;
-    // ç›´æµè‰²åº¦è¡¨
+    // Ö±Á÷É«¶È±í
     private DCTable DCC;
-    // äº¤æµäº®åº¦è¡¨
+    // ½»Á÷ÁÁ¶È±í
     private ACTable ACL;
-    // äº¤æµè‰²åº¦è¡¨
+    // ½»Á÷É«¶È±í
     private ACTable ACC;
-    //DCT 1*64æ•°æ®
-    private ArrayList<int[]> yDCT;//yDCTæ•°æ®
-    private ArrayList<int[]> CbDCT;//CbDCTæ•°æ®
-    private ArrayList<int[]> CrDCT;//CrDCTæ•°æ®
-    private byte[] image;//å›¾ç‰‡æ‰€æœ‰æ•°æ®
-    private byte[] target;//å‹ç¼©æ•°æ®
-    private int startOfSOS;//æ‰«æè¡Œå¼€å§‹
-    private int endOfImage;//å›¾åƒç»“å°¾
-    private int height;//å›¾ç‰‡çš„é«˜åº¦
-    private int width;//å›¾ç‰‡çš„å®½åº¦
-    private int samplingRatio;//å›¾ç‰‡çš„é‡‡æ ·æ¨¡å¼
+    //DCT 1*64Êı¾İ
+    private ArrayList<int[]> yDCT;//yDCTÊı¾İ
+    private ArrayList<int[]> CbDCT;//CbDCTÊı¾İ
+    private ArrayList<int[]> CrDCT;//CrDCTÊı¾İ
+    private byte[] image;//Í¼Æ¬ËùÓĞÊı¾İ
+    private byte[] target;//Ñ¹ËõÊı¾İ
+    private int startOfSOS;//É¨ÃèĞĞ¿ªÊ¼
+    private int endOfImage;//Í¼Ïñ½áÎ²
+    private int height;//Í¼Æ¬µÄ¸ß¶È
+    private int width;//Í¼Æ¬µÄ¿í¶È
+    private int samplingRatio;//Í¼Æ¬µÄ²ÉÑùÄ£Ê½
 
-    private int DDReset = 0;//FF DDæ®µå®šä¹‰çš„æ‰«æè¡Œå¤ä½é—´éš”
+    private int DDReset = 0;//FF DD¶Î¶¨ÒåµÄÉ¨ÃèĞĞ¸´Î»¼ä¸ô
 
 
-    //Logbackæ¡†æ¶
+    //Logback¿ò¼Ü
     public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
 
     /**
-     * æ„é€ å™¨è·å–å›¾ç‰‡çš„huffmanè¡¨å’ŒDCTæ•°æ®
+     * ¹¹ÔìÆ÷»ñÈ¡Í¼Æ¬µÄhuffman±íºÍDCTÊı¾İ
      */
     public JPEGs(String inFile) {
         name = inFile;
@@ -52,13 +52,13 @@ public class JPEGs {
         //FF D8
         if (image[0] != -1 || image[1] != -40)
             throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
-        LOGGER.debug("get Huffman Tableï¼");
+        LOGGER.debug("get Huffman Table£¡");
         getHuffmanTable();
         LOGGER.debug("get Huffman Table successfully!");
 
         for (int index = 0; index < image.length; index++) {
             if(image[index] == -1){
-            //FF C0æˆ–FF C2
+            //FF C0»òFF C2
                 switch (image[index + 1]) {
                     case -64:
                         case -62:
@@ -117,7 +117,7 @@ public class JPEGs {
     }
 
     /**
-     * è·å–dctç³»æ•°å¹¶æ˜¾ç¤ºè¿‡ç¨‹ç»“æœ
+     * »ñÈ¡dctÏµÊı²¢ÏÔÊ¾¹ı³Ì½á¹û
      */
     public  void encryptDCT() throws NoSuchAlgorithmException {
         getDCT();
@@ -139,11 +139,34 @@ public class JPEGs {
         LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
         LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
         LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-            NewTypeEncrypt nte = new NewTypeEncrypt(yDCT, new KeyXU(0.6, 3.9));
-            KeyXU key = nte.getFinalKey();
-            LOGGER.debug("size:"+yDCT.size());
-            LOGGER.debug(key.x + " " + key.u);
+        //Y
+        NewTypeEncrypt nteY = new NewTypeEncrypt(yDCT, new KeyXU(0.6, 3.9));
+        KeyXU key = nteY.getFinalKey();
+        LOGGER.debug("size:"+yDCT.size());
+        LOGGER.debug(key.x + " " + key.u);
 
+
+        //Cb
+        NewTypeEncrypt nteCb = new NewTypeEncrypt(CbDCT, new KeyXU(0.6, 3.9));
+        key = nteCb.getFinalKey();
+        LOGGER.debug("size:"+CbDCT.size());
+        LOGGER.debug(key.x + " " + key.u);
+
+
+        //Cr
+        NewTypeEncrypt nteCr = new NewTypeEncrypt(CrDCT, new KeyXU(0.6, 3.9));
+        key = nteCr.getFinalKey();
+        LOGGER.debug("size:"+CrDCT.size());
+        LOGGER.debug(key.x + " " + key.u);
+        nteY.DCCGroupScramble();
+        nteCr.DCCGroupScramble();
+        nteCb.DCCGroupScramble();
+        nteY.DCCIterativeScramble(15,DDReset*samplingRatio,DCL.getMax());
+        nteCb.DCCIterativeScramble(15,DDReset,DCC.getMax());
+        nteCr.DCCIterativeScramble(15,DDReset,DCC.getMax());
+        nteY.ACCRunGroupScramble();
+        nteCb.ACCRunGroupScramble();
+        nteCr.ACCRunGroupScramble();
         LOGGER.debug("Y:");
         LOGGER.debug(outputArr(yDCT));
         LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
@@ -167,33 +190,33 @@ public class JPEGs {
         if(target.length == endOfImage - startOfSOS + 1)
         System.arraycopy(target,0,image,startOfSOS,target.length);
         else{
-            //å‹ç¼©æ•°æ®å˜åŠ¨
+            //Ñ¹ËõÊı¾İ±ä¶¯
             byte[] bytes = new byte[image.length - endOfImage+startOfSOS-1 +target.length];
             System.arraycopy(image,0,bytes,0,startOfSOS);
             System.arraycopy(target,0,bytes,startOfSOS,target.length);
             System.arraycopy(image,endOfImage+1,bytes,startOfSOS + target.length,image.length-1-endOfImage);
             image = bytes;
         }
-        ImageToCode.outputImage("æµ‹è¯•ç”¨å›¾ç‰‡/æµ‹è¯•.jpg",image);
+        ImageToCode.outputImage("²âÊÔÓÃÍ¼Æ¬/²âÊÔ.jpg",image);
     }
 
    void debugDCT(){
        getDCT();
 
-       //åŠ å¯†
+       //¼ÓÃÜ
 
        setDCT();
        if(target.length == endOfImage - startOfSOS + 1)
            System.arraycopy(target,0,image,startOfSOS,target.length);
        else{
-           //å‹ç¼©æ•°æ®å˜åŠ¨
+           //Ñ¹ËõÊı¾İ±ä¶¯
            byte[] bytes = new byte[image.length - endOfImage+startOfSOS-1 +target.length];
            System.arraycopy(image,0,bytes,0,startOfSOS);
            System.arraycopy(target,0,bytes,startOfSOS,target.length);
            System.arraycopy(image,endOfImage+1,bytes,startOfSOS + target.length,image.length-1-endOfImage);
            image = bytes;
        }
-       ImageToCode.outputImage("æµ‹è¯•ç”¨å›¾ç‰‡/æµ‹è¯•.jpg",image);
+       ImageToCode.outputImage("²âÊÔÓÃÍ¼Æ¬/²âÊÔ.jpg",image);
     }
     public String outputArr(ArrayList<int[]> DCT) {
             StringBuilder sb = new StringBuilder();
@@ -209,78 +232,78 @@ public class JPEGs {
     }
 
     /**
-     * æå–DCTå—
+     * ÌáÈ¡DCT¿é
      */
     public void getDCT() {
         var code = new StringBuffer();
-        int bytes = 0;//å‹ç¼©æ•°æ®byteæ•°ç»„çš„è¾“å…¥æ•°
-        int allStart = 0;//Dcç³»æ•°åœ¨å‹ç¼©æ•°æ®ä¸­çš„ä½ç½®
+        int bytes = 0;//Ñ¹ËõÊı¾İbyteÊı×éµÄÊäÈëÊı
+        int allStart = 0;//DcÏµÊıÔÚÑ¹ËõÊı¾İÖĞµÄÎ»ÖÃ
         DCTable dcTable;
         ACTable acTable;
         yDCT = new ArrayList<>();
         CrDCT = new ArrayList<>();
         CbDCT = new ArrayList<>();
         ArrayList<int[]> DCT;
-        int flag = -1;//è¡¨åŒºåˆ†æ ‡å¿—
-        //è¯»DCTå—
+        int flag = -1;//±íÇø·Ö±êÖ¾
+        //¶ÁDCT¿é
         LOGGER.debug("----------------------getDCT------------------------");
         while(true) {
-            //åº”ç”¨Huffmanè¡¨
+            //Ó¦ÓÃHuffman±í
             flag++;
             int index = 1;
             if(samplingRatio == 0){
                 throw new JPEGWrongStructureException("Unusual sampling!");
             }
             if (flag % (samplingRatio + 2) == samplingRatio) {
-//                LOGGER.debug("è‰²åº¦");
+//                LOGGER.debug("É«¶È");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CbDCT;
             } else if (flag % (samplingRatio + 2) == samplingRatio + 1){
-//                LOGGER.debug("è‰²åº¦");
+//                LOGGER.debug("É«¶È");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CrDCT;
             }else{
-//                LOGGER.debug("äº®åº¦");
+//                LOGGER.debug("ÁÁ¶È");
                 dcTable = DCL;
                 acTable = ACL;
                 DCT = yDCT;
             }
 //            LOGGER.debug("NO."+DCT.size());
-            //RSTé—´éš”
+            //RST¼ä¸ô
             if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size()) {
-                LOGGER.debug(code.substring(0,code.length()%8));
+//                LOGGER.debug(code.substring(0,code.length()%8));
                 allStart+=code.length()%8;
                 code.delete(0, code.length() % 8);
             }
             var dct=new int[64];
-            //è¯»å–DCç³»æ•°
+            //¶ÁÈ¡DCÏµÊı
             while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-            Point pDC;//  è¯»å–category
+            Point pDC;//  ¶ÁÈ¡category
             pDC = dcTable.getCategory(code);
             if(pDC.y == 0){
-                LOGGER.debug("è¯»å–ä½ç½®ï¼š"+bytes+" "+"æ€»é•¿ï¼š"+target.length);
+                LOGGER.debug("¶ÁÈ¡Î»ÖÃ£º"+bytes+" "+"×Ü³¤£º"+target.length);
                 LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
                 return;
             }
             allStart += pDC.y;
             if (pDC.x == 0)
                 dct[0] = 0;
-            else dct[0] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byteè½¬int(DC)
+            else dct[0] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte×ªint(DC)
             allStart += pDC.x;
-//æµ‹è¯•
+//²âÊÔ
 //            LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+dct[0]+"allStart:"+allStart);
 
             code.delete(0,pDC.x + pDC.y);
 
-            //è¯»å–ACç³»æ•°
-            int[] pAC;//ç”¨äºè¯»å–run/size
-            //è¯»å–ACå“ˆå¤«æ›¼ç 
+            //¶ÁÈ¡ACÏµÊı
+            int[] pAC;//ÓÃÓÚ¶ÁÈ¡run/size
+            //¶ÁÈ¡AC¹ş·òÂüÂë
             while(true) {
                 while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
                 pAC = acTable.getRunSize(code);
-                if(pAC[1] == 0){//Sizeä¸º0
+                if(pAC[1] == 0){//SizeÎª0
                     if(pAC[0] == 0){// 0/0 EOB
                         code.delete(0,pAC[2]);
                         while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
@@ -288,24 +311,24 @@ public class JPEGs {
                         DCT.add(dct);
                         break;
                     }else if(pAC[0] != 15){
-                        LOGGER.debug("å‰©ä½™å¡«å……æ•°æ®");
+                        LOGGER.debug("Ê£ÓàÌî³äÊı¾İ");
                         LOGGER.debug(code.substring(0, Math.min(code.length(), 100)));
-                        LOGGER.debug("è¯»å–ä½ç½®ï¼š"+bytes+" "+"æ€»é•¿ï¼š"+target.length);
+                        LOGGER.debug("¶ÁÈ¡Î»ÖÃ£º"+bytes+" "+"×Ü³¤£º"+target.length);
                         LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
                         LOGGER.debug("--------------------------------------------------------------------------");
                         return;
                     }
                 }
-                //Runä¸ªé›¶
+                //Run¸öÁã
                 index += pAC[0];
                 if(index >= 64){
-                    LOGGER.debug("è¯»å–ä½ç½®ï¼š"+bytes+" "+"æ€»é•¿ï¼š"+target.length);
+                    LOGGER.debug("¶ÁÈ¡Î»ÖÃ£º"+bytes+" "+"×Ü³¤£º"+target.length);
                     LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
                 }
                 dct[index++] = str0b2int(code.substring(pAC[2],pAC[2]+pAC[1]));
                 code.delete(0,pAC[2]+pAC[1]);
                 allStart += pAC[2]+pAC[1];
-                //DCTå—æ•°æ®è¾“å…¥å®Œæ¯•
+                //DCT¿éÊı¾İÊäÈëÍê±Ï
                 if(index == 64){
                     DCT.add(dct);
                     break;
@@ -323,7 +346,7 @@ public class JPEGs {
 
 
     /**
-     * 1*64æ•°ç»„è½¬äºŒè¿›åˆ¶å­—ç¬¦ä¸²
+     * 1*64Êı×é×ª¶ş½øÖÆ×Ö·û´®
      */
     void setDCT(){
         var bytes = new ArrayList<Byte>();
@@ -332,31 +355,31 @@ public class JPEGs {
         ACTable acTable;
         ArrayList<int[]> DCT;
         int index = 0;
-        //setå¼€å§‹
+        //set¿ªÊ¼
         LOGGER.debug("----------------------setDCT------------------------");
         while(index < CbDCT.size()+CrDCT.size()+yDCT.size()){
             int i;
             if (index % (samplingRatio + 2) == samplingRatio) {
-//                LOGGER.debug("è‰²åº¦");
+//                LOGGER.debug("É«¶È");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CbDCT;
                 i = index/(samplingRatio+2);
             } else if (index % (samplingRatio + 2) == samplingRatio + 1){
-//                LOGGER.debug("è‰²åº¦");
+//                LOGGER.debug("É«¶È");
                 dcTable = DCC;
                 acTable = ACC;
                 DCT = CrDCT;
                 i = index/(samplingRatio+2);
             }else{
-//                LOGGER.debug("äº®åº¦");
+//                LOGGER.debug("ÁÁ¶È");
                 dcTable = DCL;
                 acTable = ACL;
                 DCT = yDCT;
                 i = index/(samplingRatio+2)*samplingRatio + index%(samplingRatio+2);
             }
 //            LOGGER.debug("NO."+i);
-            //äºŒè¿›åˆ¶è½¬byteåŒæ—¶æ£€æŸ¥FF
+            //¶ş½øÖÆ×ªbyteÍ¬Ê±¼ì²éFF
             while(sb.length() >= 8){
                 bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
                 sb.delete(0,8);
@@ -365,7 +388,7 @@ public class JPEGs {
                    bytes.add((byte)0);
                 }
             }
-            //RSTé—´éš”
+            //RST¼ä¸ô
             if(DDReset != 0 && index != 0 && index%((samplingRatio+2)*DDReset) == 0){
                 while (sb.length()%8 != 0)sb.append('1');
                 while(sb.length() > 0){
@@ -399,7 +422,7 @@ public class JPEGs {
                 }//if
                 i++;
             }//while
-            //acç³»æ•°ä¸è¶³63ä¸ªï¼Œé åå…¨ä¸º0
+            //acÏµÊı²»×ã63¸ö£¬¿¿ºóÈ«Îª0
             if(last != 63)sb.append(acTable.getEOB());
             //AC end
             index++;
@@ -422,7 +445,7 @@ public class JPEGs {
 
 
     /**
-     * è·å–å›¾ç‰‡ä¸­çš„huffmanè¡¨
+     * »ñÈ¡Í¼Æ¬ÖĞµÄhuffman±í
      */
     private void getHuffmanTable(){
         Point DC_luminance = new Point();
@@ -432,32 +455,32 @@ public class JPEGs {
         for(int i = 0 ;i < image.length;i++){
             //FF C4
             if(image[i] == -1 && image[i+1] == -60){
-                int count = 0;//æ˜ç è®¡æ•°
+                int count = 0;//Ã÷Âë¼ÆÊı
                 for(int j = 0;j < 16;j++){
                     count += image[j+i+5];
                 }
                 if(count == (image[i+3]&0xFF)+16*16*((image[i+2])&0xFF)-3-16){
-                    //ä¸€ä¸ªDHTå•ç‹¬å®šä¹‰ä¸€ä¸ªè¡¨
+                    //Ò»¸öDHTµ¥¶À¶¨ÒåÒ»¸ö±í
                     switch (image[i + 4]) {
-                        case 0://00 ç¬¬ä¸€DCè¡¨
+                        case 0://00 µÚÒ»DC±í
                             DC_luminance.x = i + 5;
                             DC_luminance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
-                        case 1://01 ç¬¬äºŒDCè¡¨
+                        case 1://01 µÚ¶şDC±í
                             DC_chrominance.x = i + 5;
                             DC_chrominance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
-                        case 16://10 ç¬¬ä¸€ACè¡¨
+                        case 16://10 µÚÒ»AC±í
                             AC_luminance.x = i + 5;
                             AC_luminance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
-                        case 17://11 ç¬¬äºŒACè¡¨
+                        case 17://11 µÚ¶şAC±í
                             AC_chrominance.x = i + 5;
                             AC_chrominance.y = i + 5 + (image[i + 3]&0xFF) + 16 * 16 * (image[i + 2]&0xFF) - 3;
                             break;
                     }
                 }else{
-                    //ä¸€ä¸ªDHTå®šä¹‰å¤šä¸ªè¡¨
+                    //Ò»¸öDHT¶¨Òå¶à¸ö±í
                     i += 4;
                     if(image[i] == 0 || image[i] == 1 || image[i] == 16 || image[i] == 17) {
                         while (image[i] != -1) {//FF
@@ -466,19 +489,19 @@ public class JPEGs {
                                 count += image[j + i + 1];
                             }
                             switch (image[i]) {
-                                case 0://00 ç¬¬ä¸€DCè¡¨
+                                case 0://00 µÚÒ»DC±í
                                     DC_luminance.x = i + 1;
                                     DC_luminance.y = i + count + 17;
                                     break;
-                                case 1://01 ç¬¬äºŒDCè¡¨
+                                case 1://01 µÚ¶şDC±í
                                     DC_chrominance.x = i + 1;
                                     DC_chrominance.y = i + count + 17;
                                     break;
-                                case 16://10 ç¬¬ä¸€ACè¡¨
+                                case 16://10 µÚÒ»AC±í
                                     AC_luminance.x = i + 1;
                                     AC_luminance.y = i + count + 17;
                                     break;
-                                case 17://11 ç¬¬äºŒACè¡¨
+                                case 17://11 µÚ¶şAC±í
                                     AC_chrominance.x = i + 1;
                                     AC_chrominance.y = i + count + 17;
                                     break;
@@ -510,7 +533,7 @@ public class JPEGs {
 
 
     /**
-     * äºŒè¿›åˆ¶å­—ç¬¦ä¸²è½¬int
+     * ¶ş½øÖÆ×Ö·û´®×ªint
      */
     public static int str0b2int(String s){
         int result = 0,temp =1;
@@ -530,9 +553,9 @@ public class JPEGs {
     }
 
     /**
-     * intè½¬äºŒè¿›åˆ¶å­—ç¬¦ä¸²
-     * @param s æ•°å­—
-     * @return éµå¾ª0å¼€å¤´ä¸ºè´ŸäºŒè¿›åˆ¶å­—ç¬¦ä¸²
+     * int×ª¶ş½øÖÆ×Ö·û´®
+     * @param s Êı×Ö
+     * @return ×ñÑ­0¿ªÍ·Îª¸º¶ş½øÖÆ×Ö·û´®
      */
     public static String int2str0b(int s){
         StringBuilder s1 = new StringBuilder();
@@ -552,20 +575,20 @@ public class JPEGs {
     }
 
 
-    //æŠŠbyteè½¬äºŒè¿›åˆ¶å­—ç¬¦ä¸²
+    //°Ñbyte×ª¶ş½øÖÆ×Ö·û´®
     public static String byte2Str0b(byte b){
         return Integer.toBinaryString((b & 0xFF) + 0x100).substring(1);
     }
 
 
     /**
-     * å»å·®åˆ†
-     * @param x å»å·®åˆ†è¿˜æ˜¯å·®åˆ†
+     * È¥²î·Ö
+     * @param x È¥²î·Ö»¹ÊÇ²î·Ö
      */
     public void changeBias(int x){
         switch (x){
             case 0:
-                for(int i = 1;i <=3;i++){//å»å·®åˆ†
+                for(int i = 1;i <=3;i++){//È¥²î·Ö
                     ArrayList<int[]> DC = null;
                     switch (i){
                         case 1:DC = yDCT;
@@ -581,7 +604,7 @@ public class JPEGs {
                 }
                 break;
             case 1:
-                for(int i = 1;i <=3;i++){//å·®åˆ†
+                for(int i = 1;i <=3;i++){//²î·Ö
                     ArrayList<int[]> DC = null;
                     switch (i){
                         case 1:DC = yDCT;
@@ -597,14 +620,14 @@ public class JPEGs {
                 }
                 break;
             default:
-                LOGGER.debug("æ— æ•ˆå‚æ•°è¾“å…¥");
+                LOGGER.debug("ÎŞĞ§²ÎÊıÊäÈë");
                 break;
         }
 
     }
 
     /**
-     * å°†æ•°æ®ä¸­çš„FF 00è½¬åŒ–ä¸ºFF
+     * ½«Êı¾İÖĞµÄFF 00×ª»¯ÎªFF
      */
     private void getTargetWithff00(){
         ArrayList<Byte> temp = new ArrayList<>();

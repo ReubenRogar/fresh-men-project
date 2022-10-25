@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class DCTable {
     /**
-     * ç›´æµHuffmanè¡¨
+     * Ö±Á÷Huffman±í
      */
 
     private final int[] category;
@@ -39,12 +39,16 @@ public class DCTable {
         }
     }
 
+    public int getMax(){
+        return category.length-1;
+    }
+
     public void outputDCTable(String fileName) {
         StringBuilder DCTable = new StringBuilder();
         for (int i = 0; i < category.length; i++) {
             DCTable.append(category[i] + "\s\s" + codeWord[i] + "\n");
         }
-        ImageToCode.dataToFile(DCTable.toString(), "./æµ‹è¯•ç”¨æ–‡æ¡£/" + fileName + ".txt");
+        ImageToCode.dataToFile(DCTable.toString(), "./²âÊÔÓÃÎÄµµ/" + fileName + ".txt");
     }
 
     public static String long2str0b(long code, int length) {
@@ -62,7 +66,7 @@ public class DCTable {
 
 
 
-    //å¾—åˆ°DCç±»åˆ«ï¼ˆé•¿åº¦ï¼‰
+    //µÃµ½DCÀà±ğ£¨³¤¶È£©
     public Point getCategory(StringBuffer codeS) {
         String code = codeS.toString();
         Point categoryAndCodeWordLength = new Point();
@@ -73,17 +77,17 @@ public class DCTable {
             }
         }
         if (i < codeWord.length) {
-//            JPEGs.LOGGER.info("DC{" + codeWord[i] + " é•¿åº¦:" + category[i] + "}");
+//            JPEGs.LOGGER.info("DC{" + codeWord[i] + " ³¤¶È:" + category[i] + "}");
             categoryAndCodeWordLength.x = category[i];
             categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;
         } else {
-            JPEGs.LOGGER.error("æ— æ³•è¯†åˆ«çš„huffmanç ï¼š"+code);
+            JPEGs.LOGGER.error("ÎŞ·¨Ê¶±ğµÄhuffmanÂë£º"+code);
             return new Point(0, 0);
         }
     }
 
-    //å¾—åˆ°DCå“ˆå¤«æ›¼ç 
+    //µÃµ½DC¹ş·òÂüÂë
     public String getHuffmanCode(int length) {
         int i = 0;
         for (; i < category.length; i++) {
@@ -93,7 +97,7 @@ public class DCTable {
             JPEGs.LOGGER.debug("length:"+length);
             throw new JPEGWrongStructureException("Wrong length!");
         }
-//        JPEGs.LOGGER.debug("DC{"+ codeWord[i]+" é•¿åº¦:"+length+"}");
+//        JPEGs.LOGGER.debug("DC{"+ codeWord[i]+" ³¤¶È:"+length+"}");
         return codeWord[i];
     }
 

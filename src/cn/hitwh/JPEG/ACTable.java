@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class ACTable {
     /**
-     * äº¤æµHuffmanè¡¨
+     * ½»Á÷Huffman±í
      */
 
         private final ArrayList<Point> runSize;
@@ -43,7 +43,7 @@ public class ACTable {
         for(int i = 0;i <runSize.size();i++){
             ACTable.append(runSize.get(i).x+"/"+runSize.get(i).y+"\s\s"+codeWord.get(i)+"\n");
         }
-        ImageToCode.dataToFile(ACTable.toString(),"./æµ‹è¯•ç”¨æ–‡æ¡£/"+filename+".txt");
+        ImageToCode.dataToFile(ACTable.toString(),"./²âÊÔÓÃÎÄµµ/"+filename+".txt");
     }
     public static String long2str0b(long code,int length){
         StringBuilder result = new StringBuilder();
@@ -58,9 +58,9 @@ public class ACTable {
     }
 
     /**
-     * è·å–run/size
-     * @param codeS äºŒè¿›åˆ¶æ•°æ®
-     * @return åŒ…å«ä¸‰ä¸ªå…ƒç´ çš„æ•°ç»„ï¼Œç¬¬ä¸€ä½ä¸ºrunï¼Œç¬¬äºŒä½ä¸ºsizeï¼Œç¬¬ä¸‰ä½ä¸ºè¯†åˆ«ç é•¿åº¦
+     * »ñÈ¡run/size
+     * @param codeS ¶ş½øÖÆÊı¾İ
+     * @return °üº¬Èı¸öÔªËØµÄÊı×é£¬µÚÒ»Î»Îªrun£¬µÚ¶şÎ»Îªsize£¬µÚÈıÎ»ÎªÊ¶±ğÂë³¤¶È
      */
     public int[] getRunSize(StringBuffer codeS){
             String code = codeS.toString();
@@ -71,10 +71,10 @@ public class ACTable {
                 }
             }
             if(i<codeWord.size()){
-//                JPEGs.LOGGER.info("AC{"+codeWord.get(i)+"å‰é›¶æ•°:"+runSize.get(i).x+"é•¿åº¦:"+runSize.get(i).y+"}");
+//                JPEGs.LOGGER.info("AC{"+codeWord.get(i)+"Ç°ÁãÊı:"+runSize.get(i).x+"³¤¶È:"+runSize.get(i).y+"}");
                 return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
             }else{
-                JPEGs.LOGGER.error("æ— æ³•è¯†åˆ«çš„å“ˆå¤«æ›¼è¡¨:"+code);
+                JPEGs.LOGGER.error("ÎŞ·¨Ê¶±ğµÄ¹ş·òÂü±í:"+code);
                 return new int[]{-1,0,0};
             }
         }
@@ -97,7 +97,7 @@ public class ACTable {
             }
 
             result.append(codeWord.get(i));
-//            JPEGs.LOGGER.debug("AC{"+result+"å‰é›¶æ•°:"+run+"é•¿åº¦:"+size+"}");
+//            JPEGs.LOGGER.debug("AC{"+result+"Ç°ÁãÊı:"+run+"³¤¶È:"+size+"}");
             return result.toString();
         }
 
