@@ -3,7 +3,7 @@ package cn.hitwh.JPEG;
 
 import cn.hitwh.Encrypt.KeyXU;
 import cn.hitwh.Encrypt.NewTypeEncrypt;
-import cn.hitwh.Rc4.RC4;
+import cn.hitwh.Encrypt.RC4;
 import com.google.common.primitives.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,12 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static cn.hitwh.JPEG.ImageToCode.imageToByte;
 
 public class JPEGs {
     //图片名称
-    private final String name;
+    private final String path;
     // 直流亮度表
     private DCTable DCL;
     // 直流色度表
@@ -48,8 +47,8 @@ public class JPEGs {
      * 构造器获取图片的huffman表和DCT数据
      */
     public JPEGs(String inFile) {
-        name = inFile;
-        image = imageToByte(name);
+        path = inFile;
+        image = imageToByte(path);
         ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
         //FF D8
         if (image[0] != -1 || image[1] != -40)
@@ -112,7 +111,6 @@ public class JPEGs {
         startOfSOS += image[startOfSOS] * 16 * 16 + image[startOfSOS + 1];
         target = new byte[endOfImage + 1 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
-        ImageToCode.dataToFile(ImageToCode.byteToString(target), inFile + "target1.txt");
         getTargetWithff00();
 
 
@@ -160,15 +158,19 @@ public class JPEGs {
         key = nteCr.getFinalKey();
         LOGGER.debug("size:"+CrDCT.size());
         LOGGER.debug(key.x + " " + key.u);
-        nteY.DCCGroupScramble();
-        nteCr.DCCGroupScramble();
-        nteCb.DCCGroupScramble();
-        nteY.DCCIterativeScramble(15,DDReset*samplingRatio,DCL.getMax());
-        nteCb.DCCIterativeScramble(15,DDReset,DCC.getMax());
-        nteCr.DCCIterativeScramble(15,DDReset,DCC.getMax());
-        nteY.ACCRunGroupScramble();
-        nteCb.ACCRunGroupScramble();
-        nteCr.ACCRunGroupScramble();
+
+
+        nteY.DCGroupScramble();
+        nteCr.DCGroupScramble();
+        nteCb.DCGroupScramble();
+        nteY.DCIterativeScramble(15,DDReset*samplingRatio,DCL.getMax());
+        nteCb.DCIterativeScramble(15,DDReset,DCC.getMax());
+        nteCr.DCIterativeScramble(15,DDReset,DCC.getMax());
+        nteY.ACRunGroupScramble();
+        nteCb.ACRunGroupScramble();
+        nteCr.ACRunGroupScramble();
+
+
         LOGGER.debug("Y:");
         LOGGER.debug(outputArr(yDCT));
         LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
@@ -206,6 +208,15 @@ public class JPEGs {
        getDCT();
 
        //加密
+       for (int[] ints : yDCT) {
+            RC4.Rc4(ints,"123456");
+       }
+       for (int[] ints : CbDCT) {
+           RC4.Rc4(ints,"123456");
+       }
+       for (int[] ints : CrDCT) {
+           RC4.Rc4(ints,"123456");
+       }
 
        setDCT();
        if(target.length == endOfImage - startOfSOS + 1)
@@ -233,54 +244,11 @@ public class JPEGs {
         return sb.toString();
     }
 
-    /**
-     * 提取DCT块
-     */
-     public static void rc4(int[] d) {
-            int[] s = new int[256];
-            String key;
-            System.out.println("input the key:");
-            Scanner in = new Scanner(System.in);
-            key = in.next();
-            int[] intKey = new int[d.length];
-            if(key.length()<=d.length) {
-                int i = 0;
-                for (; i < key.length(); i++) {
-                    intKey[i] = key.charAt(i);
-                }
-                for(int j = i+1 ;j<d.length;j++){
-                    intKey[j] = intKey[j-i-1];
-                }
-            }
-            if(key.length()>d.length){
-                for (int i = 0; i < d.length; i++) {
-                    intKey[i] = key.charAt(i);
-                }
-            }
-            System.out.print("init data:");
-            for (int j : d) {
-                System.out.print(j + " ");
-            }
-            System.out.println();
-            RC4.rc4_init(s, intKey, d.length );//s涓篟C4绠楁硶缃贡绠憋紱intKey涓哄瘑閽ユ暟缁勶紱d涓轰紶鍏ョ殑鍔犲瘑鏁扮粍
-            RC4.rc4_crypt(s,d,d.length );
-            System.out.print("after en: ");
-            for (int j : d) {
-                System.out.print(j + " ");
-            }
-            System.out.println();
-            RC4.rc4_init(s, intKey, d.length);
-            RC4.rc4_crypt(s,d,d.length);
-            System.out.print("en 2: ");
-            for (int j : d) {
-                System.out.print(j + " ");
-            }
-        }
+
 
     public void getDCT() {
         var code = new StringBuffer();
         int bytes = 0;//压缩数据byte数组的输入数
-        int allStart = 0;//Dc系数在压缩数据中的位置
         DCTable dcTable;
         ACTable acTable;
         yDCT = new ArrayList<>();
@@ -317,7 +285,6 @@ public class JPEGs {
             //RST间隔
             if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size()) {
 //                LOGGER.debug(code.substring(0,code.length()%8));
-                allStart+=code.length()%8;
                 code.delete(0, code.length() % 8);
             }
             var dct=new int[64];
@@ -330,11 +297,9 @@ public class JPEGs {
                 LOGGER.debug(" "+target[bytes-3]+" "+target[bytes-2]+" "+target[bytes-1]);
                 return;
             }
-            allStart += pDC.y;
             if (pDC.x == 0)
                 dct[0] = 0;
             else dct[0] = str0b2int(code.substring(pDC.y, pDC.x + pDC.y));//byte转int(DC)
-            allStart += pDC.x;
 //测试
 //            LOGGER.debug(code.substring(pDC.y, pDC.x + pDC.y)+":"+dct[0]+"allStart:"+allStart);
 
@@ -350,7 +315,6 @@ public class JPEGs {
                     if(pAC[0] == 0){// 0/0 EOB
                         code.delete(0,pAC[2]);
                         while(code.length()<32&&bytes<target.length)code.append(byte2Str0b(target[bytes++]));
-                        allStart += pAC[2];
                         DCT.add(dct);
                         break;
                     }else if(pAC[0] != 15){
@@ -370,7 +334,6 @@ public class JPEGs {
                 }
                 dct[index++] = str0b2int(code.substring(pAC[2],pAC[2]+pAC[1]));
                 code.delete(0,pAC[2]+pAC[1]);
-                allStart += pAC[2]+pAC[1];
                 //DCT块数据输入完毕
                 if(index == 64){
                     DCT.add(dct);
@@ -483,7 +446,6 @@ public class JPEGs {
         LOGGER.debug("before:"+(endOfImage - startOfSOS+1));
         target = Bytes.toArray(bytes);
         LOGGER.debug("after:"+target.length);
-        ImageToCode.dataToFile(ImageToCode.byteToString(target), name + "target2.txt");
     }
 
 
@@ -688,8 +650,5 @@ public class JPEGs {
         }
         target = Bytes.toArray(temp);
     }
-    public static void main(String args[]){
-        int[] d = {2,2,7,9,79};
-        rc4(d);//璋冪敤rc4鏂规硶
-    }
+
 }

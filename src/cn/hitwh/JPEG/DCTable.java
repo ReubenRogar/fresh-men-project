@@ -15,8 +15,6 @@ public class DCTable {
         codeWord = new String[image.length-16];
         byte[] length = new byte[16];
         System.arraycopy(image, 0, length, 0, length.length);
-//        JPEGs.LOGGER.debug(ImageToCode.byteToString(length));
-//        JPEGs.LOGGER.debug("num:"+(image.length-16));
         for (int i = 16; i < image.length; i++) {
             category[i - 16] = image[i]&0xFF;
         }

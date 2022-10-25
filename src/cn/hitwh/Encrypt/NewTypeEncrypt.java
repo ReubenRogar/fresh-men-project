@@ -8,12 +8,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class NewTypeEncrypt {
     private ArrayList<int[]> DCTs;
-    private KeyXU originKey;
-    private KeyXU finalKey;
+    final private KeyXU finalKey;
 
     /**
      * 依据dct数据建立密钥
@@ -23,7 +21,7 @@ public class NewTypeEncrypt {
      */
     public NewTypeEncrypt(ArrayList<int[]> d, KeyXU k) throws NoSuchAlgorithmException {
         DCTs = d;
-        originKey = k;
+        KeyXU originKey = k;
 
         int[] mount = new int[64];
         int[] dct;
@@ -77,7 +75,7 @@ public class NewTypeEncrypt {
             hashFeature = hashFeature.substring(9);
             addUKey += ""+count;
         }
-        finalKey = new KeyXU(  Double.valueOf(""+ originKey.x+addXKey),Double.valueOf(""+ originKey.u+addUKey));
+        finalKey = new KeyXU(  Double.parseDouble(""+ originKey.x+addXKey),Double.parseDouble(""+ originKey.u+addUKey));
     }
 
 
@@ -104,7 +102,7 @@ public class NewTypeEncrypt {
     /**
      * DCC分组置乱
      */
-    public void DCCGroupScramble(){
+    public void DCGroupScramble(){
         double[] scrambles = new double[DCTs.size()];
         scrambles[0] = finalKey.x;
         for(int i = 1;i < scrambles.length;i++){
@@ -151,7 +149,7 @@ public class NewTypeEncrypt {
      * @param iterations 迭代次数
      * @param resetInterval DCT重置间隔
      */
-    public void DCCIterativeScramble(int iterations,int resetInterval,int max) {
+    public void DCIterativeScramble(int iterations, int resetInterval, int max) {
         for (int group = 1; group <= iterations; group++) {
             //置乱序列初始化
             double[] scrambles = new double[(int) Math.ceil((double) DCTs.size() / (2 * group))];
@@ -162,7 +160,7 @@ public class NewTypeEncrypt {
             Arrays.sort(scrambles);
             //处理分组
             int lastDC = 0;//记录到start1 - 1的真值
-            int value = 0;//记录假如置乱后某位上的真值
+            int value;//记录假如置乱后某位上的真值
             SCR:
             for (int i = 0; i < scrambles.length - 1; i++) {
                 String s = String.valueOf(scrambles[i]);
@@ -216,7 +214,7 @@ public class NewTypeEncrypt {
     /**
      * 相同游程ACC全局加密
      */
-    public void ACCRunGroupScramble(){
+    public void ACRunGroupScramble(){
         ArrayList<NonZeroAC> runZero = new ArrayList<>();
         ArrayList<NonZeroAC> runOne = new ArrayList<>();
         ArrayList<Point> runZeroSite = new ArrayList<>();
@@ -249,45 +247,8 @@ public class NewTypeEncrypt {
         for(int i = 1;i < runOne.size();i++){
             runOne.get(i).id = finalKey.u * runOne.get(i-1).id * (1 - runOne.get(i-1).id);//x(n+1) = u * x(n) * (1 - x(n))
         }
-
-//        for(int i = 0;i < runZero.size() - 1;i++){
-//            int min = i;
-//            for(int j = i+1;j < runZero.size();j++){
-//                if(runZero.get(j).id < runZero.get(min).id)
-//                    min = j;
-//            }
-//            double temp1 = runZero.get(min).id;
-//            runZero.get(min).id = runZero.get(i).id;
-//            runZero.get(i).id = temp1;
-//            int temp2 = runZero.get(min).value;
-//            runZero.get(min).value = runZero.get(i).value;
-//            runZero.get(i).value = temp2;
-//        }//end if
-        runZero.sort(new Comparator<NonZeroAC>() {
-            @Override
-            public int compare(NonZeroAC o1, NonZeroAC o2) {
-                return o1.id > o2.id? 1 : -1 ;
-            }
-        });
-//        for(int i = 0;i < runOne.size() - 1;i++){
-//            int min = i;
-//            for(int j = i+1;j < runOne.size();j++){
-//                if(runOne.get(j).id < runOne.get(min).id)
-//                    min = j;
-//            }
-//            double temp1 = runOne.get(min).id;
-//            runOne.get(min).id = runOne.get(i).id;
-//            runOne.get(i).id = temp1;
-//            int temp2 = runOne.get(min).value;
-//            runOne.get(min).value = runOne.get(i).value;
-//            runOne.get(i).value = temp2;
-//        }//end if
-        runOne.sort(new Comparator<NonZeroAC>() {
-            @Override
-            public int compare(NonZeroAC o1, NonZeroAC o2) {
-                return o1.id > o2.id? 1 : -1 ;
-            }
-        });
+        runZero.sort((o1, o2) -> o1.id > o2.id? 1 : -1);
+        runOne.sort((o1, o2) -> o1.id > o2.id? 1 : -1);
         for(int i = 0;i < runZeroSite.size();i++){
             DCTs.get(runZeroSite.get(i).x)[runZeroSite.get(i).y] = runZero.get(i).value;
         }
@@ -296,7 +257,12 @@ public class NewTypeEncrypt {
         }
     }
 
+    /**
+     * 相同游程ACC全局解密
+     */
+        public void ACRunGroupDecode(){
 
+    }
 }
 
 /**

@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="修改JPEGs">
-      <change afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/RC4.java" afterDir="false" />
+    <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/RC4Util.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/myrc4.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/RC4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/RC4.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Rc4/A.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Rc4/RC4.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +27,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -44,6 +56,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\programming_demo\freshman-year-project\lib" />
@@ -55,7 +72,20 @@
       <recent name="cn.hitwh.JPEG" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.RC4">
+  <component name="RunManager" selected="应用程序.Client">
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.hitwh.Client" />
+      <module name="First-Java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.hitwh.Encrypt.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="加密.JPEGs" />
       <module name="First-Java" />
@@ -95,25 +125,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RC4" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cn.hitwh.JPEG.RC4" />
-      <module name="First-Java" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cn.hitwh.JPEG.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="cn.hitwh.JPEG.JPEGs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cn.hitwh.JPEG.JPEGs" />
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cn.hitwh.JPEG.*" />
+          <option name="PATTERN" value="cn.hitwh.Encrypt.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -126,7 +143,7 @@
       <module name="First-Java" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cn.hitwh.JPEG.*" />
+          <option name="PATTERN" value="cn.hitwh.Encrypt.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -134,16 +151,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="应用程序.RC4" />
-      <item itemvalue="应用程序.cn.hitwh.JPEG.JPEGs" />
-      <item itemvalue="应用程序.JPEGs" />
-      <item itemvalue="应用程序.myrc4" />
-      <item itemvalue="应用程序.OutputFormat" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.RC4" />
+        <item itemvalue="应用程序.Client" />
         <item itemvalue="应用程序.myrc4" />
         <item itemvalue="应用程序.cn.hitwh.JPEG.JPEGs" />
         <item itemvalue="应用程序.JPEGs" />
@@ -193,14 +203,7 @@
       <workItem from="1666623392244" duration="459000" />
       <workItem from="1666624983312" duration="1854000" />
       <workItem from="1666678831282" duration="5293000" />
-      <workItem from="1666694843515" duration="5778000" />
-    </task>
-    <task id="LOCAL-00033" summary="修改getDCTOnlyDC">
-      <created>1650460138357</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1650460138357</updated>
+      <workItem from="1666694843515" duration="9973000" />
     </task>
     <task id="LOCAL-00034" summary="修改getDCTOnlyDC">
       <created>1650460189756</created>
@@ -538,7 +541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666617239478</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="完善NewTypeEncrypt类">
+      <created>1666700971397</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1666700971397</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,7 +566,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="String改用StringBuffer，添加程序健壮性和效率" />
     <MESSAGE value="修改getDCT()方法,整合两个debug方法debugDC()和debugDCT()，测试时先建立JPEGs对象然后调用这两个方法中的一个，注意：debugDCT输出的结果中dc系数未去差分" />
     <MESSAGE value="修改getHuffmanTable()，现在可正常读取单一DHT多定义字段的哈夫曼表" />
     <MESSAGE value="删除不必要的加密函数，完善setDCT()(未测试）" />
@@ -581,6 +590,7 @@
     <MESSAGE value="优化代码" />
     <MESSAGE value="修改NewTypeEncrypt()" />
     <MESSAGE value="修改JPEGs" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改JPEGs" />
+    <MESSAGE value="完善NewTypeEncrypt类" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善NewTypeEncrypt类" />
   </component>
 </project>

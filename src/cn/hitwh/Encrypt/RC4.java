@@ -1,7 +1,7 @@
-package cn.hitwh.JPEG;
-import java.util.Scanner;
+package cn.hitwh.Encrypt;
+
 public class RC4 {
-    public static void rc4_init(int[] s, int[] key, int Len)
+    private static void rc4_init(int[] s, int[] key, int Len)
     {
         int i = 0;
         int j = 0;
@@ -16,15 +16,15 @@ public class RC4 {
         for (i = 0; i < 256; i++)
         {
             j = (j + s[i] + k[i]) % 256;
-            //ï¿½ï¿½ï¿½ï¿½s[i]ï¿½ï¿½s[j]
+            //????s[i]??s[j]
             tmp = s[i];
             s[i] = s[j];
             s[j] = tmp;
         }
     }
 
-    //ï¿½Ó½ï¿½ï¿½ï¿½
-    public static void rc4_crypt(int[] s, int[] Data, int Len)
+    //?????
+    private static void rc4_crypt(int[] s, int[] Data, int Len)
     {
         int i = 0;
         int j = 0;
@@ -36,7 +36,7 @@ public class RC4 {
         {
             i = (i + 1) % 256;
             j = (j + s[i]) % 256;
-            //ï¿½ï¿½ï¿½ï¿½s[x]ï¿½ï¿½s[y]
+            //????s[x]??s[y]
             tmp = s[i];
             s[i] = s[j];
             s[j] = tmp;
@@ -44,13 +44,9 @@ public class RC4 {
             Data[k] ^= s[t];
         }
     }
-    public  void Rc4(int d[])
+    public static void Rc4(int[] d,String key)
     {
         int[] s = new int[256];
-        String key;
-        System.out.println("input the key:");
-        Scanner in = new Scanner(System.in);
-        key = in.next();
         int[] intKey = new int[d.length];
         if(key.length()<=d.length) {
             int i = 0;
@@ -71,7 +67,7 @@ public class RC4 {
             System.out.print(j + " ");
         }
         System.out.println();
-        RC4.rc4_init(s, intKey, d.length );//sä¸ºRC4ç®—æ³•ç½®ä¹±ç®±ï¼›intKeyä¸ºå¯†é’¥æ•°ç»„ï¼›dä¸ºä¼ å…¥çš„åŠ å¯†æ•°ç»„
+        RC4.rc4_init(s, intKey, d.length );//sÎªRC4Ëã·¨ÖÃÂÒÏä£»intKeyÎªÃÜÔ¿Êý×é£»dÎª´«ÈëµÄ¼ÓÃÜÊý×é
         RC4.rc4_crypt(s,d,d.length );
         System.out.print("after en: ");
         for (int j : d) {
@@ -85,10 +81,5 @@ public class RC4 {
             System.out.print(j + " ");
         }
     }
-    public static void main(String[] agrs){
-        int[] d = {2,2,3,4,1,4,0};
-        RC4 Rc4start =new RC4();
-        Rc4start.Rc4(d);
-
-    }
+    
 }
