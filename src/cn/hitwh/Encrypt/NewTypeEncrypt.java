@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class NewTypeEncrypt {
     private ArrayList<int[]> DCTs;
     final private KeyXU finalKey;
+    public static ArrayList<String> log = new ArrayList<>();
 
     /**
      * 依据dct数据建立密钥
@@ -98,7 +99,7 @@ public class NewTypeEncrypt {
     }
 
     /**
-     * DCC分组置乱
+     * DC分组置乱
      */
     public void DCGroupScramble(){
         double[] scrambles = new double[DCTs.size()];
@@ -142,6 +143,54 @@ public class NewTypeEncrypt {
     }
 
     /**
+     * DC分组还原
+     */
+    public void DCGroupDecode(){
+        SortFactor[] scrambles = new SortFactor[DCTs.size()];
+        scrambles[0] = new SortFactor(0,finalKey.x);
+        for (int i = 1;i < scrambles.length;i++){
+            scrambles[i] = new SortFactor(i,finalKey.u * scrambles[i-1].TAG*(1 - scrambles[i-1].TAG));
+        }
+        int start = 0,end = 0;
+        dcts:
+        while(start != DCTs.size() -1 && end != DCTs.size() -1){
+            //越过0
+            while(DCTs.get(start)[0] == 0 && start < DCTs.size()){
+                start++;
+                if(start == DCTs.size())break dcts;
+            }
+            end = start;
+            //确定同号dcc数
+            while(end < DCTs.size()-1 && DCTs.get(end)[0] *DCTs.get(end+1)[0] > 0 ){
+                end++;
+            }
+            //多个同号dcc
+            if(start != end){
+                //置乱排序
+                for(int i = start;i < end;i++){
+                    int min = i;
+                    for(int j = i + 1;j <= end;j++){
+                        if(scrambles[j].TAG < scrambles[min].TAG){
+                            min = j;
+                        }
+                    }
+                    SortFactor temp1 = scrambles[i];
+                    scrambles[i] = scrambles[min];
+                    scrambles[min] = temp1;
+                }//end for
+            }//end if
+            start = end + 1;
+        }//end while
+        for(int i = 0;i < DCTs.size();i++){
+            scrambles[i].value = DCTs.get(i)[0];
+        }
+        Arrays.sort(scrambles,(o1,o2) -> o1.id > o2.id ? 1:-1);
+        for(int i = 0;i < DCTs.size();i++){
+              DCTs.get(i)[0]=scrambles[i].value;
+        }
+    }
+
+    /**
      * DCC迭代置乱
      * @param max 图片允许的DCC的位数
      * @param iterations 迭代次数
@@ -161,7 +210,7 @@ public class NewTypeEncrypt {
             int lastDC = 0;//记录到start1 - 1的真值
             int value;//记录假如置乱后某位上的真值
             SCR:
-            for (int i = 0; i < scrambles.length - 1; i++) {
+            for (int i = 0; i <= scrambles.length - 2; i++) {
                 String s = String.valueOf(scrambles[i]);
                 int c = Integer.parseInt(s.substring(s.length() - 1));
                 //以置乱比特流确定是否置乱，奇数表‘1’则置乱
@@ -191,6 +240,7 @@ public class NewTypeEncrypt {
                         }//end if
                     }//end for
                     //进行置乱
+                    log.add("Group:"+group+"  ["+start1+"]:"+DCTs.get(start1)[0]+"   ["+start2+"]:"+DCTs.get(start2)[0]);
                     count++;
                     for(int index = start1;index <= end1;index++){
                         int temp = DCTs.get(index)[0];
@@ -261,6 +311,7 @@ public class NewTypeEncrypt {
                         //超过huf表示范围
                         if (Math.abs(value) >= 1 << max) {
                             //设置lastDC
+                            if(resetInterval == 0)
                             for (int x = i * 2 * group - 1; x >= (i - 1) * 2 * group; x--) {
                                 if (resetInterval != 0 && x % resetInterval == 0) {
                                     if(lastDC != DCTs.get(x)[0])throw new RuntimeException("带RST图片lastDC计算错误");
@@ -280,6 +331,17 @@ public class NewTypeEncrypt {
                     }//end for
                     //进行还原
                     count++;
+                    String l = "Group:"+group+"  ["+start1+"]:"+DCTs.get(start2)[0]+"   ["+start2+"]:"+DCTs.get(start1)[0];
+                    if(!log.isEmpty() && l.equals(log.get(log.size()-1))){
+                        log.remove(log.size()-1);
+                    }else{
+                        JPEGs.LOGGER.debug("------------------------------------");
+                        JPEGs.LOGGER.debug("No."+count);
+                        while(!log.isEmpty() && l.equals(log.get(log.size()-1))){
+                            JPEGs.LOGGER.debug(log.get(log.size()-1));
+                            log.remove(log.size()-1);
+                        }
+                    }
                     for (int index = start1; index <= end1; index++) {
                         int temp = DCTs.get(index)[0];
                         DCTs.get(index)[0] = DCTs.get(index + group)[0];
@@ -428,5 +490,11 @@ class SortFactor {
         this.TAG = 0;
         this.value = 0;
         this.id = 0;
+    }
+
+    public SortFactor(int id,double TAG){
+        this.id = id;
+        this.TAG = TAG;
+        this.value = Integer.MAX_VALUE;
     }
 }

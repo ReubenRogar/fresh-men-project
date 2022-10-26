@@ -50,6 +50,7 @@ public class JPEGs {
         path = inFile;
         image = imageToByte(path);
         ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
+        LOGGER.debug(path);
         //FF D8
         if (image[0] != -1 || image[1] != -40)
             throw new JPEGWrongStructureException("The start of the file doesn't match JPEG");
@@ -119,7 +120,7 @@ public class JPEGs {
     /**
      * 获取并加密dct系数并显示过程结果
      */
-    public  void encryptDCT() throws NoSuchAlgorithmException {
+    public  void encryptDCT(int it) throws NoSuchAlgorithmException {
         getDCT();
 //        LOGGER.debug("Y:");
 //        LOGGER.debug(outputArr(yDCT));
@@ -156,10 +157,10 @@ public class JPEGs {
         LOGGER.debug(key.x + " " + key.u);
 
 
-//        nteY.DCGroupScramble();
-//        nteCr.DCGroupScramble();
-//        nteCb.DCGroupScramble();
-        LOGGER.debug("次数"+nteY.DCIterativeScramble(15,DDReset*samplingRatio,DCL.getMax()));
+        nteY.DCGroupScramble();
+        nteCr.DCGroupScramble();
+        nteCb.DCGroupScramble();
+//        LOGGER.debug("次数"+nteY.DCIterativeScramble(it,DDReset*samplingRatio,DCL.getMax()));
 //        LOGGER.debug("次数"+nteCb.DCIterativeScramble(15,DDReset,DCC.getMax()));
 //        LOGGER.debug("次数"+nteCr.DCIterativeScramble(15,DDReset,DCC.getMax()));
 //        nteY.ACRunGroupScramble();
@@ -203,7 +204,7 @@ public class JPEGs {
     /**
      * 获取并解密dct系数并显示过程结果
      */
-    public  void decodeDCT() throws NoSuchAlgorithmException {
+    public  void decodeDCT(int it) throws NoSuchAlgorithmException {
         getDCT();
 //        LOGGER.debug("Y:");
 //        LOGGER.debug(outputArr(yDCT));
@@ -240,17 +241,17 @@ public class JPEGs {
         LOGGER.debug(key.x + " " + key.u);
 
 
-//        nteY.DCGroupScramble();
-//        nteCr.DCGroupScramble();
-//        nteCb.DCGroupScramble();
+
 
 //        nteY.ACRunGroupDecode();
 //        nteCb.ACRunGroupDecode();
 //        nteCr.ACRunGroupDecode();
-        LOGGER.debug("次数"+nteY.DCIterativeDecode(15,DDReset*samplingRatio,DCL.getMax()));
+//        LOGGER.debug("次数"+nteY.DCIterativeDecode(it,DDReset * samplingRatio,DCL.getMax()));
 //        LOGGER.debug("次数"+nteCb.DCIterativeDecode(15,DDReset,DCC.getMax()));
 //        LOGGER.debug("次数"+nteCr.DCIterativeDecode(15,DDReset,DCC.getMax()));
-
+        nteY.DCGroupDecode();
+        nteCr.DCGroupDecode();
+        nteCb.DCGroupDecode();
 
 //        LOGGER.debug("Y:");
 //        LOGGER.debug(outputArr(yDCT));
@@ -284,7 +285,7 @@ public class JPEGs {
         }
         ImageToCode.outputImage("测试用图片/测试.jpg",image);
     }
-   public void debugDCT(){
+   public void RC4DCT(){
        getDCT();
 
        //加密
