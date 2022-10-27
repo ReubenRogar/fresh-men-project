@@ -197,14 +197,9 @@
       <workItem from="1666694843515" duration="11366000" />
       <workItem from="1666707723947" duration="1521000" />
       <workItem from="1666749627211" duration="6095000" />
-      <workItem from="1666771488748" duration="8948000" />
-    </task>
-    <task id="LOCAL-00037" summary="新加密密钥构建">
-      <created>1659712534906</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1659712534906</updated>
+      <workItem from="1666771488748" duration="20687000" />
+      <workItem from="1666797399679" duration="1636000" />
+      <workItem from="1666836362652" duration="14791000" />
     </task>
     <task id="LOCAL-00038" summary="新加密密钥构建">
       <created>1659712616405</created>
@@ -542,7 +537,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666772461301</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="实现三次解密方法，DC迭代解密还存在bug">
+      <created>1666782182489</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1666782182489</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -560,7 +562,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="添加对222支持" />
     <MESSAGE value="删除测试图片" />
     <MESSAGE value=" 修改getHuffmanTable(),解决在单一DHT多字段的情况下读取缺位的问题" />
     <MESSAGE value="添加.gitignore" />
@@ -585,6 +586,7 @@
     <MESSAGE value="代码精简，减少警告" />
     <MESSAGE value="修改RC4类，方法全改为静态，参数添加密钥" />
     <MESSAGE value="实现两次解密方法" />
-    <option name="LAST_COMMIT_MESSAGE" value="实现两次解密方法" />
+    <MESSAGE value="实现三次解密方法，DC迭代解密还存在bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="实现三次解密方法，DC迭代解密还存在bug" />
   </component>
 </project>
