@@ -1,5 +1,8 @@
 package cn.hitwh.JPEG;
 
+/**
+ * jpegΩ·ππ“Ï≥£
+ */
 public class JPEGWrongStructureException extends RuntimeException {
     public JPEGWrongStructureException() {
     }

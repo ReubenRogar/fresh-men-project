@@ -10,13 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class NewTypeEncrypt {
-    private ArrayList<int[]> DCTs;
+    private ArrayList<int[]> DCTs;//处理的DCT数据
     int resetInterval;//DCT重置间隔
     int max;//图片允许的DCC的位数
-    final private KeyXU finalKey;
-//    public static ArrayList<String> logScr = new ArrayList<>();
-    public static ArrayList<Integer> ScrDC = new ArrayList<>();
-//    public static ArrayList<String> logDec = new ArrayList<>();
+    final private KeyXU finalKey;//利用初始密钥和图像特征计算得到的最终密钥
 
     /**
      * 依据dct数据建立密钥
@@ -96,18 +93,9 @@ public class NewTypeEncrypt {
     }
 
     /**
-     * 显示密钥
-     * @return 密钥
-     */
-    public KeyXU getFinalKey() {
-        return finalKey;
-    }
-
-
-    /**
      * 获取DCTs中第i个DC系数真值
-     * @param i
-     * @return
+     * @param i DC系数位置
+     * @return DC系数真值
      */
     public int getValue(int i){
         int index;
@@ -124,24 +112,6 @@ public class NewTypeEncrypt {
     }
 
 
-//    /**
-//     * debug
-//     */
-//    public static void compare(){
-//        if(logScr.size() == logDec.size())return;
-//        for(int i = 0,j = 0;i < logDec.size() && j < logScr.size();i++,j++){
-//            if(!logDec.get(i).equals(logScr.get(j))){
-//                while (logScr.indexOf(logDec.get(i)) == -1 && i <logDec.size()){
-//                    JPEGs.LOGGER.debug("还原："+logDec.get(i++));
-//                }
-//                while (j <= logScr.indexOf(logDec.get(i))){
-//                        JPEGs.LOGGER.debug("置乱："+logScr.get(j++));
-//                    }
-//
-//            }
-//        }
-//    }
-
     /**
      * DC分组置乱
      */
@@ -152,12 +122,12 @@ public class NewTypeEncrypt {
            scrambles[i] = finalKey.u * scrambles[i-1]*(1-scrambles[i-1]);//x(n+1) = u * x(n) * (1 - x(n))
         }
         int start = 0,end = 0;
-        dcts:
+        DCTs:
         while(start != DCTs.size() -1 && end != DCTs.size() -1){
             //越过0
-            while(DCTs.get(start)[0] == 0 && start < DCTs.size()){
+            while(DCTs.get(start)[0] == 0){
                 start++;
-                if(start == DCTs.size())break dcts;
+                if(start == DCTs.size())break DCTs;
             }
             end = start;
             //确定同号dcc数
@@ -196,12 +166,12 @@ public class NewTypeEncrypt {
             scrambles[i] = new SortFactor(i,finalKey.u * scrambles[i-1].TAG*(1 - scrambles[i-1].TAG));
         }
         int start = 0,end = 0;
-        dcts:
+        DCTs:
         while(start != DCTs.size() -1 && end != DCTs.size() -1){
             //越过0
-            while(DCTs.get(start)[0] == 0 && start < DCTs.size()){
+            while(DCTs.get(start)[0] == 0){
                 start++;
-                if(start == DCTs.size())break dcts;
+                if(start == DCTs.size())break DCTs;
             }
             end = start;
             //确定同号dcc数
@@ -238,9 +208,7 @@ public class NewTypeEncrypt {
      * DCC迭代置乱
      * @param iterations 迭代次数
      */
-    public Point DCIterativeScramble(int iterations) {
-        int jumpCount = 0;
-        int ScrCount = 0;
+    public void DCIterativeScramble(int iterations) {
         for (int group = 1; group <= iterations; group++) {
             //置乱序列初始化
             double[] scrambles = new double[(int) Math.ceil((double) DCTs.size() / (2 * group))];
@@ -265,7 +233,6 @@ public class NewTypeEncrypt {
                         }
                     }//end for
                 }
-                ScrDC.add(lastDC);
                 String s = String.valueOf(scrambles[i]);
                 int c = Integer.parseInt(s.substring(s.length() - 1));
                 //以置乱比特流确定是否置乱，奇数表‘1’则置乱
@@ -287,14 +254,10 @@ public class NewTypeEncrypt {
                         }
                         if (Math.abs(preValue) >= 1 << max || Math.abs(srcValue) >= 1 << max) {
                             //无法转置
-//                            JPEGs.LOGGER.debug("置乱跳过JUMP    Group:"+group+"    start:"+start1+"    end:"+end2+"    lastDC:"+lastDC);
-                            if (Math.abs(preValue) >= i << max) ScrCount++;
-                            jumpCount++;
                             continue SCR;
                         }//end if
                     }//end for
                     //进行置乱
-//                    JPEGs.LOGGER.debug("COMPLETE置乱    Group:"+group+"    start:"+start1+"    end:"+end2+"    lastDC:"+lastDC);
                     for (int index = start1; index <= end1; index++) {
                         int temp = DCTs.get(index)[0];
                         DCTs.get(index)[0] = DCTs.get(index + group)[0];
@@ -302,20 +265,14 @@ public class NewTypeEncrypt {
                     }
                 }//end if
             }//end for
-//            JPEGs.LOGGER.debug(""+getValue((scrambles.length-2)*2*group -1));
         }//end for
-
-        return new Point(jumpCount,ScrCount);
     }
 
     /**
      * DCC迭代解密
      * @param iterations 迭代次数
      */
-    public Point DCIterativeDecode(int iterations){
-        int jumpCount = 0;
-        int ScrCount = 0;
-        int In = ScrDC.size() - 1;
+    public void DCIterativeDecode(int iterations){
         for(int group = iterations; group >= 1;group--){
             //置乱序列初始化
             double[] scrambles = new double[(int) Math.ceil((double) DCTs.size() / (2 * group))];
@@ -325,7 +282,7 @@ public class NewTypeEncrypt {
             }
             Arrays.sort(scrambles);
             //处理分组
-            int lastDC = 0;//记录到start1 - 1的真值
+            int lastDC;//记录到start1 - 1的真值
             int preValue;//记录目前某位上的值
             int srcValue;//记录假如置乱后某位上的真值
             int lastDCSite = (scrambles.length - 2)*2*group - 1;
@@ -333,8 +290,8 @@ public class NewTypeEncrypt {
             RES:
             for(int i = scrambles.length - 2;i >= 0;i--) {
                 //设置lastDC
-                if(i < scrambles.length - 2)
-                for (int x = (i+1) * 2 * group - 1; x >= i * 2 * group; x--) {
+                if(i < scrambles.length - 2) {
+                    for (int x = (i + 1) * 2 * group - 1; x >= i * 2 * group; x--) {
                         if (resetInterval != 0 && x % resetInterval == 0) {
                             lastDCSite = i * 2 * group - 1;
                             lastDC = getValue(lastDCSite);
@@ -342,7 +299,8 @@ public class NewTypeEncrypt {
                         } else {
                             lastDC -= DCTs.get(x)[0];
                         }
-                }//end for
+                    }//end for
+                }
                 String s = String.valueOf(scrambles[i]);
                 int c = Integer.parseInt(s.substring(s.length() - 1));
                 //以置乱比特流确定是否还原，奇数‘1’则还原
@@ -364,15 +322,10 @@ public class NewTypeEncrypt {
                         }
                         //超过huf表示范围
                         if ( Math.abs(preValue) >= 1 << max||Math.abs(srcValue) >= 1 <<max) {
-//                            JPEGs.LOGGER.debug("presentDC:" +DCTs.get(real)[0] +" count:"+srcValue);
-//                            JPEGs.LOGGER.debug("还原跳过JUMP    Group:"+group+"    start:"+start1+"    end:"+end2+"    lastDC:"+lastDC);
-                            if(Math.abs(preValue) >= i << max)ScrCount++;
-                            jumpCount++;
                             continue RES;
                         }//end if
                     }//end for
                     //进行还原
-//                    JPEGs.LOGGER.debug("COMPLETE还原    Group:"+group+"    start:"+start1+"    end:"+end2+"    lastDC:"+lastDC);
                     for (int index = start1; index <= end1; index++) {
                         int temp = DCTs.get(index)[0];
                         DCTs.get(index)[0] = DCTs.get(index + group)[0];
@@ -380,9 +333,7 @@ public class NewTypeEncrypt {
                     }
                 }//end if
             }//end Res for
-//            JPEGs.LOGGER.debug(""+getValue((scrambles.length-2)*2*group -1));
         }//end for
-        return new Point(jumpCount,ScrCount);
     }
 
     /**

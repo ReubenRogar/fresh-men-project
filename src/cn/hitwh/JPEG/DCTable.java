@@ -21,15 +21,12 @@ public class DCTable {
         int index = 0, i = 0;
         long code = 0;
         while (index < image.length-16) {
-            //JPEGs.LOGGER.debug("index:" + index+" "+"i:"+i);
             while (length[i] == 0) {
-                //JPEGs.LOGGER.debug("I:"+i);
                 if (index != 0) code *= 2;
                 i++;
             }
             for (int j = 0; j < length[i]; j++) {
                 codeWord[index++] = long2str0b(code, i + 1);
-                //JPEGs.LOGGER.debug(codeWord[index-1]);
                 code++;
             }
             i++;
@@ -75,12 +72,10 @@ public class DCTable {
             }
         }
         if (i < codeWord.length) {
-//            JPEGs.LOGGER.info("DC{" + codeWord[i] + " 长度:" + category[i] + "}");
             categoryAndCodeWordLength.x = category[i];
             categoryAndCodeWordLength.y = codeWord[i].length();
             return categoryAndCodeWordLength;
         } else {
-            JPEGs.LOGGER.error("无法识别的huffman码："+code);
             return new Point(0, 0);
         }
     }
@@ -92,8 +87,7 @@ public class DCTable {
             if (length == category[i]) break;
         }
         if(i == category.length){
-            JPEGs.LOGGER.debug("length:"+length);
-            throw new JPEGWrongStructureException("Wrong length!");
+            throw new JPEGWrongStructureException("Wrong length! length:"+length);
         }
         return codeWord[i];
     }

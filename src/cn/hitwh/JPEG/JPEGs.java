@@ -3,7 +3,6 @@ package cn.hitwh.JPEG;
 
 import cn.hitwh.Encrypt.KeyXU;
 import cn.hitwh.Encrypt.NewTypeEncrypt;
-import cn.hitwh.Encrypt.RC4;
 import com.google.common.primitives.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,20 +36,31 @@ public class JPEGs {
     private int width;//图片的宽度
     private int samplingRatio;//图片的采样模式
 
-    private int DDReset = 0;//FF DD段定义的扫描行复位间隔
+    private int resetInterval = 0;//FF DD段定义的扫描行复位间隔
 
+    public String getPath() {
+        return path;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getSamplingRatio() {
+        return samplingRatio;
+    }
 
     //Logback框架
     public static final Logger LOGGER = LoggerFactory.getLogger("JPEGs.class");
 
-    public ArrayList<int[]> getyDCT(){
-        return yDCT;
-    }
-
     /**
      * 构造器获取图片的huffman表和DCT数据
      */
-    public JPEGs(String inFile) {
+    public JPEGs(String inFile) throws JPEGWrongStructureException{
         path = inFile;
         image = imageToByte(path);
         ImageToCode.dataToFile(ImageToCode.byteToString(image), inFile + ".txt");
@@ -69,7 +79,7 @@ public class JPEGs {
                     case -64:
                         case -62:
                         LOGGER.debug("SOF0");
-                        DDReset = 0;
+                        resetInterval = 0;
                         LOGGER.debug("DDReset reset");
                         index += 5;
                         height = (image[index] & 0xFF) * 16 * 16 + (image[index + 1] & 0xFF);
@@ -100,9 +110,9 @@ public class JPEGs {
                     case -35:
                         LOGGER.debug("DRI");
                         index += 4;
-                        DDReset = (image[index] & 0xFF) * 16 * 16 + (image[index + 1] & 0xFF);
+                        resetInterval = (image[index] & 0xFF) * 16 * 16 + (image[index + 1] & 0xFF);
                         LOGGER.debug(image[index] + " " + image[index + 1]);
-                        LOGGER.debug("DDReset:" + DDReset);
+                        LOGGER.debug("DDReset:" + resetInterval);
                     break;
                     //FF D9
                     case -39:
@@ -117,164 +127,61 @@ public class JPEGs {
         target = new byte[endOfImage + 1 - startOfSOS];
         System.arraycopy(image, startOfSOS, target, 0, target.length);
         getTargetWithff00();
-        getDCT();
-
+        try {
+            getDCT();
+        }catch (ArrayIndexOutOfBoundsException e){
+            throw new JPEGWrongStructureException("非支持类型JPEG");
+        }
     }
 
     /**
      * 获取并加密dct系数并显示过程结果
      */
-    public  void encryptDCT(int it) throws NoSuchAlgorithmException {
-
-//        LOGGER.debug("Y:");
-//        LOGGER.debug(outputArr(yDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cb:");
-//        LOGGER.debug(outputArr(CbDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cr:");
-//        LOGGER.debug(outputArr(CrDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
+    public  void encryptDCT(int iterations) throws NoSuchAlgorithmException {
         //Y
-        NewTypeEncrypt nteY = new NewTypeEncrypt(yDCT, new KeyXU(0.6, 3.9),DDReset *samplingRatio,DCL.getMax());
-        KeyXU key = nteY.getFinalKey();
-        LOGGER.debug("size:"+yDCT.size());
-        LOGGER.debug(key.x + " " + key.u);
+        NewTypeEncrypt nteY = new NewTypeEncrypt(yDCT, new KeyXU(0.6, 3.9), resetInterval *samplingRatio,DCL.getMax());
         //Cb
-        NewTypeEncrypt nteCb = new NewTypeEncrypt(CbDCT, new KeyXU(0.6, 3.9),DDReset,DCC.getMax());
-        key = nteCb.getFinalKey();
-        LOGGER.debug("size:"+CbDCT.size());
-        LOGGER.debug(key.x + " " + key.u);
+        NewTypeEncrypt nteCb = new NewTypeEncrypt(CbDCT, new KeyXU(0.6, 3.9), resetInterval,DCC.getMax());
         //Cr
-        NewTypeEncrypt nteCr = new NewTypeEncrypt(CrDCT, new KeyXU(0.6, 3.9),DDReset,DCC.getMax());
-        key = nteCr.getFinalKey();
-        LOGGER.debug("size:"+CrDCT.size());
-        LOGGER.debug(key.x + " " + key.u);
-
-
-//        nteY.DCGroupScramble();
-//        nteCr.DCGroupScramble();
-//        nteCb.DCGroupScramble();
-        JPEGs.LOGGER.debug("次数 "+nteY.DCIterativeScramble(it));
-        JPEGs.LOGGER.debug("次数 "+nteCb.DCIterativeScramble(it));
-        JPEGs.LOGGER.debug("次数 "+nteCr.DCIterativeScramble(it));
-//        nteY.ACRunGroupScramble();
-//        nteCb.ACRunGroupScramble();
-//        nteCr.ACRunGroupScramble();
-
-
-//        LOGGER.debug("Y:");
-//        LOGGER.debug(outputArr(yDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cb:");
-//        LOGGER.debug(outputArr(CbDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cr:");
-//        LOGGER.debug(outputArr(CrDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-
-        setDCT();
-        if(target.length == endOfImage - startOfSOS + 1)
-        System.arraycopy(target,0,image,startOfSOS,target.length);
-        else{
-            //压缩数据变动
-            byte[] bytes = new byte[image.length - endOfImage+startOfSOS-1 +target.length];
-            System.arraycopy(image,0,bytes,0,startOfSOS);
-            System.arraycopy(target,0,bytes,startOfSOS,target.length);
-            System.arraycopy(image,endOfImage+1,bytes,startOfSOS + target.length,image.length-1-endOfImage);
-            image = bytes;
-        }
-        ImageToCode.outputImage("测试用图片/测试.jpg",image);
+        NewTypeEncrypt nteCr = new NewTypeEncrypt(CrDCT, new KeyXU(0.6, 3.9), resetInterval,DCC.getMax());
+        //加密
+        nteY.DCGroupScramble();
+        nteCr.DCGroupScramble();
+        nteCb.DCGroupScramble();
+        nteY.DCIterativeScramble(iterations);
+        nteCb.DCIterativeScramble(iterations);
+        nteCr.DCIterativeScramble(iterations);
+        nteY.ACRunGroupScramble();
+        nteCb.ACRunGroupScramble();
+        nteCr.ACRunGroupScramble();
     }
 
     /**
      * 获取并解密dct系数并显示过程结果
      */
     public  void decodeDCT(int it) throws NoSuchAlgorithmException {
-//        LOGGER.debug("Y:");
-//        LOGGER.debug(outputArr(yDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cb:");
-//        LOGGER.debug(outputArr(CbDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cr:");
-//        LOGGER.debug(outputArr(CrDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
         //Y
-        NewTypeEncrypt nteY = new NewTypeEncrypt(yDCT, new KeyXU(0.6, 3.9),DDReset *samplingRatio,DCL.getMax());
-        KeyXU key = nteY.getFinalKey();
-        LOGGER.debug("size:"+yDCT.size());
-        LOGGER.debug(key.x + " " + key.u);
+        NewTypeEncrypt nteY = new NewTypeEncrypt(yDCT, new KeyXU(0.6, 3.9), resetInterval *samplingRatio,DCL.getMax());
         //Cb
-        NewTypeEncrypt nteCb = new NewTypeEncrypt(CbDCT, new KeyXU(0.6, 3.9),DDReset,DCC.getMax());
-        key = nteCb.getFinalKey();
-        LOGGER.debug("size:"+CbDCT.size());
-        LOGGER.debug(key.x + " " + key.u);
+        NewTypeEncrypt nteCb = new NewTypeEncrypt(CbDCT, new KeyXU(0.6, 3.9), resetInterval,DCC.getMax());
         //Cr
-        NewTypeEncrypt nteCr = new NewTypeEncrypt(CrDCT, new KeyXU(0.6, 3.9),DDReset,DCC.getMax());
-        key = nteCr.getFinalKey();
-        LOGGER.debug("size:"+CrDCT.size());
-        LOGGER.debug(key.x + " " + key.u);
+        NewTypeEncrypt nteCr = new NewTypeEncrypt(CrDCT, new KeyXU(0.6, 3.9), resetInterval,DCC.getMax());
 
+        nteY.ACRunGroupDecode();
+        nteCb.ACRunGroupDecode();
+        nteCr.ACRunGroupDecode();
+        nteY.DCIterativeDecode(it);
+        nteCb.DCIterativeDecode(it);
+        nteCr.DCIterativeDecode(it);
+        nteY.DCGroupDecode();
+        nteCr.DCGroupDecode();
+        nteCb.DCGroupDecode();
+    }
 
-
-
-//        nteY.ACRunGroupDecode();
-//        nteCb.ACRunGroupDecode();
-//        nteCr.ACRunGroupDecode();
-        JPEGs.LOGGER.debug("次数 "+nteY.DCIterativeDecode(it));
-        JPEGs.LOGGER.debug("次数 "+nteCb.DCIterativeDecode(it));
-        JPEGs.LOGGER.debug("次数 "+nteCr.DCIterativeDecode(it));
-//        nteY.DCGroupDecode();
-//        nteCr.DCGroupDecode();
-//        nteCb.DCGroupDecode();
-
-//        LOGGER.debug("Y:");
-//        LOGGER.debug(outputArr(yDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cb:");
-//        LOGGER.debug(outputArr(CbDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("Cr:");
-//        LOGGER.debug(outputArr(CrDCT));
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        LOGGER.debug("///////////////////////////////////////////////////////////////////////////////");
-//        NewTypeEncrypt.compare();
+    /**
+     * JPEG数据放回
+     */
+    public void setImage(String outFile){
         setDCT();
         if(target.length == endOfImage - startOfSOS + 1)
             System.arraycopy(target,0,image,startOfSOS,target.length);
@@ -286,35 +193,15 @@ public class JPEGs {
             System.arraycopy(image,endOfImage+1,bytes,startOfSOS + target.length,image.length-1-endOfImage);
             image = bytes;
         }
-        ImageToCode.outputImage("测试用图片/测试.jpg",image);
-    }
-   public void RC4DCT(){
-       getDCT();
+        ImageToCode.outputImage(outFile,image);
 
-       //加密
-       for (int[] ints : yDCT) {
-            RC4.Rc4(ints,"123456");
-       }
-       for (int[] ints : CbDCT) {
-           RC4.Rc4(ints,"123456");
-       }
-       for (int[] ints : CrDCT) {
-           RC4.Rc4(ints,"123456");
-       }
-
-       setDCT();
-       if(target.length == endOfImage - startOfSOS + 1)
-           System.arraycopy(target,0,image,startOfSOS,target.length);
-       else{
-           //压缩数据变动
-           byte[] bytes = new byte[image.length - endOfImage+startOfSOS-1 +target.length];
-           System.arraycopy(image,0,bytes,0,startOfSOS);
-           System.arraycopy(target,0,bytes,startOfSOS,target.length);
-           System.arraycopy(image,endOfImage+1,bytes,startOfSOS + target.length,image.length-1-endOfImage);
-           image = bytes;
-       }
-       ImageToCode.outputImage("测试用图片/测试.jpg",image);
     }
+
+    /**
+     * 输出DCT数据
+     * @param DCT 存储DCT数据的list
+     * @return 以一行1个DCT为格式输出
+     */
     public String outputArr(ArrayList<int[]> DCT) {
             StringBuilder sb = new StringBuilder();
         for (int id = 0;id < DCT.size();id++) {
@@ -329,8 +216,10 @@ public class JPEGs {
     }
 
 
-
-    public void getDCT() {
+    /**
+     * 获取dct数据
+     */
+    public void getDCT() throws ArrayIndexOutOfBoundsException{
         StringBuilder code = new StringBuilder();
         int bytes = 0;//压缩数据byte数组的输入数
         DCTable dcTable;
@@ -367,7 +256,7 @@ public class JPEGs {
             }
 //            LOGGER.debug("NO."+DCT.size());
             //RST间隔
-            if(DDReset != 0 && yDCT.size()%(DDReset*samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size()) {
+            if(resetInterval != 0 && yDCT.size()%(resetInterval *samplingRatio) == 0 && yDCT.size() == samplingRatio*CrDCT.size()) {
 //                LOGGER.debug(code.substring(0,code.length()%8));
                 code.delete(0, code.length() % 8);
             }
@@ -428,7 +317,6 @@ public class JPEGs {
                     return;
                 }
             }
-//            LOGGER.debug("--------------------------------------------------------------------------");
         }//while
     }
 
@@ -479,7 +367,7 @@ public class JPEGs {
                 }
             }
             //RST间隔
-            if(DDReset != 0 && index != 0 && index%((samplingRatio+2)*DDReset) == 0){
+            if(resetInterval != 0 && index != 0 && index%((samplingRatio+2)* resetInterval) == 0){
                 while (sb.length()%8 != 0)sb.append('1');
                 while(sb.length() > 0){
                     bytes.add((byte) Integer.parseInt(sb.substring(0,8), 2));
@@ -489,7 +377,7 @@ public class JPEGs {
                         bytes.add((byte)0);
                     }
                 }
-                bytes.add((byte)-1);bytes.add((byte)((index/((samplingRatio+2)*DDReset)-1)%8-48));
+                bytes.add((byte)-1);bytes.add((byte)((index/((samplingRatio+2)* resetInterval)-1)%8-48));
 //                LOGGER.debug("FF D"+((index/((samplingRatio+2)*DDReset)-1)%8));
             }
             //DC
@@ -615,10 +503,6 @@ public class JPEGs {
             DCL = new DCTable(DC_L);LOGGER.debug("DCL complete");
             ACC = new ACTable(AC_C);LOGGER.debug("ACC complete");
             ACL = new ACTable(AC_L);LOGGER.debug("ACL complete");
-            DCC.outputDCTable("DCC");
-            DCL.outputDCTable("DCL");
-            ACC.outputACTable("ACC");
-            ACL.outputACTable("ACL");
     }
 
 
@@ -670,59 +554,6 @@ public class JPEGs {
         return Integer.toBinaryString((b & 0xFF) + 0x100).substring(1);
     }
 
-
-    /**
-     * 去差分
-     * @param x 去差分还是差分
-     */
-    public void changeBias(int x){
-        switch (x){
-            case 0:
-                for(int i = 1;i <=3;i++){//去差分
-                    ArrayList<int[]> DC = null;
-                    switch (i){
-                        case 1:DC = yDCT;
-                            break;
-                        case 2:DC = CbDCT;
-                            break;
-                        case 3:DC = CrDCT;
-                            break;
-                    }
-                    for(int j = 1;j< DC.size()-1;j++){
-                        if(DDReset != 0 && j % DDReset == 0){
-                            j++;
-                        }else{
-                            DC.get(j)[0]+=DC.get(j-1)[0];
-                        }
-                    }
-                }
-                break;
-            case 1:
-                for(int i = 1;i <=3;i++){//差分
-                    ArrayList<int[]> DC = null;
-                    switch (i){
-                        case 1:DC = yDCT;
-                            break;
-                        case 2:DC = CbDCT;
-                            break;
-                        case 3:DC = CrDCT;
-                            break;
-                    }
-                    for(int j =DC.size()-1;j>0;j--){
-                        if(DDReset != 0 && j%DDReset == 0){
-                            j--;
-                        }else {
-                            DC.get(j)[0] -= DC.get(j - 1)[0];
-                        }
-                    }
-                }
-                break;
-            default:
-                LOGGER.debug("无效参数输入");
-                break;
-        }
-
-    }
 
     /**
      * 将数据中的FF 00转化为FF

@@ -3,6 +3,9 @@ package cn.hitwh.JPEG;
 
 import java.io.*;
 
+/**
+ * 文件读取
+ */
 public class ImageToCode {
     //图片到byte数组
     public static byte[] imageToByte(String path) {

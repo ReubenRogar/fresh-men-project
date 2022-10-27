@@ -7,7 +7,6 @@ public class ACTable {
     /**
      * 交流Huffman表
      */
-
         private final ArrayList<Point> runSize;
         private final ArrayList<String> codeWord;
 
@@ -16,7 +15,6 @@ public class ACTable {
             codeWord = new ArrayList<>();
             byte[] length = new byte[16];
             System.arraycopy(image,0,length,0,length.length);
-            //JPEGs.LOGGER.debug(ImageToCode.byteToString(image));
             for(int i = length.length;i < image.length;i++){
                 int temp = image[i]&0xFF;
                 runSize.add(new Point(temp/16,temp%16));
@@ -71,10 +69,8 @@ public class ACTable {
                 }
             }
             if(i<codeWord.size()){
-//                JPEGs.LOGGER.info("AC{"+codeWord.get(i)+"前零数:"+runSize.get(i).x+"长度:"+runSize.get(i).y+"}");
                 return new int[]{runSize.get(i).x,runSize.get(i).y,codeWord.get(i).length()};
             }else{
-                JPEGs.LOGGER.error("无法识别的哈夫曼表:"+code);
                 return new int[]{-1,0,0};
             }
         }
@@ -92,12 +88,10 @@ public class ACTable {
                 if(run == runSize.get(i).x&&size == runSize.get(i).y)break;
             }
             if(i == runSize.size()){
-                JPEGs.LOGGER.debug("run:"+run+" size:"+size);
-                throw new JPEGWrongStructureException("Wrong Run/Size!");
+                throw new JPEGWrongStructureException("Wrong Run/Size! "+"run:"+run+" size:"+size);
             }
 
             result.append(codeWord.get(i));
-//            JPEGs.LOGGER.debug("AC{"+result+"前零数:"+run+"长度:"+size+"}");
             return result.toString();
         }
 
