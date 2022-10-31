@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e22e3e78-4a21-41ab-9315-8d5cd97b5a47" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/测试用图片/25.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/测试用图片/目标图像4.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/NewTypeEncrypt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/Encrypt/RC4.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ACTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ACTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/DCTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ImageToCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/ImageToCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGWrongStructureException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGWrongStructureException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/cn/hitwh/JPEG/JPEGs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/ACL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/ACL.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCC.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCC.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/测试用文档/DCL.txt" beforeDir="false" afterPath="$PROJECT_DIR$/测试用文档/DCL.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,17 +46,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/programming_demo/fyp/测试用图片",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\programming_demo\fyp\测试用图片" />
       <recent name="E:\programming_demo\freshman-year-project\lib" />
       <recent name="E:\programming_demo\freshman-year-project\src" />
       <recent name="E:\programming_demo\freshman-year-project\测试用图片" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\programming_demo\fyp\测试用图片" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="cn.hitwh" />
@@ -209,14 +205,10 @@
       <workItem from="1666771488748" duration="20687000" />
       <workItem from="1666797399679" duration="1636000" />
       <workItem from="1666836362652" duration="15607000" />
-      <workItem from="1666857803932" duration="3727000" />
-    </task>
-    <task id="LOCAL-00039" summary="完成新加密密钥构建">
-      <created>1659829719363</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1659829719363</updated>
+      <workItem from="1666857803932" duration="3780000" />
+      <workItem from="1666866701712" duration="468000" />
+      <workItem from="1666920470527" duration="529000" />
+      <workItem from="1667008572662" duration="2012000" />
     </task>
     <task id="LOCAL-00040" summary="类名规范，Logback输出日志到本地">
       <created>1662166659022</created>
@@ -554,7 +546,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666856493920</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="简化代码，规范名称，添加注释">
+      <created>1666861591513</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1666861591514</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -572,7 +571,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=" 修改getHuffmanTable(),解决在单一DHT多字段的情况下读取缺位的问题" />
     <MESSAGE value="添加.gitignore" />
     <MESSAGE value="添加对444支持，纠正4：1：1为420，简化ACTable和DCTable" />
     <MESSAGE value="修改getHuffmanTable对单DHT处理" />
@@ -597,6 +595,7 @@
     <MESSAGE value="实现两次解密方法" />
     <MESSAGE value="实现三次解密方法，DC迭代解密还存在bug" />
     <MESSAGE value="解密debug完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="解密debug完成" />
+    <MESSAGE value="简化代码，规范名称，添加注释" />
+    <option name="LAST_COMMIT_MESSAGE" value="简化代码，规范名称，添加注释" />
   </component>
 </project>

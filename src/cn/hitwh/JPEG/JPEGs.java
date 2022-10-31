@@ -503,6 +503,10 @@ public class JPEGs {
             DCL = new DCTable(DC_L);LOGGER.debug("DCL complete");
             ACC = new ACTable(AC_C);LOGGER.debug("ACC complete");
             ACL = new ACTable(AC_L);LOGGER.debug("ACL complete");
+            DCC.outputDCTable("测试用文档/DCC.txt");
+            DCL.outputDCTable("测试用文档/DCL.txt");
+            ACL.outputACTable("测试用文档/ACL.txt");
+            ACC.outputACTable("测试用文档/ACC.txt");
     }
 
 
